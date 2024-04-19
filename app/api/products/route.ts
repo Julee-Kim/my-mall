@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { collection, getDocs, limit, query, startAt, orderBy } from 'firebase/firestore'
 import fireStore from '@/firebase/firestore'
 
@@ -16,5 +16,5 @@ export async function GET(request: NextRequest) {
   )
   const docSnap = await getDocs(docRef)
   const data = docSnap.docs.map((doc) => doc.data())
-  return NextResponse.json(data)
+  return Response.json(data)
 }
