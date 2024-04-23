@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react'
+import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
 import styles from './Button.module.scss'
 
 const HTMLTypes = ['submit', 'button', 'reset'] as const
@@ -7,13 +7,14 @@ export type HTMLType = (typeof HTMLTypes)[number]
 const shapes = ['default', 'circle'] as const
 type Shape = (typeof shapes)[number]
 
-interface IButtonProps {
+interface IButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   children?: string
   shape?: Shape
   isRightIcon?: boolean
   icon?: ReactNode
   htmlType?: HTMLType
   style?: CSSProperties
+  onClick?: () => void
 }
 
 export default function Button({
@@ -23,6 +24,7 @@ export default function Button({
   icon,
   children,
   style = {},
+  onClick,
 }: IButtonProps) {
   let btnContent: ReactNode = null
 
@@ -47,7 +49,12 @@ export default function Button({
   }
 
   return (
-    <button type={htmlType} className={[styles.btn, shape].join(' ')} style={style}>
+    <button
+      type={htmlType}
+      className={[styles.btn, shape].join(' ')}
+      style={style}
+      onClick={onClick}
+    >
       {btnContent}
     </button>
   )
