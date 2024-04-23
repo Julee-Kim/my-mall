@@ -1,8 +1,5 @@
 import { Metadata } from 'next'
-import Header from '@/components/header/Header'
-import ButtonBack from '@/components/header/ButtonBack'
-import ButtonCart from '@/components/header/ButtonCart'
-import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
+import HeaderContainer from '@/components/header/HeaderContainer'
 
 export const metadata: Metadata = { title: '상품 목록' }
 
@@ -16,16 +13,13 @@ async function getData(params: any) {
   return res.json()
 }
 
-export default async function Products() {
+export default async function Products({ params }: { params: { id: string } }) {
+  const { id: activeId } = params
   const data = await getData({ page: 2, size: 2 })
 
   return (
-    <main>
-      <Header>
-        <ButtonBack />
-        <ButtonCategoryTitle />
-        <ButtonCart />
-      </Header>
-    </main>
+    <div>
+      <HeaderContainer activeId={activeId} />
+    </div>
   )
 }
