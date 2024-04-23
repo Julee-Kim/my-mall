@@ -2,7 +2,7 @@
 
 import { Category, CategoryListProps } from '@/types/category'
 import { menuList } from '@/constants/products'
-import styles from './SnbList.module.scss'
+import styles from './Lnb.module.scss'
 
 const CategoryList = ({ categories, activeId, isTop, handleClick }: CategoryListProps) => {
   return (
@@ -23,7 +23,7 @@ const CategoryList = ({ categories, activeId, isTop, handleClick }: CategoryList
   )
 }
 
-export default function Snb({
+export default function Lnb({
   selectedTopId,
   selectedSubId,
   subList,

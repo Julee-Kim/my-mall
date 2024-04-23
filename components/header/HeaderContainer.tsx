@@ -8,7 +8,7 @@ import Header from '@/components/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
-import Snb from '@/components/header/Snb'
+import Lnb from '@/components/header/Lnb'
 
 const getCategoryData = (list: Category[], targetId: string): GetInitDataReturnType => {
   for (const topCategory of list) {
@@ -79,7 +79,7 @@ export default function HeaderContainer({ activeId }: { activeId: string }) {
         <ButtonCart />
       </Header>
       {isActiveSub && (
-        <Snb
+        <Lnb
           selectedTopId={selectedTopId}
           selectedSubId={selectedSubId}
           subList={subList}
