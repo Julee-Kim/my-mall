@@ -14,6 +14,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   icon?: ReactNode
   htmlType?: HTMLType
   style?: CSSProperties
+  className?: string
   onClick?: () => void
 }
 
@@ -24,6 +25,7 @@ export default function Button({
   icon,
   children,
   style = {},
+  className = '',
   onClick,
 }: IButtonProps) {
   let btnContent: ReactNode = null
@@ -51,7 +53,7 @@ export default function Button({
   return (
     <button
       type={htmlType}
-      className={[styles.btn, shape].join(' ')}
+      className={[styles.btn, shape, className].join(' ')}
       style={style}
       onClick={onClick}
     >

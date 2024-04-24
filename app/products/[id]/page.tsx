@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import HeaderContainer from '@/components/header/HeaderContainer'
+import ProductList from '@/app/products/[id]/_components/ProductList'
 
 export const metadata: Metadata = { title: '상품 목록' }
 
@@ -20,6 +21,7 @@ export default async function Products({ params }: { params: { id: string } }) {
   return (
     <div>
       <HeaderContainer activeId={activeId} />
+      <ProductList data={data} />
     </div>
   )
 }

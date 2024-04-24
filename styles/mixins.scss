@@ -1,0 +1,15 @@
+@mixin ellipsis () {
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+@mixin lineClamp($maxLine: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $maxLine;
+  overflow: hidden;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+}
