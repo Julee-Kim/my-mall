@@ -8,7 +8,7 @@ export interface CategoryListProps {
   categories: Category[]
   activeId: string
   isTop: boolean
-  handleClick: (category: any) => void
+  handleClick: (category: Category, from: FromClickType) => void
 }
 
 export interface GetInitDataReturnType {
@@ -17,3 +17,5 @@ export interface GetInitDataReturnType {
   subId: string
   subList: Category[] | []
 }
+
+export type FromClickType = 'subMenu' | 'lnb'

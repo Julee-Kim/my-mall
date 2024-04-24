@@ -1,6 +1,6 @@
 'use client'
 
-import { Category, CategoryListProps } from '@/types/category'
+import { Category, CategoryListProps, FromClickType } from '@/types/category'
 import { menuList } from '@/constants/products'
 import styles from './Lnb.module.scss'
 
@@ -13,7 +13,7 @@ const CategoryList = ({ categories, activeId, isTop, handleClick }: CategoryList
             className={[styles.btn, activeId === category.id ? styles.btnActive : '']
               .filter(Boolean)
               .join(' ')}
-            onClick={() => handleClick(category)}
+            onClick={() => handleClick(category, 'lnb')}
           >
             {category.name}
           </button>
@@ -27,12 +27,12 @@ export default function Lnb({
   selectedTopId,
   selectedSubId,
   subList,
-  handleClickBtn,
+  handleClick,
 }: {
   selectedTopId: string
   selectedSubId: string
   subList: Category[]
-  handleClickBtn: (category: Category) => void
+  handleClick: (category: Category, from: FromClickType) => void
 }) {
   return (
     <div className={styles.snbContainer}>
@@ -41,13 +41,13 @@ export default function Lnb({
           categories={menuList}
           activeId={selectedTopId}
           isTop={true}
-          handleClick={handleClickBtn}
+          handleClick={handleClick}
         />
         <CategoryList
           categories={subList}
           activeId={selectedSubId}
           isTop={false}
-          handleClick={handleClickBtn}
+          handleClick={handleClick}
         />
       </div>
     </div>

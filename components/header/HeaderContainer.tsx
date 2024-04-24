@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { menuList } from '@/constants/products'
-import { Category, GetInitDataReturnType } from '@/types/category'
+import { Category, FromClickType, GetInitDataReturnType } from '@/types/category'
 import Header from '@/components/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
 import Lnb from '@/components/header/Lnb'
+import SubMenu from '@/components/header/SubMenu'
 
 const getCategoryData = (list: Category[], targetId: string): GetInitDataReturnType => {
   for (const topCategory of list) {
@@ -53,13 +54,14 @@ export default function HeaderContainer({ activeId }: { activeId: string }) {
 
   const toggleSub = () => setIsActiveSub(!isActiveSub)
 
-  const handleClickBtn = (category: Category) => {
+  const handleClick = (category: Category, from: FromClickType) => {
     if (category.category) {
       setSelectedTopId(category.id)
       setSubList(category.category)
     } else {
       router.push(`/products/${category.id}`)
-      toggleSub()
+
+      if (from === 'lnb') toggleSub()
     }
   }
 
@@ -78,12 +80,13 @@ export default function HeaderContainer({ activeId }: { activeId: string }) {
         <ButtonCategoryTitle name={categoryName} showSub={toggleSub} />
         <ButtonCart />
       </Header>
+      <SubMenu selectedSubId={selectedSubId} subList={subList} handleClick={handleClick} />
       {isActiveSub && (
         <Lnb
           selectedTopId={selectedTopId}
           selectedSubId={selectedSubId}
           subList={subList}
-          handleClickBtn={handleClickBtn}
+          handleClick={handleClick}
         />
       )}
     </>
