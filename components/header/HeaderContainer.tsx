@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { menuList } from '@/constants/products'
-import { Category, FromClickType, GetInitDataReturnType } from '@/types/category'
+import { Category, FromClickType, GetInitDataReturnType } from '@/types/product'
 import Header from '@/components/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'

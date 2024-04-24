@@ -1,4 +1,4 @@
-import { Category, FromClickType } from '@/types/category'
+import { Category, FromClickType } from '@/types/product'
 import styles from '@/components/header/SubMenu.module.scss'
 
 export default function SubMenu({

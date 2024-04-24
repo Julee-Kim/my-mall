@@ -1,6 +1,6 @@
 'use client'
 
-import { Category, CategoryListProps, FromClickType } from '@/types/category'
+import { Category, CategoryListProps, FromClickType } from '@/types/product'
 import { menuList } from '@/constants/products'
 import styles from './Lnb.module.scss'
 
