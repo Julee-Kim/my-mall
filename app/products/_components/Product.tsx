@@ -1,4 +1,6 @@
-import Link from 'next/link'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { comma } from '@/utils'
 import { IProduct } from '@/types/product'
@@ -6,10 +8,26 @@ import Button from '@/components/_common/button/Button'
 import styles from '@/app/products/_components/ProductList.module.scss'
 import IconCartImg from '@/public/images/icon/icon-cart.svg'
 
-export default function Product({ product }: { product: IProduct }) {
+export default function Product({ product, page }: { product: IProduct; page: number }) {
+  const router = useRouter()
+
+  const goDetail = (id: number) => {
+    // 이동 전 스크롤 위치와 페이지 세션스토리지에 저장
+    sessionStorage.setItem(
+      '__next_scroll_list',
+      JSON.stringify({
+        page: page,
+        x: window.scrollX,
+        y: window.scrollY,
+      }),
+    )
+
+    router.push(`/products/${id}`)
+  }
+
   return (
-    <li>
-      <Link href={`/products/${product.ordinary}`} className={styles.imgWrap}>
+    <li onClick={() => goDetail(product.ordinary)}>
+      <div className={styles.imgWrap}>
         <Image
           src={product.img}
           alt={product.name}
@@ -17,8 +35,8 @@ export default function Product({ product }: { product: IProduct }) {
           height={100}
           className={styles.img}
         />
-      </Link>
-      <Link href={''} className={styles.info}>
+      </div>
+      <div className={styles.info}>
         <div className={styles.nameBrand}>
           <p className={styles.brand}>{product.brand}</p>
           <h4 className={styles.name}>{product.name}</h4>
@@ -37,7 +55,7 @@ export default function Product({ product }: { product: IProduct }) {
           {product.is_exclusive && <span className={styles.exclusive}>단독</span>}
         </div>
         <Button icon={<IconCart />} className={styles.iconCart} />
-      </Link>
+      </div>
     </li>
   )
 }
