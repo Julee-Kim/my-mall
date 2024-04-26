@@ -59,7 +59,7 @@ export default function HeaderContainer({ activeId }: { activeId: string }) {
       setSelectedTopId(category.id)
       setSubList(category.category)
     } else {
-      router.push(`/products/${category.id}`)
+      router.push(`/products?category=${category.id}`)
 
       if (from === 'lnb') toggleSub()
     }
