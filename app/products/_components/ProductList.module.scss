@@ -1,13 +1,13 @@
 @import '@/styles/mixins.scss';
 
-.listWrap {
-  padding-bottom: 40px;
-}
-
 .list {
   display: grid;
   gap: 60px 1px;
   grid-template-columns: repeat(2, minmax(calc(50% - 1px), 1fr));
+
+  &.bottomGap {
+    padding-bottom: 40px;
+  }
 }
 
 .imgWrap {

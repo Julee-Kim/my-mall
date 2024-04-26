@@ -1,55 +1,45 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { IFetchProductsRes, IProduct } from '@/types/product'
 import { useProductStore } from '@/store/product'
+import Observer from '@/components/_common/observer/Observer'
 import Product from './Product'
 import SkeletonProductList from '@/app/products/_components/SkeletonProductList'
 import styles from './ProductList.module.scss'
 
-const _size = 6
+const _size = 6 // page size
 
 const ProductList = ({ id }: { id: string }) => {
   const [page, setPage] = useState<number>(0)
   const [isLastPage, setIsLastPage] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const trigger = useRef<HTMLSpanElement>(null)
-
   const [products, setProducts] = useProductStore(
     useShallow((state) => [state.products, state.setProducts]),
   )
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      async (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-        if (entries[0].isIntersecting && trigger.current) {
-          observer.unobserve(trigger.current)
-          setIsLoading(true)
+  const loadMore = useCallback(async () => {
+    setIsLoading(true)
 
-          try {
-            const res: IFetchProductsRes = await fetchProducts({ page: page + 1, size: _size, id })
-            if (res.list.length !== 0) {
-              setProducts([...products, ...res.list])
-              setPage((prev) => prev + 1)
-            } else {
-              setIsLastPage(true)
-            }
-            setIsLoading(false)
-          } catch (e) {
-            console.log(e)
-          }
-        }
-      },
-      { threshold: 0.5 },
-    )
+    try {
+      const res: IFetchProductsRes = await fetchProducts({ page: page + 1, size: _size, id })
+      if (res.list.length !== 0) {
+        setProducts([...products, ...res.list])
+        setPage((prev) => prev + 1)
 
-    if (trigger.current) {
-      observer.observe(trigger.current)
+        // TODO. 아래 로직 문제 확인 원인 필요
+        // console.log('products.length ', products.length)
+        // if (products.length === res.total) {
+        //   setIsLastPage(true)
+        // }
+      } else {
+        setIsLastPage(true)
+      }
+      setIsLoading(false)
+    } catch (e) {
+      console.log(e)
     }
-
-    // onUnMounted
-    return () => observer.disconnect()
   }, [page])
 
   useEffect(() => {
@@ -68,15 +58,15 @@ const ProductList = ({ id }: { id: string }) => {
 
   return (
     <div>
-      <ul className={styles.list}>
+      <ul className={[styles.list, products.length && styles.bottomGap].filter(Boolean).join(' ')}>
         {products.map((product: IProduct, index: number) => (
           <Product key={index} product={product} page={page} />
         ))}
       </ul>
       {!isLastPage && (
-        <span ref={trigger}>
+        <Observer onEnter={loadMore} options={{ threshold: 0.25 }}>
           <SkeletonProductList />
-        </span>
+        </Observer>
       )}
     </div>
   )
