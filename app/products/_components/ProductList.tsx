@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { IFetchProductsRes, IProduct } from '@/types/product'
 import { useProductStore } from '@/store/product'
 import Product from './Product'
+import SkeletonProductList from '@/app/products/_components/SkeletonProductList'
 import styles from './ProductList.module.scss'
 
 const _size = 6
@@ -72,8 +73,11 @@ const ProductList = ({ id }: { id: string }) => {
           <Product key={index} product={product} page={page} />
         ))}
       </ul>
-      {/* TODO. 'Loading' 텍스트를 대체할 스켈레톤 필요 */}
-      {!isLastPage && <span ref={trigger}>Loading</span>}
+      {!isLastPage && (
+        <span ref={trigger}>
+          <SkeletonProductList />
+        </span>
+      )}
     </div>
   )
 }
