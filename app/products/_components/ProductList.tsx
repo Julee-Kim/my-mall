@@ -42,25 +42,25 @@ const ProductList = ({ id }: { id: string }) => {
     }
   }, [page])
 
-  useEffect(() => {
-    // 페이지 이동 후 저장되어 있던 위치로 스크롤 복원
-    const _scroll = sessionStorage.getItem('__next_scroll_list')
-
-    if (_scroll) {
-      const { page, x, y } = JSON.parse(_scroll)
-      window.scrollTo(x, y)
-
-      // TODO. 리로드 했을 경우도 대비하고 싶음. 페이지 이탈 전 현재 스크롤 위치를 저장 하는 방법을 찾아야함..
-
-      sessionStorage.removeItem('__next_scroll_list')
-    }
-  }, [])
+  // useEffect(() => {
+  //   // 페이지 이동 후 저장되어 있던 위치로 스크롤 복원
+  //   const _scroll = sessionStorage.getItem('__next_scroll_list')
+  //
+  //   if (_scroll) {
+  //     const { page, x, y } = JSON.parse(_scroll)
+  //     window.scrollTo(x, y)
+  //
+  //     // TODO. 리로드 했을 경우도 대비하고 싶음. 페이지 이탈 전 현재 스크롤 위치를 저장 하는 방법을 찾아야함..
+  //
+  //     sessionStorage.removeItem('__next_scroll_list')
+  //   }
+  // }, [])
 
   return (
     <div>
       <ul className={[styles.list, products.length && styles.bottomGap].filter(Boolean).join(' ')}>
         {products.map((product: IProduct, index: number) => (
-          <Product key={index} product={product} page={page} />
+          <Product key={index} product={product} />
         ))}
       </ul>
       {!isLastPage && (
