@@ -1,49 +1,45 @@
 export const menuList = [
   {
-    id: '001',
+    id: 'clothes',
     name: '의류',
     category: [
       {
-        id: '001',
+        id: 'clothes',
         name: '전체',
       },
       {
-        id: '001001',
+        id: 'jacket',
         name: '아우터',
       },
       {
-        id: '001005',
+        id: 'dress',
         name: '원피스',
       },
       {
-        id: '001013',
+        id: 'shirt',
         name: '셔츠',
       },
     ],
   },
   {
-    id: '004',
+    id: 'bag',
     name: '가방',
     category: [
       {
-        id: '004',
+        id: 'bag',
         name: '전체',
       },
       {
-        id: '004001',
+        id: 'shoulderbag',
         name: '숄더백',
       },
       {
-        id: '004002',
+        id: 'totebag',
         name: '토트백',
       },
       {
-        id: '004004',
+        id: 'backpack',
         name: '백팩',
-      },
-      {
-        id: '004005',
-        name: '크로스백',
       },
     ],
   },
