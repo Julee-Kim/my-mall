@@ -1,14 +1,4 @@
-@import '@/styles/mixins.scss';
-
-.list {
-  display: grid;
-  gap: 60px 1px;
-  grid-template-columns: repeat(2, minmax(calc(50% - 1px), 1fr));
-
-  &.bottomGap {
-    padding-bottom: 40px;
-  }
-}
+@import '../../../styles/mixins';
 
 .imgWrap {
   position: relative;
@@ -92,55 +82,4 @@
   position: absolute;
   top: 6px;
   right: 6px;
-}
-
-// skeleton
-.skeleton {
-  p, span, .skImg {
-    background-color: rgb(244, 244, 244);
-  }
-
-  .skBrand {
-    margin-bottom: 5px;
-    width: 70px;
-    height: 14px;
-  }
-
-  .skName {
-    height: 13px;
-
-    &:nth-child(1) {
-      width: 120px;
-      margin-bottom: 3px;
-    }
-
-    &:nth-child(2) {
-      width: 100px;
-    }
-  }
-
-  .skPrice {
-    margin-top: 30px;
-    width: 60px;
-    height: 13px;
-  }
-
-  .skBadge {
-    margin-top: 15px;
-    display: inline-block;
-    width: 31px;
-    height: 19px;
-
-    + .skBadge {
-      margin-left: 3px;
-    }
-  }
-
-  .skIconCart {
-    position: absolute;
-    top: 9px;
-    right: 9px;
-    width: 17px;
-    height: 17px;
-  }
 }

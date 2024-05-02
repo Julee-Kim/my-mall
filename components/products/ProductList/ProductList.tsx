@@ -6,8 +6,8 @@ import { IFetchProductsRes, IProduct } from '@/types/product'
 import { useProductStore } from '@/store/product'
 import { fetchProducts } from '@/services/products'
 import Observer from '@/components/_common/observer/Observer'
-import Product from './Product'
-import SkeletonProductList from '@/app/products/_components/SkeletonProductList'
+import Product from '../Product/Product'
+import SkeletonProductList from '@/components/products/SkeletonProductList/SkeletonProductList'
 import styles from './ProductList.module.scss'
 
 const _size = 6 // page size

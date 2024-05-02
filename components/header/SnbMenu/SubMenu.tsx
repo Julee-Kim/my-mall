@@ -1,5 +1,5 @@
 import { Category, FromClickType } from '@/types/product'
-import styles from '@/components/header/SubMenu.module.scss'
+import styles from '@/components/header/SnbMenu/SubMenu.module.scss'
 
 const SubMenu = ({
   selectedSubId,

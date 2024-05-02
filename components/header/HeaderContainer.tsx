@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { menuList } from '@/constants/products'
 import { Category, FromClickType, GetInitDataReturnType } from '@/types/product'
-import Header from '@/components/header/Header'
+import Header from '@/components/header/Header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
-import Lnb from '@/components/header/Lnb'
-import SubMenu from '@/components/header/SubMenu'
+import Lnb from '@/components/header/Lnb/Lnb'
+import SubMenu from '@/components/header/SnbMenu/SubMenu'
 
 const HeaderContainer = ({ activeId }: { activeId: string }) => {
   const router = useRouter()

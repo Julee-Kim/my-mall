@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { comma } from '@/utils'
 import { IProduct } from '@/types/product'
 import Button from '@/components/_common/button/Button'
-import styles from '@/app/products/_components/ProductList.module.scss'
+import styles from '@/components/products/Product/Product.module.scss'
 import IconCartImg from '@/public/images/icon/icon-cart.svg'
 
 const Product = ({ product }: { product: IProduct }) => {

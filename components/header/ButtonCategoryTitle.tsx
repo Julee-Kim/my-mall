@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Button from '@/components/_common/button/Button'
-import styles from './Header.module.scss'
 import IconArrowBottomImg from '@/public/images/icon/icon-arrow-bottom-black.svg'
 
 const ButtonCategoryTitle = ({ name, showSub }: { name: string; showSub: () => void }) => {
@@ -9,7 +8,7 @@ const ButtonCategoryTitle = ({ name, showSub }: { name: string; showSub: () => v
   )
 
   return (
-    <h1 className={styles.btnCategoryTitle}>
+    <h1 style={{ textAlign: 'center' }}>
       <Button icon={<IconArrowBottom />} onClick={showSub}>
         {name}
       </Button>

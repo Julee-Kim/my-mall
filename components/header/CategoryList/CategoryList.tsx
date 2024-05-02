@@ -1,5 +1,5 @@
 import { Category, CategoryListProps } from '@/types/product'
-import styles from '@/components/header/Lnb.module.scss'
+import styles from '@/components/header/CategoryList/CategoryList.module.scss'
 
 const CategoryList = ({ categories, activeId, isTop, handleClick }: CategoryListProps) => {
   return (
