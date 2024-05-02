@@ -1,13 +1,10 @@
 import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
 import styles from './Button.module.scss'
 
-const HTMLTypes = ['submit', 'button', 'reset'] as const
-export type HTMLType = (typeof HTMLTypes)[number]
+export type HTMLType = 'submit' | 'button' | 'reset'
+type Shape = 'default' | 'circle'
 
-const shapes = ['default', 'circle'] as const
-type Shape = (typeof shapes)[number]
-
-interface IButtonProps extends ButtonHTMLAttributes<HTMLElement> {
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: string
   shape?: Shape
   isRightIcon?: boolean
@@ -18,7 +15,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   onClick?: () => void
 }
 
-export default function Button({
+const Button = ({
   htmlType = 'button',
   shape = 'default',
   isRightIcon = true,
@@ -27,7 +24,7 @@ export default function Button({
   style = {},
   className = '',
   onClick,
-}: IButtonProps) {
+}: IButtonProps) => {
   let btnContent: ReactNode = null
 
   if (icon) {
@@ -61,3 +58,5 @@ export default function Button({
     </button>
   )
 }
+
+export default Button

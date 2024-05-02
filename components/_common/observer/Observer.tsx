@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 
 interface ISObserverProps {
   onEnter: () => void
   onLeave?: () => void
   options?: IntersectionObserverInit
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 /**
@@ -16,12 +16,12 @@ interface ISObserverProps {
  * @param options IntersectionObserver 옵션
  * @param children target element
  * */
-export default function Observer({
+const Observer = ({
   onEnter,
   onLeave,
   options = { threshold: 0.5 },
   children,
-}: ISObserverProps) {
+}: ISObserverProps) => {
   const triggerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -46,3 +46,5 @@ export default function Observer({
 
   return <div ref={triggerRef}>{children}</div>
 }
+
+export default Observer

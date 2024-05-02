@@ -1,29 +1,11 @@
 'use client'
 
-import { Category, CategoryListProps, FromClickType } from '@/types/product'
+import { Category, FromClickType } from '@/types/product'
 import { menuList } from '@/constants/products'
+import CategoryList from './CategoryList'
 import styles from './Lnb.module.scss'
 
-const CategoryList = ({ categories, activeId, isTop, handleClick }: CategoryListProps) => {
-  return (
-    <ul className={[styles.list, !isTop ? styles.bgGray : ''].join(' ')}>
-      {categories.map((category: Category) => (
-        <li key={category.id}>
-          <button
-            className={[styles.btn, activeId === category.id ? styles.btnActive : '']
-              .filter(Boolean)
-              .join(' ')}
-            onClick={() => handleClick(category, 'lnb')}
-          >
-            {category.name}
-          </button>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-export default function Lnb({
+const Lnb = ({
   selectedTopId,
   selectedSubId,
   subList,
@@ -33,7 +15,7 @@ export default function Lnb({
   selectedSubId: string
   subList: Category[]
   handleClick: (category: Category, from: FromClickType) => void
-}) {
+}) => {
   return (
     <div className={styles.snbContainer}>
       <div className={styles.snbInner}>
@@ -53,3 +35,5 @@ export default function Lnb({
     </div>
   )
 }
+
+export default Lnb

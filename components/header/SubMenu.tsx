@@ -1,7 +1,7 @@
 import { Category, FromClickType } from '@/types/product'
 import styles from '@/components/header/SubMenu.module.scss'
 
-export default function SubMenu({
+const SubMenu = ({
   selectedSubId,
   subList,
   handleClick,
@@ -9,7 +9,7 @@ export default function SubMenu({
   selectedSubId: string
   subList: Category[]
   handleClick: (category: Category, from: FromClickType) => void
-}) {
+}) => {
   return (
     <div className={styles.subMenuWrap}>
       <ul>
@@ -29,3 +29,5 @@ export default function SubMenu({
     </div>
   )
 }
+
+export default SubMenu

@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { IFetchProductsRes, IProduct } from '@/types/product'
 import { useProductStore } from '@/store/product'
+import { fetchProducts } from '@/services/products'
 import Observer from '@/components/_common/observer/Observer'
 import Product from './Product'
 import SkeletonProductList from '@/app/products/_components/SkeletonProductList'
@@ -25,14 +26,13 @@ const ProductList = ({ id }: { id: string }) => {
     try {
       const res: IFetchProductsRes = await fetchProducts({ page: page + 1, size: _size, id })
       if (res.list.length !== 0) {
-        setProducts([...products, ...res.list])
+        const newProducts = [...products, ...res.list]
+        setProducts(newProducts)
         setPage((prev) => prev + 1)
 
-        // TODO. 아래 로직 문제 확인 원인 필요
-        // console.log('products.length ', products.length)
-        // if (products.length === res.total) {
-        //   setIsLastPage(true)
-        // }
+        if (newProducts.length === res.total) {
+          setIsLastPage(true)
+        }
       } else {
         setIsLastPage(true)
       }
@@ -70,20 +70,6 @@ const ProductList = ({ id }: { id: string }) => {
       )}
     </div>
   )
-}
-
-const fetchProducts = async (params: {
-  page: number
-  size: number
-  id: string
-}): Promise<IFetchProductsRes> => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${params.page}&size=${params.size}`
-  const res = await fetch(url, params)
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
-
-  return res.json()
 }
 
 export default ProductList

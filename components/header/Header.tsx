@@ -1,10 +1,10 @@
-import { ReactNode } from 'react'
+import { HTMLAttributes } from 'react'
 import styles from './Header.module.scss'
 
-interface IHeaderProps {
-  children: ReactNode
-}
+interface IHeaderProps extends Pick<HTMLAttributes<HTMLElement>, 'children'> {}
 
-export default function Header({ children }: IHeaderProps) {
+const Header = ({ children }: IHeaderProps) => {
   return <header className={styles.header}>{children}</header>
 }
+
+export default Header

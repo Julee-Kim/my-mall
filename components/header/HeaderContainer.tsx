@@ -11,40 +11,7 @@ import ButtonCart from '@/components/header/ButtonCart'
 import Lnb from '@/components/header/Lnb'
 import SubMenu from '@/components/header/SubMenu'
 
-const getCategoryData = (list: Category[], targetId: string): GetInitDataReturnType => {
-  for (const topCategory of list) {
-    if (targetId === topCategory.id) {
-      return {
-        categoryName: topCategory.name,
-        topId: topCategory.id,
-        subId: topCategory.id,
-        subList: topCategory.category || [],
-      }
-    }
-
-    if (topCategory.category) {
-      for (const subCategory of topCategory.category) {
-        if (subCategory.id === targetId) {
-          return {
-            categoryName: subCategory.name,
-            topId: topCategory.id,
-            subId: subCategory.id,
-            subList: topCategory.category || [],
-          }
-        }
-      }
-    }
-  }
-
-  return {
-    categoryName: '',
-    topId: '',
-    subId: '',
-    subList: [],
-  }
-}
-
-export default function HeaderContainer({ activeId }: { activeId: string }) {
+const HeaderContainer = ({ activeId }: { activeId: string }) => {
   const router = useRouter()
   const [categoryName, setCategoryName] = useState<string>('')
   const [isActiveSub, setIsActiveSub] = useState<boolean>(false)
@@ -52,16 +19,52 @@ export default function HeaderContainer({ activeId }: { activeId: string }) {
   const [selectedSubId, setSelectedSubId] = useState<string>('')
   const [subList, setSubList] = useState<Category[]>([])
 
+  const getCategoryData = (list: Category[], targetId: string): GetInitDataReturnType => {
+    for (const topCategory of list) {
+      if (targetId === topCategory.id) {
+        return {
+          categoryName: topCategory.name,
+          topId: topCategory.id,
+          subId: topCategory.id,
+          subList: topCategory.category || [],
+        }
+      }
+
+      if (topCategory.category) {
+        for (const subCategory of topCategory.category) {
+          if (subCategory.id === targetId) {
+            return {
+              categoryName: subCategory.name,
+              topId: topCategory.id,
+              subId: subCategory.id,
+              subList: topCategory.category || [],
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      categoryName: '',
+      topId: '',
+      subId: '',
+      subList: [],
+    }
+  }
+
   const toggleSub = () => setIsActiveSub(!isActiveSub)
 
   const handleClick = (category: Category, from: FromClickType) => {
     if (category.category) {
       setSelectedTopId(category.id)
       setSubList(category.category)
-    } else {
-      router.push(`/products?category=${category.id}`)
+      return
+    }
 
-      if (from === 'lnb') toggleSub()
+    router.push(`/products?category=${category.id}`)
+
+    if (from === 'lnb') {
+      toggleSub()
     }
   }
 
@@ -92,3 +95,5 @@ export default function HeaderContainer({ activeId }: { activeId: string }) {
     </>
   )
 }
+
+export default HeaderContainer

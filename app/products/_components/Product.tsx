@@ -8,7 +8,9 @@ import Button from '@/components/_common/button/Button'
 import styles from '@/app/products/_components/ProductList.module.scss'
 import IconCartImg from '@/public/images/icon/icon-cart.svg'
 
-export default function Product({ product }: { product: IProduct }) {
+const Product = ({ product }: { product: IProduct }) => {
+  const IconCart = () => <Image src={IconCartImg} alt={'장바구니'} width={22} height={22} />
+
   return (
     <li>
       <Link href={`/products/${product.ordinary}`}>
@@ -46,4 +48,4 @@ export default function Product({ product }: { product: IProduct }) {
   )
 }
 
-const IconCart = () => <Image src={IconCartImg} alt={'장바구니'} width={22} height={22} />
+export default Product
