@@ -6,7 +6,7 @@ export const fetchProducts = async (params: {
   id: string
 }): Promise<IFetchProductsRes> => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${params.page}&size=${params.size}`
-  const res = await fetch(url, params)
+  const res = await fetch(url)
   if (!res.ok) {
     throw new Error('Failed to fetch data')
   }

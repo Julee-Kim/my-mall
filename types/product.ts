@@ -1,24 +1,24 @@
-export interface Category {
+export interface ICategory {
   id: string
   name: string
-  category?: Category[]
+  category?: ICategory[]
 }
 
-export interface CategoryListProps {
-  categories: Category[]
+export interface ICategoryListProps {
+  categories: ICategory[]
   activeId: string
   isTop: boolean
-  handleClick: (category: Category, from: FromClickType) => void
+  handleClick: (category: ICategory, from: TFromClickType) => void
 }
 
-export interface GetInitDataReturnType {
+export interface IGetInitDataReturnType {
   categoryName: string
   topId: string
   subId: string
-  subList: Category[] | []
+  subList: ICategory[] | []
 }
 
-export type FromClickType = 'subMenu' | 'lnb'
+export type TFromClickType = 'subMenu' | 'lnb'
 
 export interface IProduct {
   brand: string

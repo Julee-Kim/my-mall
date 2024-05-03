@@ -1,10 +1,10 @@
-import { Category, CategoryListProps } from '@/types/product'
+import { ICategory, ICategoryListProps } from '@/types/product'
 import styles from '@/components/header/CategoryList/CategoryList.module.scss'
 
-const CategoryList = ({ categories, activeId, isTop, handleClick }: CategoryListProps) => {
+const CategoryList = ({ categories, activeId, isTop, handleClick }: ICategoryListProps) => {
   return (
     <ul className={[styles.list, !isTop ? styles.bgGray : ''].join(' ')}>
-      {categories.map((category: Category) => (
+      {categories.map((category: ICategory) => (
         <li key={category.id}>
           <button
             className={[styles.btn, activeId === category.id ? styles.btnActive : '']

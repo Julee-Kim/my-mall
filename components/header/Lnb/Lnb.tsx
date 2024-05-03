@@ -1,6 +1,6 @@
 'use client'
 
-import { Category, FromClickType } from '@/types/product'
+import { ICategory, TFromClickType } from '@/types/product'
 import { menuList } from '@/constants/products'
 import CategoryList from '../CategoryList/CategoryList'
 import styles from './Lnb.module.scss'
@@ -13,8 +13,8 @@ const Lnb = ({
 }: {
   selectedTopId: string
   selectedSubId: string
-  subList: Category[]
-  handleClick: (category: Category, from: FromClickType) => void
+  subList: ICategory[]
+  handleClick: (category: ICategory, from: TFromClickType) => void
 }) => {
   return (
     <div className={styles.snbContainer}>
