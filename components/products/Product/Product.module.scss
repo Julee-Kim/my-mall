@@ -1,0 +1,85 @@
+@import '../../../styles/mixins';
+
+.imgWrap {
+  position: relative;
+  display: block;
+  padding-top: 133.69%;
+  background-color: rgb(244, 244, 244);
+  overflow: hidden;
+
+  .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.info {
+  position: relative;
+  display: block;
+  padding: 12px 10px 0 12px;
+}
+
+.nameBrand {
+  position: relative;
+  font-size: 12px;
+
+  .brand {
+    font-weight: 600;
+  }
+
+  .name {
+    padding-top: 2px;
+    line-height: 16px;
+    font-weight: 400;
+    color: rgb(85, 85, 85);
+
+    @include lineClamp;
+  }
+}
+
+.price {
+  .priceCustomer {
+    font-size: 11px;
+    line-height: 14px;
+    color: rgb(157, 157, 157);
+    text-decoration: line-through;
+  }
+
+  .discountPrice {
+    font-size: 14px;
+    line-height: 20px;
+
+    .discount {
+      margin-right: 4px;
+      font-weight: 500;
+      color: var(--Orange);
+      letter-spacing: -1px;
+    }
+  }
+}
+
+.badge {
+  padding-top: 8px;
+
+  span {
+    padding: 3px 6px;
+    font-size: 11px;
+    color: rgb(67, 67, 67);
+    line-height: 14px;
+    background-color: rgb(245, 245, 245);
+
+    + span {
+      margin-left: 3px;
+    }
+  }
+}
+
+.iconCart {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}

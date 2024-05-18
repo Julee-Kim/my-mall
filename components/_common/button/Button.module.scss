@@ -1,0 +1,11 @@
+.btn {
+  color: inherit;
+
+  > * {
+    vertical-align: middle;
+  }
+
+  img {
+    display: inline-block;
+  }
+}

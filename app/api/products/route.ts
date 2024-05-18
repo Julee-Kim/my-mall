@@ -4,9 +4,9 @@ import fireStore from '@/firebase/firestore'
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams
-  const page = Number(params.get('page')) - 1
+  const page = Number(params.get('page'))
   const size = Number(params.get('size'))
-  const startIndex = size * page
+  const startIndex = size * (page - 1)
 
   const docRef = query(
     collection(fireStore, 'products'),
@@ -15,6 +15,14 @@ export async function GET(request: NextRequest) {
     limit(size),
   )
   const docSnap = await getDocs(docRef)
-  const data = docSnap.docs.map((doc) => doc.data())
-  return Response.json(data)
+  const list = docSnap.docs.map((doc) => doc.data())
+
+  const res = {
+    ok: true,
+    page,
+    size,
+    total: 19,
+    list,
+  }
+  return Response.json(res)
 }

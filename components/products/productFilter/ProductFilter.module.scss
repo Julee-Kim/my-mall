@@ -1,0 +1,38 @@
+.filterWrap {
+  display: flex;
+  padding: 12px 0 12px 20px;
+
+  .btnRefreshWrap {
+    display: inline-block;
+    padding-right: 10px;
+  }
+
+  .filter {
+    padding-right: 20px;
+    white-space: nowrap;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filterItem {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 8px 0 12px;
+      height: 32px;
+      border: 1px solid rgb(233, 233, 233);
+      border-radius: 32px;
+
+      &.active {
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+      }
+
+      + .filterItem {
+        margin-left: 6px;
+      }
+    }
+  }
+}
