@@ -5,3 +5,8 @@ h1 {
   font-size: 17px;
   font-weight: 400;
 }
+
+.noScroll {
+  overflow: hidden;
+  touch-action: none;
+}
