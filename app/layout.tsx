@@ -6,10 +6,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | W컨셉(W CONCEPT)',
-    default: 'W컨셉(W CONCEPT)',
+    template: '%s | My mall',
+    default: 'My mall',
   },
-  description: 'W CONCEPT, Double Your Concept',
+  description: 'Welcome :)',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
