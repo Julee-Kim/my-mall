@@ -7,13 +7,13 @@ const Tabs = ({
   handleClick,
 }: {
   selectedId: string
-  tabList: ITab[]
-  handleClick: (tab: ITab) => void
+  tabList: ITab<typeof selectedId>[]
+  handleClick: (tab: ITab<typeof selectedId>) => void
 }) => {
   return (
     <div className={styles.TabsWrap}>
       <ul>
-        {tabList.map((tab: ITab) => (
+        {tabList.map((tab: ITab<typeof selectedId>) => (
           <li key={tab.id} className={styles.tab}>
             <button
               className={[styles.tabBtn, selectedId === tab.id ? styles.active : ''].join(' ')}

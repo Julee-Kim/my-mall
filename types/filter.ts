@@ -1,4 +1,12 @@
-export type TFilterKey = 'color' | 'price' | 'discountBenefit' | 'brand'
+import { ReactNode } from 'react'
+
+export const TFilterKeyTypes = ['color', 'price', 'discountBenefit', 'brand'] as const
+export type TFilterKey = (typeof TFilterKeyTypes)[number]
+
+export interface ITest {
+  id: TFilterKey
+  name: string
+}
 
 interface IFilterItem {
   code: string
@@ -15,7 +23,7 @@ interface IFilterBrandItem {
 }
 
 interface IFilterColor {
-  code: string
+  code: TFilterKey[0]
   name: string
   isActive: boolean
   list: Array<IFilterItem>
@@ -28,7 +36,7 @@ export interface IPriceRange {
 }
 
 interface IFilterPrice {
-  code: string
+  code: TFilterKey[1]
   name: string
   isActive: boolean
   priceRange: IPriceRange
@@ -36,7 +44,7 @@ interface IFilterPrice {
 }
 
 interface IFilterDiscountBenefit {
-  code: string
+  code: TFilterKey[2]
   name: string
   isActive: boolean
   discountList: Array<IFilterItem>
@@ -45,7 +53,7 @@ interface IFilterDiscountBenefit {
 }
 
 interface IFilterBrand {
-  code: string
+  code: TFilterKey[3]
   name: string
   isActive: boolean
   all: Array<IFilterBrandItem>
@@ -62,3 +70,15 @@ export interface IFilters {
 }
 
 export type IFilterValue = IFilterColor | IFilterPrice | IFilterDiscountBenefit | IFilterBrand
+
+export type TModalProductFilterContentView = {
+  [key in TFilterKey]: ReactNode
+}
+
+export interface IModalProductFilterProps {
+  isOpen: boolean
+  onOk: () => void
+  onCancel: () => void
+  filterData: IFilters
+  tab: TFilterKey
+}

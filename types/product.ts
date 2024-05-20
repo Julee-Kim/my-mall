@@ -44,7 +44,9 @@ export interface IFetchProductsRes {
   list: IProduct[]
 }
 
-export interface ITab {
-  id: string
+type TTabId<T> = T extends infer R ? R : string
+
+export interface ITab<T> {
+  id: TTabId<T>
   name: string
 }

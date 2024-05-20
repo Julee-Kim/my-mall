@@ -5,7 +5,7 @@ import Button from '@/components/_common/button/Button'
 import IconArrowBottomGreyImg from '@/public/images/icon/icon-arrow-bottom-grey.svg'
 import styles from '../ProductFilterBtn/ProductFilterBtn.module.scss'
 
-const ProductFilterBtn = ({ filter }: { filter: IFilterValue }) => {
+const ProductFilterBtn = ({ filter, onClick }: { filter: IFilterValue; onClick: () => void }) => {
   let btnText = ''
 
   if (filter.isActive) {
@@ -39,6 +39,7 @@ const ProductFilterBtn = ({ filter }: { filter: IFilterValue }) => {
       icon={<IconArrowBottom />}
       style={{ height: '16px' }}
       className={[styles.filterItemBtn, filter.isActive ? styles.active : ''].join(' ')}
+      onClick={onClick}
     >
       {btnText}
     </Button>
