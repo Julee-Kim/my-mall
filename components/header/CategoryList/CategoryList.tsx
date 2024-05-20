@@ -10,7 +10,7 @@ const CategoryList = ({ categories, activeId, isTop, handleClick }: ICategoryLis
             className={[styles.btn, activeId === category.id ? styles.btnActive : '']
               .filter(Boolean)
               .join(' ')}
-            onClick={() => handleClick(category, 'lnb')}
+            onClick={() => handleClick(category)}
           >
             {category.name}
           </button>
