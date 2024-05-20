@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import { menuList } from '@/constants/products'
 import { ICategory } from '@/types/product'
 import { getCategoryData } from '@/services/header'
-import Header from '@/components/header/Header/Header'
+import Header from '@/components/header/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
-import Lnb from '@/components/header/Lnb/Lnb'
+import Lnb from '@/components/header/lnb/Lnb'
 import Tabs from '@/components/tabs/Tabs'
 
 const HeaderContainer = ({ activeId }: { activeId: string }) => {

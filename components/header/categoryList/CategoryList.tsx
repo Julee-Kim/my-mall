@@ -1,5 +1,5 @@
 import { ICategory, ICategoryListProps } from '@/types/product'
-import styles from '@/components/header/CategoryList/CategoryList.module.scss'
+import styles from '@/components/header/categoryList/CategoryList.module.scss'
 
 const CategoryList = ({ categories, activeId, isTop, handleClick }: ICategoryListProps) => {
   return (

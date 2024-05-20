@@ -2,7 +2,7 @@
 
 import { ICategory } from '@/types/product'
 import { menuList } from '@/constants/products'
-import CategoryList from '../CategoryList/CategoryList'
+import CategoryList from '@/components/header/categoryList/CategoryList'
 import styles from './Lnb.module.scss'
 
 const Lnb = ({
