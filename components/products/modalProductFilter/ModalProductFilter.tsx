@@ -9,10 +9,10 @@ import {
 import { ITab } from '@/types/product'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/tabs/Tabs'
-import ColorContent from '@/components/products/modalProductFilter/modalProductFilterContent/ColorContent'
-import PriceContent from '@/components/products/modalProductFilter/modalProductFilterContent/PriceContent'
-import DiscountBenefitContent from '@/components/products/modalProductFilter/modalProductFilterContent/DiscountBenefitContent'
-import BrandContent from '@/components/products/modalProductFilter/modalProductFilterContent/BrandContent'
+import ColorContent from '@/components/products/modalProductFilter/filterContents/ColorContent'
+import PriceContent from '@/components/products/modalProductFilter/filterContents/PriceContent'
+import DiscountBenefitContent from '@/components/products/modalProductFilter/filterContents/DiscountBenefitContent'
+import BrandContent from '@/components/products/modalProductFilter/filterContents/BrandContent'
 
 const ContentViews: TModalProductFilterContentView = {
   color: <ColorContent />,
