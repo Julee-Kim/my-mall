@@ -3,8 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import {
   TFilterKey,
-  TModalProductFilterContentView,
   IModalProductFilterProps,
+  IFilterColor,
+  IFilterPrice,
+  IFilterDiscountBenefit,
+  IFilterBrand,
 } from '@/types/filter'
 import { ITab } from '@/types/product'
 import { Modal } from '@/components/_common/modal/Modal'
@@ -13,13 +16,12 @@ import ColorContent from '@/components/products/modalProductFilter/filterContent
 import PriceContent from '@/components/products/modalProductFilter/filterContents/PriceContent'
 import DiscountBenefitContent from '@/components/products/modalProductFilter/filterContents/DiscountBenefitContent'
 import BrandContent from '@/components/products/modalProductFilter/filterContents/BrandContent'
-
-const ContentViews: TModalProductFilterContentView = {
-  color: <ColorContent />,
-  price: <PriceContent />,
-  discountBenefit: <DiscountBenefitContent />,
-  brand: <BrandContent />,
-}
+import {
+  initialFilterBrand,
+  initialFilterColor,
+  initialFilterDiscountBenefit,
+  initialFilterPrice,
+} from '@/constants/filter'
 
 const ModalProductFilter = ({
   isOpen,
@@ -28,29 +30,63 @@ const ModalProductFilter = ({
   filterData,
   tab,
 }: IModalProductFilterProps) => {
-  const [selectedTab, setSelectedTap] = useState<TFilterKey>('color')
+  const [selectedTab, setSelectedTab] = useState<TFilterKey>('color')
   const [tabList, setTabList] = useState<ITab<TFilterKey>[]>([])
+  const [filterColor, setFilterColor] = useState<IFilterColor>(initialFilterColor)
+  const [filterPrice, setFilterPrice] = useState<IFilterPrice>(initialFilterPrice)
+  const [filterDiscountBenefit, setFilterDiscountBenefit] = useState<IFilterDiscountBenefit>(
+    initialFilterDiscountBenefit,
+  )
+  const [filterBrand, setFilterBrand] = useState<IFilterBrand>(initialFilterBrand)
 
   useEffect(() => {
-    setSelectedTap(tab)
+    setSelectedTab(tab)
   }, [tab])
 
   useEffect(() => {
-    let arr: ITab<TFilterKey>[] = []
+    let tabArr: ITab<TFilterKey>[] = []
     Object.keys(filterData).forEach((key) => {
       const filterKey = key as TFilterKey
       const filter = filterData[filterKey]
-      arr.push({ id: filterKey, name: filter.name })
+      tabArr.push({ id: filterKey, name: filter.name })
+
+      switch (filterKey) {
+        case 'color':
+          setFilterColor(filter as IFilterColor)
+          break
+        case 'price':
+          setFilterPrice(filter as IFilterPrice)
+          break
+        case 'discountBenefit':
+          setFilterDiscountBenefit(filter as IFilterDiscountBenefit)
+          break
+        case 'brand':
+          setFilterBrand(filter as IFilterBrand)
+          break
+        default:
+          break
+      }
     })
-    setTabList(arr)
+    setTabList([...tabArr])
   }, [])
 
-  const CurrentContent = () => {
-    return ContentViews[selectedTab]
+  const CurrentContent = (tab: TFilterKey) => {
+    switch (tab) {
+      case 'color':
+        return <ColorContent filterData={filterColor} />
+      case 'price':
+        return <PriceContent filterData={filterPrice} />
+      case 'discountBenefit':
+        return <DiscountBenefitContent filterData={filterDiscountBenefit} />
+      case 'brand':
+        return <BrandContent filterData={filterBrand} />
+      default:
+        return null
+    }
   }
 
   const handleClick = (tab: ITab<TFilterKey>) => {
-    setSelectedTap(tab.id)
+    setSelectedTab(tab.id)
   }
 
   return (
@@ -59,9 +95,7 @@ const ModalProductFilter = ({
         <Modal.Header>
           <Tabs selectedId={selectedTab} tabList={tabList} handleClick={handleClick} />
         </Modal.Header>
-        <Modal.Content>
-          <CurrentContent />
-        </Modal.Content>
+        <Modal.Content>{CurrentContent(selectedTab)}</Modal.Content>
       </Modal>
     </div>
   )

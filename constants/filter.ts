@@ -1,5 +1,50 @@
 import { IFilters } from '@/types/filter'
 
+export const initialFilterColor = {
+  code: 'color',
+  name: '컬러',
+  isActive: false,
+  list: [],
+  selectedList: [],
+}
+export const initialFilterPrice = {
+  code: 'price',
+  name: '가격',
+  isActive: false,
+  priceRange: {
+    min: 0,
+    max: 0,
+  },
+  selectedRange: {
+    min: 0,
+    max: 0,
+  },
+}
+export const initialFilterDiscountBenefit = {
+  code: 'discountBenefit',
+  name: '할인/혜택',
+  isActive: false,
+  discountList: [],
+  benefitList: [],
+  selectedList: [],
+}
+export const initialFilterBrand = {
+  code: 'brand',
+  name: '브랜드',
+  isActive: false,
+  all: [],
+  top: [],
+  new: [],
+  selectedList: [],
+}
+
+export const initialFilters = {
+  color: initialFilterColor,
+  price: initialFilterPrice,
+  discountBenefit: initialFilterDiscountBenefit,
+  brand: initialFilterBrand,
+}
+
 export const filters: IFilters = {
   color: {
     code: 'color',
