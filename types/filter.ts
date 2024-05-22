@@ -8,7 +8,7 @@ export interface ITest {
   name: string
 }
 
-interface IFilterItem {
+export interface IFilterItem {
   code: string
   name: string
   count: number
