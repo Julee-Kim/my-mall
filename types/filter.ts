@@ -14,7 +14,7 @@ export interface IFilterItem {
   count: number
 }
 
-interface IFilterBrandItem {
+export interface IFilterBrandItem {
   code: number
   name: string
   eng_name: string
@@ -77,4 +77,11 @@ export interface IModalProductFilterProps {
   onCancel: () => void
   filterData: IFilters
   tab: TFilterKey
+}
+
+export type TBrandTabs = 'all' | 'top' | 'new'
+
+export interface IBrandTab {
+  type: TBrandTabs
+  label: string
 }

@@ -1,4 +1,4 @@
-import { IFilters } from '@/types/filter'
+import { IBrandTab, IFilters } from '@/types/filter'
 
 export const initialFilterColor = {
   code: 'color',
@@ -209,3 +209,9 @@ export const filters: IFilters = {
     selectedList: [],
   },
 }
+
+export const tabList: IBrandTab[] = [
+  { type: 'all', label: '전체' },
+  { type: 'top', label: '인기' },
+  { type: 'new', label: '신규' },
+]
