@@ -1,0 +1,73 @@
+@import '@/styles/mixins';
+
+.tabs {
+  padding-bottom: 18px;
+
+  .tab {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(196, 196, 196);
+
+    &.activeTab {
+      color: #000;
+    }
+
+    & + .tab {
+      margin-left: 20px;
+    }
+  }
+}
+
+.brandList {
+  padding-top: 10px;
+
+  .brand {
+    + .brand {
+      padding-top: 15px;
+    }
+
+    .textWrap {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-left: 3px;
+      }
+
+      .engName {
+        font-size: 15px;
+        flex: 0 0 auto;
+        @include lineClamp(1);
+      }
+
+      .name {
+        padding-left: 2px;
+        font-size: 13px;
+        color: rgb(196, 196, 196);
+        margin-left: 1.6vw;
+
+        @include lineClamp(1);
+      }
+
+      .count {
+        flex: 0 0 auto;
+      }
+
+      .count,
+      .name {
+        color: rgb(196, 196, 196);
+      }
+
+      .badge {
+        padding: 0 4px;
+        flex: 0 0 auto;
+        font-size: 8px;
+        color: #fff;
+        background-color: #000;
+        height: 15px;
+        line-height: 15px;
+      }
+    }
+  }
+}
+

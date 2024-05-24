@@ -20,7 +20,7 @@ const ModalContext = createContext({
 export const useModalContext = () => useContext(ModalContext)
 
 // TODO. onCancel ts 에러 해결
-export const ModalContainer = ({ isOpen, onCancel, useClose = true, children }: IModalProps) => {
+export const ModalContainer = ({ isOpen, onCancel, useClose = false, children }: IModalProps) => {
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('noScroll')

@@ -1,5 +1,5 @@
 import { ICategory, ICategoryListProps } from '@/types/product'
-import styles from '@/components/header/CategoryList/CategoryList.module.scss'
+import styles from '@/components/header/categoryList/CategoryList.module.scss'
 
 const CategoryList = ({ categories, activeId, isTop, handleClick }: ICategoryListProps) => {
   return (
@@ -10,7 +10,7 @@ const CategoryList = ({ categories, activeId, isTop, handleClick }: ICategoryLis
             className={[styles.btn, activeId === category.id ? styles.btnActive : '']
               .filter(Boolean)
               .join(' ')}
-            onClick={() => handleClick(category, 'lnb')}
+            onClick={() => handleClick(category)}
           >
             {category.name}
           </button>

@@ -1,15 +1,14 @@
-import Image from 'next/image'
+import React from 'react'
 import Button from '@/components/_common/button/Button'
-import IconArrowBottomImg from '@/public/images/icon/icon-arrow-bottom-black.svg'
+import { IoIosArrowDown } from 'react-icons/io'
 
 const ButtonCategoryTitle = ({ name, showSub }: { name: string; showSub: () => void }) => {
-  const IconArrowBottom = () => (
-    <Image src={IconArrowBottomImg} alt={'카테고리 열기'} style={{ marginLeft: '7px' }} />
-  )
-
   return (
     <h1 style={{ textAlign: 'center' }}>
-      <Button icon={<IconArrowBottom />} onClick={showSub}>
+      <Button
+        icon={<IoIosArrowDown color={'#000'} size={15} style={{ marginLeft: '4px' }} />}
+        onClick={showSub}
+      >
         {name}
       </Button>
     </h1>

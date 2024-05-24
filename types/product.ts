@@ -8,7 +8,7 @@ export interface ICategoryListProps {
   categories: ICategory[]
   activeId: string
   isTop: boolean
-  handleClick: (category: ICategory, from: TFromClickType) => void
+  handleClick: (category: ICategory) => void
 }
 
 export interface IGetInitDataReturnType {
@@ -17,8 +17,6 @@ export interface IGetInitDataReturnType {
   subId: string
   subList: ICategory[] | []
 }
-
-export type TFromClickType = 'subMenu' | 'lnb'
 
 export interface IProduct {
   brand: string
@@ -44,4 +42,11 @@ export interface IFetchProductsRes {
   size: number
   total: number
   list: IProduct[]
+}
+
+type TTabId<T> = T extends infer R ? R : string
+
+export interface ITab<T> {
+  id: TTabId<T>
+  name: string
 }

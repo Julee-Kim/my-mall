@@ -1,12 +1,21 @@
 import React from 'react'
-import Image from 'next/image'
+import { SlRefresh } from 'react-icons/sl'
 import Button from '@/components/_common/button/Button'
-import IconRefreshImg from '@/public/images/icon/icon-refresh.svg'
 
-const ButtonRefresh = ({ onClick }: { onClick: () => void }) => {
-  const IconRefresh = () => <Image src={IconRefreshImg} alt={'초기화'} />
-
-  return <Button icon={<IconRefresh />} style={{ height: '31px' }} onClick={onClick} />
-}
+const ButtonRefresh = ({ onClick }: { onClick: () => void }) => (
+  <Button
+    icon={<SlRefresh />}
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 30,
+      height: 30,
+      border: '1px solid rgb(233, 233, 233)',
+      borderRadius: '50%',
+    }}
+    onClick={onClick}
+  />
+)
 
 export default ButtonRefresh

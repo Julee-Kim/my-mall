@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { menuList } from '@/constants/products'
-import { ICategory, TFromClickType } from '@/types/product'
+import { ICategory } from '@/types/product'
 import { getCategoryData } from '@/services/header'
-import Header from '@/components/header/Header/Header'
+import Header from '@/components/header/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
-import Lnb from '@/components/header/Lnb/Lnb'
-import SubMenu from '@/components/header/SnbMenu/SubMenu'
+import Lnb from '@/components/header/lnb/Lnb'
+import Tabs from '@/components/tabs/Tabs'
 
 const HeaderContainer = ({ activeId }: { activeId: string }) => {
   const router = useRouter()
@@ -22,7 +22,7 @@ const HeaderContainer = ({ activeId }: { activeId: string }) => {
 
   const toggleSub = () => setIsActiveSub(!isActiveSub)
 
-  const handleClick = (category: ICategory, from: TFromClickType) => {
+  const handleClickLnb = (category: ICategory) => {
     if (category.category) {
       setSelectedTopId(category.id)
       setSubList(category.category)
@@ -30,10 +30,17 @@ const HeaderContainer = ({ activeId }: { activeId: string }) => {
     }
 
     router.push(`/products?category=${category.id}`)
+    toggleSub()
+  }
 
-    if (from === 'lnb') {
-      toggleSub()
+  const handleClickTab = (tab: ICategory) => {
+    if (tab.category) {
+      setSelectedTopId(tab.id)
+      setSubList(tab.category)
+      return
     }
+
+    router.push(`/products?category=${tab.id}`)
   }
 
   useEffect(() => {
@@ -51,13 +58,13 @@ const HeaderContainer = ({ activeId }: { activeId: string }) => {
         <ButtonCategoryTitle name={categoryName} showSub={toggleSub} />
         <ButtonCart />
       </Header>
-      <SubMenu selectedSubId={selectedSubId} subList={subList} handleClick={handleClick} />
+      <Tabs selectedId={selectedSubId} tabList={subList} handleClick={handleClickTab} />
       {isActiveSub && (
         <Lnb
           selectedTopId={selectedTopId}
           selectedSubId={selectedSubId}
           subList={subList}
-          handleClick={handleClick}
+          handleClick={handleClickLnb}
         />
       )}
     </>

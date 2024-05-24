@@ -1,8 +1,8 @@
 'use client'
 
-import { ICategory, TFromClickType } from '@/types/product'
+import { ICategory } from '@/types/product'
 import { menuList } from '@/constants/products'
-import CategoryList from '../CategoryList/CategoryList'
+import CategoryList from '@/components/header/categoryList/CategoryList'
 import styles from './Lnb.module.scss'
 
 const Lnb = ({
@@ -14,7 +14,7 @@ const Lnb = ({
   selectedTopId: string
   selectedSubId: string
   subList: ICategory[]
-  handleClick: (category: ICategory, from: TFromClickType) => void
+  handleClick: (category: ICategory) => void
 }) => {
   return (
     <div className={styles.snbContainer}>

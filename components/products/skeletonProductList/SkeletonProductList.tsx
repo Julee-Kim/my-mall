@@ -1,6 +1,6 @@
-import listStyles from '@/components/products/ProductList/ProductList.module.scss'
-import productStyles from '@/components/products/Product/Product.module.scss'
-import styles from '@/components/products/SkeletonProductList/SkeletonProductList.module.scss'
+import listStyles from '@/components/products/productList/ProductList.module.scss'
+import productStyles from '@/components/products/product/Product.module.scss'
+import styles from '@/components/products/skeletonProductList/SkeletonProductList.module.scss'
 
 const SkeletonProductList = () => {
   return (

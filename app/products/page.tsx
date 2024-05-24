@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { filters } from '@/constants/filter'
 import HeaderContainer from '@/components/header/HeaderContainer'
-import ProductList from '@/components/products/ProductList/ProductList'
+import ProductList from '@/components/products/productList/ProductList'
 import ProductFilter from '@/components/products/productFilter/ProductFilter'
 
 export const metadata: Metadata = { title: '상품 목록' } as const
