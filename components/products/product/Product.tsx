@@ -1,16 +1,12 @@
-'use client'
-
 import Link from 'next/link'
 import Image from 'next/image'
+import { BsBag } from 'react-icons/bs'
 import { comma } from '@/utils'
 import { IProduct } from '@/types/product'
 import Button from '@/components/_common/button/Button'
 import styles from '@/components/products/product/Product.module.scss'
-import IconCartImg from '@/public/images/icon/icon-cart.svg'
 
 const Product = ({ product }: { product: IProduct }) => {
-  const IconCart = () => <Image src={IconCartImg} alt={'장바구니'} width={22} height={22} />
-
   return (
     <li>
       <Link href={`/products/${product.ordinary}`}>
@@ -41,7 +37,7 @@ const Product = ({ product }: { product: IProduct }) => {
             {product.is_coupon && <span className={styles.coupon}>쿠폰</span>}
             {product.is_exclusive && <span className={styles.exclusive}>단독</span>}
           </div>
-          <Button icon={<IconCart />} className={styles.iconCart} />
+          <Button icon={<BsBag size={16} />} className={styles.iconCart} />
         </div>
       </Link>
     </li>

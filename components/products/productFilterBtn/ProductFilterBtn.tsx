@@ -1,8 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
+import { IoIosArrowDown } from 'react-icons/io'
 import { IFilterValue } from '@/types/filter'
 import Button from '@/components/_common/button/Button'
-import IconArrowBottomGreyImg from '@/public/images/icon/icon-arrow-bottom-grey.svg'
 import styles from '../ProductFilterBtn/ProductFilterBtn.module.scss'
 
 const ProductFilterBtn = ({ filter, onClick }: { filter: IFilterValue; onClick: () => void }) => {
@@ -30,13 +29,9 @@ const ProductFilterBtn = ({ filter, onClick }: { filter: IFilterValue; onClick: 
     btnText = filter.name
   }
 
-  const IconArrowBottom = () => (
-    <Image src={IconArrowBottomGreyImg} alt={'검색 필터 열기'} style={{ marginLeft: '2px' }} />
-  )
-
   return (
     <Button
-      icon={<IconArrowBottom />}
+      icon={<IoIosArrowDown color={'rgb(158, 158, 158)'} size={12} style={{ marginLeft: '2px' }} />}
       style={{ height: '16px' }}
       className={[styles.filterItemBtn, filter.isActive ? styles.active : ''].join(' ')}
       onClick={onClick}
