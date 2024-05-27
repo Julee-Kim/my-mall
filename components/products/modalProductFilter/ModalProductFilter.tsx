@@ -11,18 +11,20 @@ import {
   IFilterValue,
 } from '@/types/filter'
 import { ITab } from '@/types/product'
+import {
+  filters,
+  initialFilterBrand,
+  initialFilterColor,
+  initialFilterDiscountBenefit,
+  initialFilterPrice,
+} from '@/constants/filter'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/tabs/Tabs'
 import ColorContent from '@/components/products/modalProductFilter/filterContents/ColorContent'
 import PriceContent from '@/components/products/modalProductFilter/filterContents/PriceContent'
 import DiscountBenefitContent from '@/components/products/modalProductFilter/filterContents/DiscountBenefitContent'
 import BrandContent from '@/components/products/modalProductFilter/filterContents/BrandContent'
-import {
-  initialFilterBrand,
-  initialFilterColor,
-  initialFilterDiscountBenefit,
-  initialFilterPrice,
-} from '@/constants/filter'
+import ModalProductFilterSelectedList from '@/components/products/modalProductFilter/ModalProductFilterSelectedList'
 import styles from './ModalProductFilter.module.scss'
 
 const ModalProductFilter = ({
@@ -103,6 +105,7 @@ const ModalProductFilter = ({
         </Modal.Header>
         <Modal.Content>
           <div className={styles.filterContent}>{CurrentContent(selectedTab)}</div>
+          <ModalProductFilterSelectedList filterData={filters} />
         </Modal.Content>
       </Modal>
     </div>
