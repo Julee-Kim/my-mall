@@ -4,7 +4,7 @@ import { BsBag } from 'react-icons/bs'
 import { comma } from '@/utils'
 import { IProduct } from '@/types/product'
 import Button from '@/components/_common/button/Button'
-import styles from '@/components/products/product/Product.module.scss'
+import styles from '@/components/products/productList/product/Product.module.scss'
 
 const Product = ({ product }: { product: IProduct }) => {
   return (

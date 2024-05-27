@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { tabList } from '@/constants/filter'
 import { IFilterBrand, TBrandTabs, IFilterBrandItem } from '@/types/filter'
 import { comma } from '@/utils'
-import SearchBrand from '@/components/products/modalProductFilter/filterContents/SearchBrand'
+import SearchBrand from '@/components/products/filter/modalFilter/filterContents/SearchBrand'
 import Checkbox from '@/components/_common/checkbox/Checkbox'
-import styles from '@/components/products/modalProductFilter/filterContents/BrandContent.module.scss'
+import styles from '@/components/products/filter/modalFilter/filterContents/BrandContent.module.scss'
 
 const BrandContent = ({ filterData }: { filterData: IFilterBrand }) => {
   const [activeTab, setActiveTab] = useState<TBrandTabs>('top')

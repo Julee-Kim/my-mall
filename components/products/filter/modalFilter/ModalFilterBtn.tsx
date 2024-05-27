@@ -1,6 +1,6 @@
 import React from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
-import ProductFilterBtn from '@/components/products/productFilterBtn/ProductFilterBtn'
+import FilterBtn from '@/components/products/filter/filterBtn/FilterBtn'
 
 interface IModalProductFilterBtnProps {
   btnText: string
@@ -8,9 +8,9 @@ interface IModalProductFilterBtnProps {
   handleBtn: () => void
 }
 
-const ModalProductFilterBtn = ({ btnText, handleBtn }: IModalProductFilterBtnProps) => {
+const ModalFilterBtn = ({ btnText, handleBtn }: IModalProductFilterBtnProps) => {
   return (
-    <ProductFilterBtn
+    <FilterBtn
       isActive={true}
       btnText={btnText}
       icon={<IoCloseOutline color={'rgb(158, 158, 158)'} size={12} style={{ marginLeft: '2px' }} />}
@@ -19,4 +19,4 @@ const ModalProductFilterBtn = ({ btnText, handleBtn }: IModalProductFilterBtnPro
   )
 }
 
-export default ModalProductFilterBtn
+export default ModalFilterBtn

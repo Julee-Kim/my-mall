@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from 'react'
 import { TiDelete } from 'react-icons/ti'
 import { CiSearch } from 'react-icons/ci'
 import Button from '@/components/_common/button/Button'
-import styles from '@/components/products/modalProductFilter/filterContents/SearchBrand.module.scss'
+import styles from '@/components/products/filter/modalFilter/filterContents/SearchBrand.module.scss'
 
 const SearchBrand = () => {
   const [keyword, setKeyword] = useState<string>('')

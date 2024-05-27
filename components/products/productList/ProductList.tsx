@@ -6,8 +6,8 @@ import { IFetchProductsRes, IProduct } from '@/types/product'
 import { useProductStore } from '@/store/product'
 import { fetchProducts } from '@/services/products'
 import Observer from '@/components/_common/observer/Observer'
-import Product from '@/components/products/Product/Product'
-import SkeletonProductList from '@/components/products/SkeletonProductList/SkeletonProductList'
+import Product from '@/components/products/productList/product/Product'
+import SkeletonProductList from '@/components/products/skeletonProductList/SkeletonProductList'
 import styles from './ProductList.module.scss'
 
 const _size = 6 // page size
@@ -58,7 +58,7 @@ const ProductList = ({ id }: { id: string }) => {
 
   return (
     <div>
-      <ul className={[styles.list, products.length && styles.bottomGap].filter(Boolean).join(' ')}>
+      <ul className={[styles.list, products.length && styles.bottomGap].join(' ')}>
         {products.map((product: IProduct, index: number) => (
           <Product key={index} product={product} />
         ))}

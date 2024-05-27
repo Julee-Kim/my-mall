@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import Button from '@/components/_common/button/Button'
-import styles from '../ProductFilterBtn/ProductFilterBtn.module.scss'
+import styles from './FilterBtn.module.scss'
 
 interface IProductFilterBtn {
   isActive: boolean
@@ -8,7 +8,7 @@ interface IProductFilterBtn {
   onClick: () => void
   icon: ReactNode
 }
-const ProductFilterBtn = ({ isActive, btnText, onClick, icon }: IProductFilterBtn) => {
+const FilterBtn = ({ isActive, btnText, onClick, icon }: IProductFilterBtn) => {
   return (
     <Button
       icon={icon}
@@ -20,4 +20,4 @@ const ProductFilterBtn = ({ isActive, btnText, onClick, icon }: IProductFilterBt
   )
 }
 
-export default ProductFilterBtn
+export default FilterBtn

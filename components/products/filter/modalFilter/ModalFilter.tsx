@@ -20,21 +20,15 @@ import {
 } from '@/constants/filter'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/tabs/Tabs'
-import ColorContent from '@/components/products/modalProductFilter/filterContents/ColorContent'
-import PriceContent from '@/components/products/modalProductFilter/filterContents/PriceContent'
-import DiscountBenefitContent from '@/components/products/modalProductFilter/filterContents/DiscountBenefitContent'
-import BrandContent from '@/components/products/modalProductFilter/filterContents/BrandContent'
-import ModalProductFilterSelectedList from '@/components/products/modalProductFilter/ModalProductFilterSelectedList'
-import styles from './ModalProductFilter.module.scss'
-import ModalProductFilterFooter from '@/components/products/modalProductFilter/ModalProductFilterFooter'
+import ColorContent from '@/components/products/filter/modalFilter/filterContents/ColorContent'
+import PriceContent from '@/components/products/filter/modalFilter/filterContents/PriceContent'
+import DiscountBenefitContent from '@/components/products/filter/modalFilter/filterContents/DiscountBenefitContent'
+import BrandContent from '@/components/products/filter/modalFilter/filterContents/BrandContent'
+import ModalFilterSelectedList from '@/components/products/filter/modalFilter/ModalFilterSelectedList'
+import styles from './ModalFilter.module.scss'
+import ModalFilterFooter from '@/components/products/filter/modalFilter/ModalFilterFooter'
 
-const ModalProductFilter = ({
-  isOpen,
-  onOk,
-  onCancel,
-  filterData,
-  tab,
-}: IModalProductFilterProps) => {
+const ModalFilter = ({ isOpen, onOk, onCancel, filterData, tab }: IModalProductFilterProps) => {
   const [selectedTab, setSelectedTab] = useState<TFilterKey>('color')
   const [tabList, setTabList] = useState<ITab<TFilterKey>[]>([])
   const [filterColor, setFilterColor] = useState<IFilterColor>(initialFilterColor)
@@ -106,12 +100,12 @@ const ModalProductFilter = ({
         </Modal.Header>
         <Modal.Content>
           <div className={styles.filterContent}>{CurrentContent(selectedTab)}</div>
-          <ModalProductFilterSelectedList filterData={filters} />
-          <ModalProductFilterFooter />
+          <ModalFilterSelectedList filterData={filters} />
+          <ModalFilterFooter />
         </Modal.Content>
       </Modal>
     </div>
   )
 }
 
-export default ModalProductFilter
+export default ModalFilter

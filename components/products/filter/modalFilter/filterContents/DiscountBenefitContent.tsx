@@ -1,5 +1,5 @@
 import { IFilterDiscountBenefit } from '@/types/filter'
-import DiscountBenefitContentList from '@/components/products/modalProductFilter/filterContents/DiscountBenefitContentList'
+import DiscountBenefitContentList from '@/components/products/filter/modalFilter/filterContents/DiscountBenefitContentList'
 
 const DiscountBenefitContent = ({ filterData }: { filterData: IFilterDiscountBenefit }) => {
   return (

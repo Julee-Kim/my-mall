@@ -57,16 +57,19 @@ const HeaderContainer = ({ activeId }: { activeId: string }) => {
         <ButtonBack />
         <ButtonCategoryTitle name={categoryName} showSub={toggleSub} />
         <ButtonCart />
+
+        {isActiveSub && (
+          <Lnb
+            selectedTopId={selectedTopId}
+            selectedSubId={selectedSubId}
+            subList={subList}
+            handleClick={handleClickLnb}
+          />
+        )}
       </Header>
+
+      {/* TODO. tabs 상품 목록 페이지로 이동..? */}
       <Tabs selectedId={selectedSubId} tabList={subList} handleClick={handleClickTab} />
-      {isActiveSub && (
-        <Lnb
-          selectedTopId={selectedTopId}
-          selectedSubId={selectedSubId}
-          subList={subList}
-          handleClick={handleClickLnb}
-        />
-      )}
     </>
   )
 }

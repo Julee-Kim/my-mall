@@ -4,11 +4,11 @@ import React, { useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { IFilters, IFilterValue, TFilterKey } from '@/types/filter'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
-import ProductFilterBtn from '@/components/products/productFilterBtn/ProductFilterBtn'
-import ModalProductFilter from '@/components/products/modalProductFilter/ModalProductFilter'
-import styles from './ProductFilter.module.scss'
+import FilterBtn from '@/components/products/filter/filterBtn/FilterBtn'
+import ModalFilter from '@/components/products/filter/modalFilter/ModalFilter'
+import styles from './Filter.module.scss'
 
-const ProductFilter = ({ filterData }: { filterData: IFilters }) => {
+const Filter = ({ filterData }: { filterData: IFilters }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTab, setSelectedTap] = useState<TFilterKey>('color')
 
@@ -69,7 +69,7 @@ const ProductFilter = ({ filterData }: { filterData: IFilters }) => {
         <ul className={styles.filter}>
           {Object.keys(filterData).map((filterKey, index) => (
             <li key={index} className={styles.filterItem}>
-              <ProductFilterBtn
+              <FilterBtn
                 isActive={filterData[filterKey as TFilterKey].isActive}
                 btnText={btnText(filterData[filterKey as TFilterKey])}
                 onClick={() => handleFilterBtn(filterData[filterKey as TFilterKey].code)}
@@ -85,7 +85,7 @@ const ProductFilter = ({ filterData }: { filterData: IFilters }) => {
           ))}
         </ul>
       </div>
-      <ModalProductFilter
+      <ModalFilter
         isOpen={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -96,4 +96,4 @@ const ProductFilter = ({ filterData }: { filterData: IFilters }) => {
   )
 }
 
-export default ProductFilter
+export default Filter

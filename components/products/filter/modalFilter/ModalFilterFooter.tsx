@@ -1,8 +1,8 @@
 import { comma } from '@/utils'
 import Button from '@/components/_common/button/Button'
-import styles from '@/components/products/modalProductFilter/ModalProductFilter.module.scss'
+import styles from '@/components/products/filter/modalFilter/ModalFilter.module.scss'
 
-const ModalProductFilterFooter = () => {
+const ModalFilterFooter = () => {
   return (
     <div className={styles.filterFooter}>
       <Button className={[styles.btn, styles.close].join(' ')}>취소</Button>
@@ -11,4 +11,4 @@ const ModalProductFilterFooter = () => {
   )
 }
 
-export default ModalProductFilterFooter
+export default ModalFilterFooter

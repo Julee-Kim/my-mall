@@ -1,11 +1,11 @@
 import React from 'react'
 import { IFilters } from '@/types/filter'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
-import ModalProductFilterBtn from '@/components/products/modalProductFilter/ModalProductFilterBtn'
-import styles from '@/components/products/productFilter/ProductFilter.module.scss'
-import modalStyles from '@/components/products/modalProductFilter/ModalProductFilter.module.scss'
+import ModalFilterBtn from '@/components/products/filter/modalFilter/ModalFilterBtn'
+import styles from '@/components/products/filter/Filter.module.scss'
+import modalStyles from '@/components/products/filter/modalFilter/ModalFilter.module.scss'
 
-const ModalProductFilterSelectedList = ({ filterData }: { filterData: IFilters }) => {
+const ModalFilterSelectedList = ({ filterData }: { filterData: IFilters }) => {
   const handleRefresh = () => {
     console.log('handleRefresh')
   }
@@ -40,7 +40,7 @@ const ModalProductFilterSelectedList = ({ filterData }: { filterData: IFilters }
               if (min !== 0 || max !== 0) {
                 return (
                   <li key={filterKey} className={styles.filterItem}>
-                    <ModalProductFilterBtn
+                    <ModalFilterBtn
                       btnText={priceBtnText(min, max)}
                       code={filter.code}
                       handleBtn={() => handleFilterBtn(filter.code)}
@@ -53,7 +53,7 @@ const ModalProductFilterSelectedList = ({ filterData }: { filterData: IFilters }
             if ('selectedList' in filter) {
               return filter.selectedList?.map((selectedItem) => (
                 <li key={selectedItem.code} className={styles.filterItem}>
-                  <ModalProductFilterBtn
+                  <ModalFilterBtn
                     btnText={selectedItem.name}
                     code={filter.code}
                     handleBtn={() => handleFilterBtn(filter.code)}
@@ -69,4 +69,4 @@ const ModalProductFilterSelectedList = ({ filterData }: { filterData: IFilters }
   )
 }
 
-export default ModalProductFilterSelectedList
+export default ModalFilterSelectedList

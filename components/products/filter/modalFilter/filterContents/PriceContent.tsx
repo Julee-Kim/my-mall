@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import { IFilterPrice } from '@/types/filter'
-import styles from '@/components/products/modalProductFilter/filterContents/PriceContent.module.scss'
+import styles from '@/components/products/filter/modalFilter/filterContents/PriceContent.module.scss'
 
 const MIN_PRICE = 1000
 const MAX_PRICE = 400000
