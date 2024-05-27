@@ -26,6 +26,7 @@ import DiscountBenefitContent from '@/components/products/modalProductFilter/fil
 import BrandContent from '@/components/products/modalProductFilter/filterContents/BrandContent'
 import ModalProductFilterSelectedList from '@/components/products/modalProductFilter/ModalProductFilterSelectedList'
 import styles from './ModalProductFilter.module.scss'
+import ModalProductFilterFooter from '@/components/products/modalProductFilter/ModalProductFilterFooter'
 
 const ModalProductFilter = ({
   isOpen,
@@ -106,6 +107,7 @@ const ModalProductFilter = ({
         <Modal.Content>
           <div className={styles.filterContent}>{CurrentContent(selectedTab)}</div>
           <ModalProductFilterSelectedList filterData={filters} />
+          <ModalProductFilterFooter />
         </Modal.Content>
       </Modal>
     </div>
