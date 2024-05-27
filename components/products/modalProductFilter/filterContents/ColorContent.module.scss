@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(calc(20% - 8vw), 1fr));
   gap: 5vw 8vw;
+  padding: 0 3vw;
 
   .btnColor {
     display: block;

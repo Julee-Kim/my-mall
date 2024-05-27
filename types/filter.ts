@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 export const TFilterKeyTypes = ['color', 'price', 'discountBenefit', 'brand'] as const
 export type TFilterKey = (typeof TFilterKeyTypes)[number]
 

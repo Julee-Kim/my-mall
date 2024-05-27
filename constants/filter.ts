@@ -102,7 +102,10 @@ export const filters: IFilters = {
         count: 456,
       },
     ],
-    selectedList: [],
+    selectedList: [
+      { code: 'white', name: '화이트', count: 2348 },
+      { code: 'grey', name: '그레이', count: 384 },
+    ],
   },
   price: {
     code: 'price',
@@ -113,7 +116,7 @@ export const filters: IFilters = {
       max: 150000,
     },
     selectedRange: {
-      min: 0,
+      min: 25000,
       max: 0,
     },
   },

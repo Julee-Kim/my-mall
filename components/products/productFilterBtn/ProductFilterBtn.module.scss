@@ -1,7 +1,17 @@
 .filterItemBtn {
   display: inline-flex;
   align-items: center;
+  padding: 0 8px 0 12px;
+  height: 32px;
   font-size: 13px;
   font-weight: 300;
   line-height: 16px;
+  border: 1px solid rgb(233, 233, 233);
+  border-radius: 32px;
+
+  &.active {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+  }
 }
