@@ -95,10 +95,8 @@ const ModalFilter = ({ isOpen, onOk, onCancel, filterData, tab }: IModalProductF
   return (
     <div>
       <Modal isOpen={isOpen} onCancel={onCancel}>
-        <Modal.Header>
-          <Tabs selectedId={selectedTab} tabList={tabList} handleClick={handleClick} />
-        </Modal.Header>
         <Modal.Content>
+          <Tabs selectedId={selectedTab} tabList={tabList} handleClick={handleClick} />
           <div className={styles.filterContent}>{CurrentContent(selectedTab)}</div>
           <ModalFilterSelectedList filterData={filters} />
           <ModalFilterFooter />
