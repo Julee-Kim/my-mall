@@ -42,7 +42,7 @@ const Observer = ({
 
     // onUnMounted
     return () => observer.disconnect()
-  }, [onEnter]) // TODO, 의존성을 왜 이렇게 넣어야 동작하는걸까..
+  }, [onEnter, onLeave, options])
 
   return <div ref={triggerRef}>{children}</div>
 }
