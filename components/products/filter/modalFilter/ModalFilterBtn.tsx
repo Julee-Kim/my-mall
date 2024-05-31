@@ -4,7 +4,6 @@ import FilterBtn from '@/components/products/filter/filterBtn/FilterBtn'
 
 interface IModalProductFilterBtnProps {
   btnText: string
-  code: string
   handleBtn: () => void
 }
 

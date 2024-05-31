@@ -1,30 +1,36 @@
 'use client'
 
 import React, { useState } from 'react'
-import { IoIosArrowDown } from 'react-icons/io'
-import { IFilters, IFilterValue, TFilterKey } from '@/types/filter'
+import { TFilterKey } from '@/types/filter'
+import { FILTER_CODE } from '@/constants/filter'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
-import FilterBtn from '@/components/products/filter/filterBtn/FilterBtn'
+import FilterBar from '@/components/products/filter/FilterBar'
 import ModalFilter from '@/components/products/filter/modalFilter/ModalFilter'
 import styles from './Filter.module.scss'
 
-const Filter = ({ filterData }: { filterData: IFilters }) => {
+const Filter = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedTab, setSelectedTap] = useState<TFilterKey>('color')
+  const [selectedTab, setSelectedTap] = useState<TFilterKey>(FILTER_CODE.color)
 
   const handleRefresh = () => {
     console.log('handleRefresh')
   }
 
-  // TODO. tabCode 타입 변경
-  const handleFilterBtn = (tabCode: any) => {
-    console.log('handleFilterBtn ', tabCode)
+  const openModalFilter = (tabCode: TFilterKey) => {
     setSelectedTap(tabCode)
     setIsOpen(true)
   }
 
   const handleOk = () => {
     console.log('handleOk')
+    /**
+     * 1. store/filter > selectedFilters 값을 상품 검색의 파라미터로 분리
+     * 2.
+     *   2-1. 모달 필터 닫기(handleCancel())
+     *   2-2. 상품 목록 api 요청 (페이지 로더 노출)
+     *   2-3. url query 변경
+     *   2-4. FilterBar.tsx에서 사용하는 store/filter > filterBar 값 변경
+     * */
     setIsOpen(false)
   }
 
@@ -33,65 +39,15 @@ const Filter = ({ filterData }: { filterData: IFilters }) => {
     setIsOpen(false)
   }
 
-  const btnText = (filter: IFilterValue) => {
-    let btnText = ''
-
-    if (filter.isActive) {
-      if (filter.code === 'price') {
-        if ('selectedRange' in filter) {
-          const { min, max } = filter.selectedRange
-          const minPrice = min ? min : ''
-          const maxPrice = max ? max : ''
-          btnText = minPrice + '~' + maxPrice
-        }
-      } else {
-        if ('selectedList' in filter) {
-          const selectedList = filter.selectedList ?? []
-
-          btnText = selectedList[0]?.name
-          if (selectedList.length > 1) {
-            btnText += ` 외${selectedList.length - 1}`
-          }
-        }
-      }
-    } else {
-      btnText = filter.name
-    }
-    return btnText
-  }
-
   return (
     <>
       <div className={styles.filterWrap}>
         <div className={styles.btnRefreshWrap}>
           <ButtonRefresh onClick={handleRefresh} />
         </div>
-        <ul className={styles.filter}>
-          {Object.keys(filterData).map((filterKey, index) => (
-            <li key={index} className={styles.filterItem}>
-              <FilterBtn
-                isActive={filterData[filterKey as TFilterKey].isActive}
-                btnText={btnText(filterData[filterKey as TFilterKey])}
-                onClick={() => handleFilterBtn(filterData[filterKey as TFilterKey].code)}
-                icon={
-                  <IoIosArrowDown
-                    color={'rgb(158, 158, 158)'}
-                    size={12}
-                    style={{ marginLeft: '2px' }}
-                  />
-                }
-              />
-            </li>
-          ))}
-        </ul>
+        <FilterBar onClickBtn={openModalFilter} />
       </div>
-      <ModalFilter
-        isOpen={isOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        filterData={filterData}
-        tab={selectedTab}
-      />
+      <ModalFilter isOpen={isOpen} onOk={handleOk} onCancel={handleCancel} tab={selectedTab} />
     </>
   )
 }

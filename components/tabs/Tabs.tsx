@@ -9,6 +9,7 @@ const Tabs = ({
   selectedId: string
   tabList: ITab<typeof selectedId>[]
   handleClick: (tab: ITab<typeof selectedId>) => void
+  isDot?: boolean
 }) => {
   return (
     <div className={styles.TabsWrap}>
@@ -19,7 +20,7 @@ const Tabs = ({
               className={[styles.tabBtn, selectedId === tab.id ? styles.active : ''].join(' ')}
               onClick={() => handleClick(tab)}
             >
-              {tab.name}
+              <span className={tab.isDot ? styles.dot : ''}>{tab.name}</span>
             </button>
           </li>
         ))}
