@@ -1,11 +1,11 @@
-import { IFilterDiscountBenefit } from '@/types/filter'
+import { IDiscountBenefitContentProps } from '@/types/filter'
 import DiscountBenefitContentList from '@/components/products/filter/modalFilter/filterContents/DiscountBenefitContentList'
 
-const DiscountBenefitContent = ({ filterData }: { filterData: IFilterDiscountBenefit }) => {
+const DiscountBenefitContent = ({ discount, benefit }: IDiscountBenefitContentProps) => {
   return (
     <div>
-      <DiscountBenefitContentList title="할인" filterList={filterData.discountList} />
-      <DiscountBenefitContentList title="혜택" filterList={filterData.benefitList} />
+      <DiscountBenefitContentList title="할인" filterList={discount} />
+      <DiscountBenefitContentList title="혜택" filterList={benefit} />
     </div>
   )
 }

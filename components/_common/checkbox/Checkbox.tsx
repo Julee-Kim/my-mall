@@ -1,14 +1,21 @@
+import { ChangeEvent, ReactNode } from 'react'
 import styles from './Checkbox.module.scss'
-import { ReactNode } from 'react'
 
 interface ICheckboxProps {
   checked?: boolean
   disabled?: boolean
-  onChange?: () => void
+  isShowIcon?: boolean
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   children?: ReactNode
 }
 
-const Checkbox = ({ checked = false, disabled = false, onChange, children }: ICheckboxProps) => {
+const Checkbox = ({
+  checked = false,
+  disabled = false,
+  isShowIcon = true,
+  onChange,
+  children,
+}: ICheckboxProps) => {
   return (
     <label className={styles.checkbox}>
       <input
@@ -18,7 +25,7 @@ const Checkbox = ({ checked = false, disabled = false, onChange, children }: ICh
         onChange={onChange}
         className={styles.checkboxInput}
       />
-      <span className={styles.checkboxIcon} />
+      {isShowIcon && <span className={styles.checkboxIcon} />}
       {children && <span className={styles.checkboxText}>{children}</span>}
     </label>
   )

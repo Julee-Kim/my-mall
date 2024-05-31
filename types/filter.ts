@@ -1,10 +1,12 @@
-export const TFilterKeyTypes = ['color', 'price', 'discountBenefit', 'brand'] as const
-export type TFilterKey = (typeof TFilterKeyTypes)[number]
+import { FILTER_CODE } from '@/constants/filter'
 
-export interface ITest {
-  id: TFilterKey
-  name: string
-}
+export const TFilterKeyTypes = [
+  FILTER_CODE.color,
+  FILTER_CODE.price,
+  FILTER_CODE.discountBenefit,
+  FILTER_CODE.brand,
+] as const
+export type TFilterKey = (typeof TFilterKeyTypes)[number]
 
 export interface IFilterItem {
   code: string
@@ -12,69 +14,60 @@ export interface IFilterItem {
   count: number
 }
 
+export interface IFilterPrice {
+  min: number
+  max: number
+  limitMin: number
+  limitMax: number
+}
+
 export interface IFilterBrandItem {
   code: number
   name: string
   eng_name: string
   count: number
-  tags: Array<string>
-}
-
-export interface IFilterColor {
-  code: TFilterKey[0]
-  name: string
-  isActive: boolean
-  list: Array<IFilterItem>
-  selectedList: Array<IFilterItem>
-}
-
-export interface IPriceRange {
-  min: number
-  max: number
-}
-
-export interface IFilterPrice {
-  code: TFilterKey[1]
-  name: string
-  isActive: boolean
-  priceRange: IPriceRange
-  selectedRange: IPriceRange
-}
-
-export interface IFilterDiscountBenefit {
-  code: TFilterKey[2]
-  name: string
-  isActive: boolean
-  discountList: Array<IFilterItem>
-  benefitList: Array<IFilterItem>
-  selectedList: Array<IFilterItem>
+  tags: string[]
 }
 
 export interface IFilterBrand {
-  code: TFilterKey[3]
+  all: IFilterBrandItem[]
+  top: IFilterBrandItem[]
+  new: IFilterBrandItem[]
+}
+
+export interface IFilterBarValue {
   name: string
-  isActive: boolean
-  all: Array<IFilterBrandItem>
-  top: Array<IFilterBrandItem>
-  new: Array<IFilterBrandItem>
-  selectedList: Array<IFilterBrandItem>
+  list: ISelectedFilter[]
 }
 
-export interface IFilters {
-  color: IFilterColor
+export interface IFilterBar {
+  color: IFilterBarValue
+  price: IFilterBarValue
+  discountBenefit: IFilterBarValue
+  brand: IFilterBarValue
+}
+
+export interface IFiltersRes {
+  color: IFilterItem[]
   price: IFilterPrice
-  discountBenefit: IFilterDiscountBenefit
-  brand: IFilterBrand
+  discount: IFilterItem[]
+  benefit: IFilterItem[]
+  brand: IFilterBrandItem[]
+  topBrand: IFilterBrandItem[]
+  newBrand: IFilterBrandItem[]
 }
-
-export type IFilterValue = IFilterColor | IFilterPrice | IFilterDiscountBenefit | IFilterBrand
 
 export interface IModalProductFilterProps {
   isOpen: boolean
   onOk: () => void
   onCancel: () => void
-  filterData: IFilters
+  // filterData: IFiltersRes
   tab: TFilterKey
+}
+
+export interface IDiscountBenefitContentProps {
+  discount: IFilterItem[]
+  benefit: IFilterItem[]
 }
 
 export type TBrandTabs = 'all' | 'top' | 'new'
@@ -82,4 +75,27 @@ export type TBrandTabs = 'all' | 'top' | 'new'
 export interface IBrandTab {
   type: TBrandTabs
   label: string
+}
+
+export interface IFetchFiltersRes {
+  ok: boolean
+  total: number
+  data: IFiltersRes
+}
+
+export const TSelectedFilterTypes = [
+  FILTER_CODE.color,
+  FILTER_CODE.price,
+  FILTER_CODE.discount,
+  FILTER_CODE.benefit,
+  FILTER_CODE.brand,
+  FILTER_CODE.topBrand,
+  FILTER_CODE.newBrand,
+] as const
+export type TSelectedFilterKey = (typeof TSelectedFilterTypes)[number]
+
+export interface ISelectedFilter {
+  type: TSelectedFilterKey
+  code: string | number
+  name: string
 }

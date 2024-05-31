@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { tabList } from '@/constants/filter'
+import { initialFilterBrand, TAB_LIST } from '@/constants/filter'
 import { IFilterBrand, TBrandTabs, IFilterBrandItem } from '@/types/filter'
 import { comma } from '@/utils'
 import SearchBrand from '@/components/products/filter/modalFilter/filterContents/SearchBrand'
 import Checkbox from '@/components/_common/checkbox/Checkbox'
 import styles from '@/components/products/filter/modalFilter/filterContents/BrandContent.module.scss'
 
-const BrandContent = ({ filterData }: { filterData: IFilterBrand }) => {
+const BrandContent = ({ filterData = initialFilterBrand }: { filterData: IFilterBrand }) => {
   const [activeTab, setActiveTab] = useState<TBrandTabs>('top')
 
   const handleTab = (tab: TBrandTabs) => {
@@ -16,7 +16,7 @@ const BrandContent = ({ filterData }: { filterData: IFilterBrand }) => {
   return (
     <div>
       <div className={styles.tabs}>
-        {tabList.map((tab) => (
+        {TAB_LIST.map((tab) => (
           <button
             key={tab.type}
             className={[styles.tab, tab.type === activeTab ? styles.activeTab : ''].join(' ')}

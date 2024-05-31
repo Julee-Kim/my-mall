@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { filters } from '@/constants/filter'
 import HeaderContainer from '@/components/header/HeaderContainer'
 import ProductList from '@/components/products/productList/ProductList'
 import Filter from '@/components/products/filter/Filter'
@@ -12,7 +11,7 @@ const Products = async ({ searchParams }: { searchParams: { category: string } }
   return (
     <div>
       <HeaderContainer activeId={activeId} />
-      <Filter filterData={filters} />
+      <Filter />
       <ProductList id={activeId} />
     </div>
   )
