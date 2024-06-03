@@ -11,7 +11,7 @@ import styles from './ProductList.module.scss'
 const PAGE_SIZE = 6
 
 const ProductList = ({ id }: { id: string }) => {
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['products'],
     initialPageParam: 1,
     queryFn: ({ pageParam }: { pageParam: number }) =>
@@ -44,7 +44,7 @@ const ProductList = ({ id }: { id: string }) => {
           )),
         )}
       </ul>
-      {hasNextPage && (
+      {(isLoading || hasNextPage) && (
         <Observer onEnter={loadMore} options={{ threshold: 0.25 }}>
           <SkeletonProductList />
         </Observer>
