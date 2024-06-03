@@ -38,9 +38,9 @@ export const ModalContainer = ({ isOpen, onCancel, useClose = false, children }:
 
   return createPortal(
     <ModalContext.Provider value={value}>
-      <div className={styles.modalContainer}>
+      <div className={[styles.modalContainer, isOpen ? styles.openContainer : ''].join(' ')}>
         <div className={styles.dimmed} onClick={onCancel} />
-        <div className={styles.modal}>{children}</div>
+        <div className={[styles.modal, isOpen ? styles.open : ''].join(' ')}>{children}</div>
       </div>
     </ModalContext.Provider>,
     document.body,
