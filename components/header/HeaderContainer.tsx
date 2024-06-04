@@ -10,7 +10,7 @@ import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
 import Lnb from '@/components/header/lnb/Lnb'
 import MenuBar from '@/components/header/menuBar/MenuBar'
-import SkeletonMenuBer from '@/components/header/skeletonMenuBer/SkeletonMenuBer'
+import SkeletonMenuBar from '@/components/header/SkeletonMenuBar/SkeletonMenuBar'
 
 const HeaderContainer = ({
   activeTopId,
@@ -90,7 +90,7 @@ const HeaderContainer = ({
           handleClick={setTopSubCategories}
         />
       ) : (
-        <SkeletonMenuBer />
+        <SkeletonMenuBar />
       )}
     </>
   )

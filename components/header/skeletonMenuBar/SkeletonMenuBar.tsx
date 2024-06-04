@@ -1,12 +1,12 @@
 import menuBarStyles from '@/components/tabs/Tabs.module.scss'
-import styles from '@/components/header/skeletonMenuBer/SkeletonMenuBer.module.scss'
+import styles from '@/components/header/SkeletonMenuBar/SkeletonMenuBar.module.scss'
 
-const SkeletonMenuBer = () => {
+const SkeletonMenuBar = () => {
   return (
     <div className={menuBarStyles.TabsWrap}>
       <ul>
-        {[...Array(4)].map((index: number) => (
-          <li key={index} className={menuBarStyles.tab}>
+        {Array(4).map((item: number) => (
+          <li key={item} className={menuBarStyles.tab}>
             <button className={menuBarStyles.tabBtn}>
               <span className={styles.skText}></span>
             </button>
@@ -17,4 +17,4 @@ const SkeletonMenuBer = () => {
   )
 }
 
-export default SkeletonMenuBer
+export default SkeletonMenuBar
