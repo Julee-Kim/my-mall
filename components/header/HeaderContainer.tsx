@@ -10,6 +10,7 @@ import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
 import Lnb from '@/components/header/lnb/Lnb'
 import MenuBar from '@/components/header/menuBar/MenuBar'
+import SkeletonMenuBer from '@/components/header/skeletonMenuBer/SkeletonMenuBer'
 
 const HeaderContainer = ({
   activeTopId,
@@ -82,11 +83,15 @@ const HeaderContainer = ({
       </Header>
 
       {/* TODO. tabs 상품 목록 페이지로 이동..? */}
-      <MenuBar
-        selectedId={selectedSubId}
-        menuList={subList[selectedTopId]}
-        handleClick={setTopSubCategories}
-      />
+      {subList[selectedTopId] ? (
+        <MenuBar
+          selectedId={selectedSubId}
+          menuList={subList[selectedTopId]}
+          handleClick={setTopSubCategories}
+        />
+      ) : (
+        <SkeletonMenuBer />
+      )}
     </>
   )
 }
