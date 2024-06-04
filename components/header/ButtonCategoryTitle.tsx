@@ -6,7 +6,7 @@ const ButtonCategoryTitle = ({ name, showSub }: { name: string; showSub: () => v
   return (
     <h1 style={{ textAlign: 'center' }}>
       <Button
-        icon={<IoIosArrowDown color={'#000'} size={15} style={{ marginLeft: '4px' }} />}
+        icon={name && <IoIosArrowDown color={'#000'} size={15} style={{ marginLeft: '4px' }} />}
         onClick={showSub}
       >
         {name}

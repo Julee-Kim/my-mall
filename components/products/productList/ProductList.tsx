@@ -10,12 +10,12 @@ import styles from './ProductList.module.scss'
 
 const PAGE_SIZE = 6
 
-const ProductList = ({ id }: { id: string }) => {
+const ProductList = ({ topId, subId }: { topId: string; subId: string }) => {
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['products'],
     initialPageParam: 1,
     queryFn: ({ pageParam }: { pageParam: number }) =>
-      fetchProducts({ page: pageParam, size: PAGE_SIZE, id }),
+      fetchProducts({ page: pageParam, size: PAGE_SIZE, topId, subId }),
     select: (data) => {
       return {
         pageParams: data.pageParams,

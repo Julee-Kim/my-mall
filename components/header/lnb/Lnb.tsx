@@ -1,35 +1,37 @@
-'use client'
-
-import { ICategory } from '@/types/product'
-import { menuList } from '@/constants/products'
+import { ISubCategoryListItem, ITopCategoryListItem } from '@/types/category'
 import CategoryList from '@/components/header/lnb/categoryList/CategoryList'
 import styles from './Lnb.module.scss'
 
 const Lnb = ({
   selectedTopId,
   selectedSubId,
+  topList,
   subList,
-  handleClick,
+  handleClickTop,
+  handleClickSub,
 }: {
   selectedTopId: string
   selectedSubId: string
-  subList: ICategory[]
-  handleClick: (category: ICategory) => void
+  topList: ITopCategoryListItem[]
+  subList: ISubCategoryListItem[]
+  handleClickTop: (category: ITopCategoryListItem) => void
+  handleClickSub: (category: ISubCategoryListItem) => void
 }) => {
   return (
     <div className={styles.snbContainer}>
       <div className={styles.snbInner}>
+        {/* TODO. handleClick 타입 에러 */}
         <CategoryList
-          categories={menuList}
+          categories={topList}
           activeId={selectedTopId}
           isTop={true}
-          handleClick={handleClick}
+          handleClick={handleClickTop}
         />
         <CategoryList
           categories={subList}
           activeId={selectedSubId}
           isTop={false}
-          handleClick={handleClick}
+          handleClick={handleClickSub}
         />
       </div>
     </div>

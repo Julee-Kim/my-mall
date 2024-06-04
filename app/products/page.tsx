@@ -5,14 +5,18 @@ import Filter from '@/components/products/filter/Filter'
 
 export const metadata: Metadata = { title: '상품 목록' } as const
 
-const Products = async ({ searchParams }: { searchParams: { category: string } }) => {
-  const { category: activeId } = searchParams
+const Products = async ({
+  searchParams,
+}: {
+  searchParams: { categoryTop: string; categorySub: string }
+}) => {
+  const { categoryTop, categorySub } = searchParams
 
   return (
     <div>
-      <HeaderContainer activeId={activeId} />
+      <HeaderContainer activeTopId={categoryTop} activeSubId={categorySub} />
       <Filter />
-      <ProductList id={activeId} />
+      <ProductList topId={categoryTop} subId={categorySub} />
     </div>
   )
 }

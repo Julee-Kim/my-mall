@@ -1,23 +1,3 @@
-export interface ICategory {
-  id: string
-  name: string
-  category?: ICategory[]
-}
-
-export interface ICategoryListProps {
-  categories: ICategory[]
-  activeId: string
-  isTop: boolean
-  handleClick: (category: ICategory) => void
-}
-
-export interface IGetInitDataReturnType {
-  categoryName: string
-  topId: string
-  subId: string
-  subList: ICategory[] | []
-}
-
 export interface IProduct {
   brand: string
   brand_eng: string
