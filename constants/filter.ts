@@ -7,23 +7,23 @@ import {
   TFilterKey,
 } from '@/types/filter'
 
-export const FILTER_NAME = {
-  color: '컬러',
-  price: '가격',
-  discountBenefit: '할인/혜택',
-  brand: '브랜드',
-} as const
+export enum FILTER_NAME {
+  color = '컬러',
+  price = '가격',
+  discountBenefit = '할인/혜택',
+  brand = '브랜드',
+}
 
-export const FILTER_CODE = {
-  color: 'color',
-  price: 'price',
-  discount: 'discount',
-  benefit: 'benefit',
-  discountBenefit: 'discountBenefit',
-  brand: 'brand',
-  topBrand: 'topBrand',
-  newBrand: 'newBrand',
-} as const
+export enum FILTER_CODE {
+  color = 'color',
+  price = 'price',
+  discount = 'discount',
+  benefit = 'benefit',
+  discountBenefit = 'discountBenefit',
+  brand = 'brand',
+  topBrand = 'topBrand',
+  newBrand = 'newBrand',
+}
 
 export const TAB_LIST: IBrandTab[] = [
   { type: 'all', label: '전체' },

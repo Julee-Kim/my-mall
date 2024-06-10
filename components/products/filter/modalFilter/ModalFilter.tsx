@@ -27,14 +27,14 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
   }, [tab])
 
   useEffect(() => {
-    if (isOpen) {
-      ;(async () => {
-        const { data } = await fetchFilters()
+    const fetchFilterData = async () => {
+      const { data } = await fetchFilters()
 
-        setFilterData(data)
-      })()
+      setFilterData(data)
     }
-  }, [isOpen])
+
+    fetchFilterData()
+  }, [])
 
   const setTabs = () => {
     /**
