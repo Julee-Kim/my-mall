@@ -1,6 +1,6 @@
 'use client'
 
-import { HTMLAttributes, ReactNode, useEffect, createContext, useContext } from 'react'
+import { HTMLAttributes, ReactNode, useEffect, useState, createContext, useContext } from 'react'
 import { createPortal } from 'react-dom'
 import ModalHeader from '@/components/_common/modal/ModalHeader'
 import styles from './Modal.module.scss'
@@ -9,6 +9,7 @@ interface IModalProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean
   onCancel: () => void
   useClose?: boolean
+  useAni?: boolean // 애니메이션 사용 여부
   children: ReactNode
 }
 
@@ -20,16 +21,31 @@ const ModalContext = createContext({
 export const useModalContext = () => useContext(ModalContext)
 
 // TODO. onCancel ts 에러 해결
-export const ModalContainer = ({ isOpen, onCancel, useClose = false, children }: IModalProps) => {
+export const ModalContainer = ({
+  isOpen,
+  onCancel,
+  useClose = false,
+  useAni = true,
+  children,
+}: IModalProps) => {
+  const [shouldRender, setShouldRender] = useState(isOpen)
+
   useEffect(() => {
     if (isOpen) {
+      setShouldRender(true)
       document.body.classList.add('noScroll')
     } else {
       document.body.classList.remove('noScroll')
+      if (!useAni) {
+        setShouldRender(false)
+      }
     }
-  }, [isOpen])
+  }, [isOpen, useAni])
 
-  if (!isOpen) return null
+  const onAnimationEnd = () => {
+    if (!isOpen) setShouldRender(false)
+  }
+  if (!shouldRender) return null
 
   const value = {
     onCancel,
@@ -38,9 +54,22 @@ export const ModalContainer = ({ isOpen, onCancel, useClose = false, children }:
 
   return createPortal(
     <ModalContext.Provider value={value}>
-      <div className={[styles.modalContainer, isOpen ? styles.openContainer : ''].join(' ')}>
+      <div
+        className={[
+          styles.modalContainer,
+          isOpen ? (useAni ? styles.openContainer : '') : useAni ? styles.closeContainer : '',
+        ].join(' ')}
+        onAnimationEnd={useAni ? onAnimationEnd : undefined}
+      >
         <div className={styles.dimmed} onClick={onCancel} />
-        <div className={[styles.modal, isOpen ? styles.open : ''].join(' ')}>{children}</div>
+        <div
+          className={[
+            styles.modal,
+            isOpen ? (useAni ? styles.open : '') : useAni ? styles.close : '',
+          ].join(' ')}
+        >
+          {children}
+        </div>
       </div>
     </ModalContext.Provider>,
     document.body,
