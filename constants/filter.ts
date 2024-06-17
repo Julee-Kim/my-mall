@@ -1,10 +1,10 @@
 import {
   IBrandTab,
   IFilterBar,
+  IFilterBarListItem,
   IFilterBrand,
+  IFilterData,
   IFilterPrice,
-  IFiltersRes,
-  TFilterKey,
 } from '@/types/filter'
 
 export enum FILTER_NAME {
@@ -25,17 +25,17 @@ export enum FILTER_CODE {
   newBrand = 'newBrand',
 }
 
-export const TAB_LIST: IBrandTab[] = [
+export const BRAND_TAB_LIST: IBrandTab[] = [
   { type: 'all', label: '전체' },
   { type: 'top', label: '인기' },
   { type: 'new', label: '신규' },
 ] as const
 
-export const MODAL_FILTER_TAB_LIST: { code: TFilterKey; name: string }[] = [
-  { code: FILTER_CODE.color, name: FILTER_NAME.color },
-  { code: FILTER_CODE.price, name: FILTER_NAME.price },
-  { code: FILTER_CODE.discountBenefit, name: FILTER_NAME.discountBenefit },
-  { code: FILTER_CODE.brand, name: FILTER_NAME.brand },
+export const FILTER_BAR_LIST: IFilterBarListItem[] = [
+  { code: FILTER_CODE.color, name: FILTER_NAME.color, isActive: false },
+  { code: FILTER_CODE.price, name: FILTER_NAME.price, isActive: false },
+  { code: FILTER_CODE.discountBenefit, name: FILTER_NAME.discountBenefit, isActive: false },
+  { code: FILTER_CODE.brand, name: FILTER_NAME.brand, isActive: false },
 ] as const
 
 export const initialFilterBar: IFilterBar = {
@@ -70,7 +70,7 @@ export const initialFilterBrand: IFilterBrand = {
   new: [],
 }
 
-export const initialFilterData: IFiltersRes = {
+export const initialFilterData: IFilterData = {
   color: [],
   price: { ...initialFilterPrice },
   discount: [],

@@ -23,11 +23,3 @@ export interface IFetchProductsRes {
   total: number
   list: IProduct[]
 }
-
-type TTabId<T> = T extends infer R ? R : string
-
-export interface ITab<T> {
-  id: TTabId<T>
-  name: string
-  isDot?: boolean
-}

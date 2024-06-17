@@ -1,5 +1,5 @@
-import { ICategory, ISubCategoryListItem } from '@/types/category'
-import styles from '@/components/tabs/Tabs.module.scss'
+import { ISubCategoryListItem } from '@/types/category'
+import styles from '@/components/products/filter/modalFilter/tabs/Tabs.module.scss'
 
 const MenuBar = ({
   selectedId,

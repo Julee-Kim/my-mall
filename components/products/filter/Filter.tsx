@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { TFilterKey } from '@/types/filter'
-import { FILTER_CODE } from '@/constants/filter'
+import { IFilterBar, TFilterKey } from '@/types/filter'
+import { FILTER_CODE, initialFilterBar } from '@/constants/filter'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
 import FilterBar from '@/components/products/filter/FilterBar'
 import ModalFilter from '@/components/products/filter/modalFilter/ModalFilter'
@@ -11,6 +11,7 @@ import styles from './Filter.module.scss'
 const Filter = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTab, setSelectedTap] = useState<TFilterKey>(FILTER_CODE.color)
+  const [filterBar, setFilterBar] = useState<IFilterBar>({ ...initialFilterBar })
 
   const handleRefresh = () => {
     console.log('handleRefresh')
@@ -45,7 +46,7 @@ const Filter = () => {
         <div className={styles.btnRefreshWrap}>
           <ButtonRefresh onClick={handleRefresh} />
         </div>
-        <FilterBar onClickBtn={openModalFilter} />
+        <FilterBar data={filterBar} onClickBtn={openModalFilter} />
       </div>
       <ModalFilter isOpen={isOpen} onOk={handleOk} onCancel={handleCancel} tab={selectedTab} />
     </>
