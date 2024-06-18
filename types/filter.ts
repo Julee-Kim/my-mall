@@ -82,6 +82,11 @@ export interface IFetchFiltersRes {
   data: IFiltersRes
 }
 
+export interface IFetchFilterCountRes {
+  ok: boolean
+  total: number
+}
+
 export interface IFilterDataItem extends IFilterItem {
   isActive: boolean
 }

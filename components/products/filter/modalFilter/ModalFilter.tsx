@@ -14,7 +14,7 @@ import {
   TSelectedFilterItemKey,
 } from '@/types/filter'
 import { FILTER_BAR_LIST, FILTER_CODE, initialFilterData } from '@/constants/filter'
-import { fetchFilters } from '@/services/filters'
+import { fetchFilters, fetchFilterCount } from '@/services/filters'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/products/filter/modalFilter/tabs/Tabs'
 import ColorContent from '@/components/products/filter/modalFilter/filterContents/ColorContent'
@@ -24,12 +24,12 @@ import BrandContent from '@/components/products/filter/modalFilter/filterContent
 import SelectedFilterList from '@/components/products/filter/modalFilter/SelectedFilterList'
 import FilterBottomBtns from '@/components/products/filter/modalFilter/FilterBottomBtns'
 import styles from './ModalFilter.module.scss'
-import { comma } from '@/utils'
 
 const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) => {
   const [activeTab, setActiveTab] = useState<TFilterKey>(FILTER_CODE.color)
   const [filterData, setFilterData] = useState<IFilterData>(initialFilterData)
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
+  const [totalCount, setTotalCount] = useState(0)
 
   useEffect(() => {
     setActiveTab(tab)
@@ -37,29 +37,47 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
 
   useEffect(() => {
     const fetchFilterData = async () => {
-      const { data } = await fetchFilters()
+      try {
+        const { data, total } = await fetchFilters()
 
-      const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
-      const price = { ...filterData.price, ...data.price }
-      const discount = addPropertiesToListItem(FILTER_CODE.discount, data.discount)
-      const benefit = addPropertiesToListItem(FILTER_CODE.benefit, data.benefit)
-      const brand = addPropertiesToListItem(FILTER_CODE.brand, data.brand)
-      const topBrand = addPropertiesToListItem(FILTER_CODE.topBrand, data.topBrand)
-      const newBrand = addPropertiesToListItem(FILTER_CODE.newBrand, data.newBrand)
+        const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
+        const price = { ...filterData.price, ...data.price }
+        const discount = addPropertiesToListItem(FILTER_CODE.discount, data.discount)
+        const benefit = addPropertiesToListItem(FILTER_CODE.benefit, data.benefit)
+        const brand = addPropertiesToListItem(FILTER_CODE.brand, data.brand)
+        const topBrand = addPropertiesToListItem(FILTER_CODE.topBrand, data.topBrand)
+        const newBrand = addPropertiesToListItem(FILTER_CODE.newBrand, data.newBrand)
 
-      setFilterData({
-        color,
-        price,
-        discount,
-        benefit,
-        brand,
-        topBrand,
-        newBrand,
-      })
+        setFilterData({
+          color,
+          price,
+          discount,
+          benefit,
+          brand,
+          topBrand,
+          newBrand,
+        })
+        setTotalCount(total)
+      } catch (e) {
+        console.log(e)
+      }
     }
 
-    fetchFilterData()
-  }, [])
+    if (isOpen) fetchFilterData()
+  }, [isOpen])
+
+  useEffect(() => {
+    const fetchFilterCountData = async () => {
+      try {
+        const { total } = await fetchFilterCount({ test: 1 })
+        setTotalCount(total)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    if (isOpen) fetchFilterCountData()
+  }, [selectedFilterList])
 
   const addPropertiesToListItem = <T extends IFilterItem | IFilterBrandItem>(
     type: TSelectedFilterItemKey,
@@ -228,7 +246,7 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
           <Tabs activeId={activeTab} tabList={setTabs()} onClickTab={handleClickTab} />
           <div className={styles.filterContent}>{CurrentContent(activeTab)}</div>
           <SelectedFilterList list={selectedFilterList} onDelete={handleDeleteSelectedItem} />
-          <FilterBottomBtns />
+          <FilterBottomBtns total={totalCount} />
         </Modal.Content>
       </Modal>
     </div>
