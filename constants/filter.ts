@@ -62,6 +62,7 @@ export const initialFilterPrice: IFilterPrice = {
   max: 0,
   limitMin: 0,
   limitMax: 0,
+  count: 0,
 }
 
 export const initialFilterBrand: IFilterBrand = {

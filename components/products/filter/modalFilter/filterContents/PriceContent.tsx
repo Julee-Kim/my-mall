@@ -1,41 +1,45 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import { IFilterPrice } from '@/types/filter'
+import { initialFilterPrice } from '@/constants/filter'
 import styles from '@/components/products/filter/modalFilter/filterContents/PriceContent.module.scss'
 
-const MIN_PRICE = 1000
-const MAX_PRICE = 400000
 const GAP_PRICE = 1000
 
-const PriceContent = ({ filterData }: { filterData: IFilterPrice }) => {
-  const [minValue, setMinValue] = useState(MIN_PRICE)
-  const [maxValue, setMaxValue] = useState(MAX_PRICE)
-  const [minRange, setMinRange] = useState(MIN_PRICE)
-  const [maxRange, setMaxRange] = useState(MAX_PRICE)
+const PriceContent = ({
+  filterData = initialFilterPrice,
+  onChange,
+}: {
+  filterData: IFilterPrice
+  onChange: (min: number, max: number) => void
+}) => {
+  const [minValue, setMinValue] = useState(0)
+  const [maxValue, setMaxValue] = useState(0)
+  const [minRange, setMinRange] = useState(0)
+  const [maxRange, setMaxRange] = useState(0)
   const [minRangePercent, setMinRangePercent] = useState(0)
   const [maxRangePercent, setMaxRangePercent] = useState(0)
 
-  const blueMinInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setMinRange(parseInt(e.target.value))
-    checkMinMax()
+  useEffect(() => {
+    setMinMaxValue(filterData.min, filterData.max)
+  }, [])
+
+  const setMinMaxValue = (min: number, max: number) => {
+    setMinValue(min)
+    setMaxValue(max)
+    setMinRange(min)
+    setMaxRange(max)
   }
 
-  const blueMaxInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setMaxRange(parseInt(e.target.value))
-    checkMinMax()
-  }
-
-  const changeMinRange = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeRange = (isMin: boolean, isRange: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value)
-    setMinValue(value)
-    setMinRange(value)
-    checkMinMax()
-  }
-
-  const changeMaxRange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value)
-    setMaxValue(value)
-    setMaxRange(value)
+    if (isMin) {
+      if (isRange) setMinValue(value)
+      setMinRange(value)
+    } else {
+      if (isRange) setMaxValue(value)
+      setMaxRange(value)
+    }
     checkMinMax()
   }
 
@@ -44,9 +48,18 @@ const PriceContent = ({ filterData }: { filterData: IFilterPrice }) => {
       setMaxRange(minRange + GAP_PRICE)
       setMinRange(maxRange - GAP_PRICE)
     } else {
-      setMinRangePercent((minRange / MAX_PRICE) * 100)
-      setMaxRangePercent(100 - (maxRange / MAX_PRICE) * 100)
+      setMinRangePercent((minRange / filterData.limitMax) * 100)
+      setMaxRangePercent(100 - (maxRange / filterData.limitMax) * 100)
     }
+  }
+
+  const blurInput = (e: ChangeEvent<HTMLInputElement>, isMin: boolean) => {
+    changeRange(isMin, false)(e)
+    onChange(minValue, maxValue)
+  }
+
+  const handleMouseUp = () => {
+    onChange(minValue, maxValue)
   }
 
   return (
@@ -59,7 +72,7 @@ const PriceContent = ({ filterData }: { filterData: IFilterPrice }) => {
           className={styles.input}
           value={minValue}
           onChange={(e) => setMinValue(parseInt(e.target.value))}
-          onBlur={(e) => blueMinInput(e)}
+          onBlur={(e) => blurInput(e, true)}
         />
         <span className={styles.between}>~</span>
         <input
@@ -67,10 +80,10 @@ const PriceContent = ({ filterData }: { filterData: IFilterPrice }) => {
           className={styles.input}
           value={maxValue}
           onChange={(e) => setMaxValue(parseInt(e.target.value))}
-          onBlur={(e) => blueMaxInput(e)}
+          onBlur={(e) => blurInput(e, false)}
         />
         <span className={styles.iconPlusWrap}>
-          {maxValue === MAX_PRICE && (
+          {maxValue === filterData.limitMax && (
             <GoPlus size={15} color={'#333'} className={styles.iconPlus} />
           )}
         </span>
@@ -88,19 +101,23 @@ const PriceContent = ({ filterData }: { filterData: IFilterPrice }) => {
             type="range"
             className={styles.input}
             value={minRange}
-            min={MIN_PRICE}
-            max={MAX_PRICE - GAP_PRICE}
+            min={filterData.limitMin}
+            max={filterData.limitMax - GAP_PRICE}
             step={GAP_PRICE}
-            onChange={(e) => changeMinRange(e)}
+            onChange={(e) => changeRange(true, true)(e)}
+            onMouseUp={handleMouseUp}
+            onTouchEnd={handleMouseUp}
           />
           <input
             type="range"
             className={styles.input}
             value={maxRange}
-            min={MIN_PRICE + GAP_PRICE}
-            max={MAX_PRICE}
+            min={filterData.limitMin + GAP_PRICE}
+            max={filterData.limitMax}
             step={GAP_PRICE}
-            onChange={(e) => changeMaxRange(e)}
+            onChange={(e) => changeRange(false, true)(e)}
+            onMouseUp={handleMouseUp}
+            onTouchEnd={handleMouseUp}
           />
         </div>
       </div>

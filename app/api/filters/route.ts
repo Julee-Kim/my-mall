@@ -55,8 +55,11 @@ export async function GET(request: NextRequest) {
       },
     ],
     price: {
+      min: 10000,
+      max: 1500000,
       limitMin: 10000,
-      limitMax: 150000,
+      limitMax: 1500000,
+      count: 8,
     },
     discount: [
       {

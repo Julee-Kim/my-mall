@@ -24,6 +24,7 @@ import BrandContent from '@/components/products/filter/modalFilter/filterContent
 import SelectedFilterList from '@/components/products/filter/modalFilter/SelectedFilterList'
 import FilterBottomBtns from '@/components/products/filter/modalFilter/FilterBottomBtns'
 import styles from './ModalFilter.module.scss'
+import { comma } from '@/utils'
 
 const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) => {
   const [activeTab, setActiveTab] = useState<TFilterKey>(FILTER_CODE.color)
@@ -111,6 +112,51 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
     setSelectedFilterList(newSelectedList)
   }
 
+  const handlePriceFilter = (minValue: number, maxValue: number) => {
+    setFilterData({
+      ...filterData,
+      [FILTER_CODE.price]: {
+        ...filterData[FILTER_CODE.price],
+        min: minValue,
+        max: maxValue,
+      },
+    })
+
+    // 입력한 min, max 를 limit 금액과 비교
+    const min = minValue > filterData.price.limitMin ? minValue : ''
+    const max = maxValue < filterData.price.limitMax ? maxValue : ''
+
+    // selectedFilterList 에 'type: price' 인 아이템이 있는지 확인
+    const priceItemIndex = selectedFilterList.findIndex((item) => item.type === FILTER_CODE.price)
+
+    if (priceItemIndex !== -1) {
+      // 있는 경우
+      // min, max 금액이 모두 없으면 selectedFilterList에서 price 아이템 삭제
+      if (!min && !max) {
+        const newSelectedList = selectedFilterList.filter(
+          (filterItem: ISelectedFilterItem) => filterItem.type !== FILTER_CODE.price,
+        )
+        setSelectedFilterList(newSelectedList)
+        return
+      }
+
+      // min, max 있으면 price 아이템의 name 변경
+      const newList = [...selectedFilterList]
+      newList[priceItemIndex].name = `${min}~${max}`
+      setSelectedFilterList(newList)
+    } else {
+      // 없으면 아이템 추가
+      setSelectedFilterList([
+        ...selectedFilterList,
+        {
+          type: FILTER_CODE.price,
+          code: FILTER_CODE.price,
+          name: `${min}~${max}`,
+        },
+      ])
+    }
+  }
+
   const handleDeleteSelectedItem = (item: ISelectedFilterItem) => {
     if (item.type !== FILTER_CODE.price) {
       handleDeleteFilter(item.type, item.code)
@@ -151,7 +197,7 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
           />
         )
       case FILTER_CODE.price:
-        return <PriceContent filterData={filterData.price} />
+        return <PriceContent filterData={filterData.price} onChange={handlePriceFilter} />
       case FILTER_CODE.discountBenefit:
         return (
           <DiscountBenefitContent discount={filterData.discount} benefit={filterData.benefit} />

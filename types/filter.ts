@@ -17,6 +17,7 @@ export interface IFilterPrice {
   max: number
   limitMin: number
   limitMax: number
+  count: number
 }
 
 export interface IFilterBrandItem {
