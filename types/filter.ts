@@ -152,10 +152,6 @@ export interface IFilterBarListItem {
   isActive: boolean
 }
 
-type TTabId<T> = T extends infer R ? R : string
-
-export interface ITab<T> {
-  id: TTabId<T>
-  name: string
-  isActive?: boolean
+export interface IQueryParams {
+  [key: string]: (number | string)[]
 }
