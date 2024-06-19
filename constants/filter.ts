@@ -5,6 +5,9 @@ import {
   IFilterBrand,
   IFilterData,
   IFilterPrice,
+  TFilterBarTypeToMapping,
+  TFilterKey,
+  TSelectedFilterKey,
 } from '@/types/filter'
 
 export enum FILTER_NAME {
@@ -41,19 +44,19 @@ export const FILTER_BAR_LIST: IFilterBarListItem[] = [
 export const initialFilterBar: IFilterBar = {
   color: {
     name: FILTER_NAME.color,
-    list: [],
+    isActive: false,
   },
   price: {
     name: FILTER_NAME.price,
-    list: [],
+    isActive: false,
   },
   discountBenefit: {
     name: FILTER_NAME.discountBenefit,
-    list: [],
+    isActive: false,
   },
   brand: {
     name: FILTER_NAME.brand,
-    list: [],
+    isActive: false,
   },
 }
 
@@ -72,11 +75,35 @@ export const initialFilterBrand: IFilterBrand = {
 }
 
 export const initialFilterData: IFilterData = {
-  color: [],
-  price: { ...initialFilterPrice },
-  discount: [],
-  benefit: [],
-  brand: [],
-  topBrand: [],
-  newBrand: [],
+  [FILTER_CODE.color]: [],
+  [FILTER_CODE.price]: { ...initialFilterPrice },
+  [FILTER_CODE.discount]: [],
+  [FILTER_CODE.benefit]: [],
+  [FILTER_CODE.brand]: [],
+  [FILTER_CODE.topBrand]: [],
+  [FILTER_CODE.newBrand]: [],
+}
+
+export const tabTypesToCheck = {
+  [FILTER_CODE.color]: [FILTER_CODE.color],
+  [FILTER_CODE.price]: [FILTER_CODE.price],
+  [FILTER_CODE.discountBenefit]: [FILTER_CODE.discount, FILTER_CODE.benefit],
+  [FILTER_CODE.brand]: [FILTER_CODE.brand, FILTER_CODE.topBrand, FILTER_CODE.newBrand],
+}
+
+export const filterBarTypeToMapping: Record<TSelectedFilterKey, TFilterKey> = {
+  [FILTER_CODE.color]: FILTER_CODE.color,
+  [FILTER_CODE.price]: FILTER_CODE.price,
+  [FILTER_CODE.discount]: FILTER_CODE.discountBenefit,
+  [FILTER_CODE.benefit]: FILTER_CODE.discountBenefit,
+  [FILTER_CODE.brand]: FILTER_CODE.brand,
+  [FILTER_CODE.topBrand]: FILTER_CODE.brand,
+  [FILTER_CODE.newBrand]: FILTER_CODE.brand,
+} as const
+
+export const initialFilterTempForOrder: TFilterBarTypeToMapping = {
+  [FILTER_CODE.color]: [],
+  [FILTER_CODE.price]: [],
+  [FILTER_CODE.discountBenefit]: [],
+  [FILTER_CODE.brand]: [],
 }

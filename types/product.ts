@@ -1,3 +1,17 @@
+export interface IProductListParams {
+  page: number | string
+  size: number | string
+  categoryTop: string
+  categorySub?: string
+  color?: string
+  price?: string
+  discount?: string
+  benefit?: string
+  brand?: string
+  topBrand?: string
+  newBrand?: string
+}
+
 export interface IProduct {
   brand: string
   brand_eng: string

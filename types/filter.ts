@@ -36,15 +36,10 @@ export interface IFilterBrand {
 
 export interface IFilterBarValue {
   name: string
-  list: ISelectedFilterItem[]
+  isActive: boolean
 }
 
-export interface IFilterBar {
-  color: IFilterBarValue
-  price: IFilterBarValue
-  discountBenefit: IFilterBarValue
-  brand: IFilterBarValue
-}
+export type IFilterBar = Record<TFilterKey, IFilterBarValue>
 
 export interface IFiltersRes {
   [FILTER_CODE.color]: IFilterItem[]
@@ -58,9 +53,8 @@ export interface IFiltersRes {
 
 export interface IModalProductFilterProps {
   isOpen: boolean
-  onOk: () => void
+  onOk: (selectedFilterList: ISelectedFilterItem[]) => void
   onCancel: () => void
-  // filterData: IFiltersRes
   tab: TFilterKey
 }
 
@@ -152,6 +146,4 @@ export interface IFilterBarListItem {
   isActive: boolean
 }
 
-export interface IQueryParams {
-  [key: string]: (number | string)[]
-}
+export type TFilterBarTypeToMapping = Record<TFilterKey, ISelectedFilterItem[]>

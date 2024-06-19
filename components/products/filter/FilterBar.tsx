@@ -1,6 +1,6 @@
 import React from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
-import { IFilterBar, IFilterBarValue, TFilterKey } from '@/types/filter'
+import { IFilterBar, TFilterKey } from '@/types/filter'
 import FilterBtn from '@/components/products/filter/filterBtn/FilterBtn'
 import styles from '@/components/products/filter/Filter.module.scss'
 
@@ -11,21 +11,6 @@ const FilterBar = ({
   data: IFilterBar
   onClickBtn: (tabCode: TFilterKey) => void
 }) => {
-  const btnText = (value: IFilterBarValue) => {
-    const { list, name } = value
-
-    if (list.length) {
-      let btnText = list[0]?.name
-
-      if (list.length > 1) {
-        btnText += ` 외${list.length - 1}`
-      }
-      return btnText
-    } else {
-      return name
-    }
-  }
-
   return (
     <ul className={styles.filter}>
       {Array.from(Object.entries(data)).map(([key, value]) => {
@@ -34,9 +19,9 @@ const FilterBar = ({
         return (
           <li key={key} className={styles.filterItem}>
             <FilterBtn
-              isActive={value.list.length > 0}
+              isActive={value.isActive}
               onClick={() => onClickBtn(filterKey)}
-              btnText={btnText(value)}
+              btnText={value.name}
               icon={
                 <IoIosArrowDown
                   color={'rgb(158, 158, 158)'}

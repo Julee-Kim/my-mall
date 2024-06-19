@@ -1,35 +1,14 @@
 'use client'
 
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { IProduct } from '@/types/product'
-import { fetchProducts } from '@/services/products'
+import useQueryProductList from '@/hooks/queries/useProductList'
 import Product from '@/components/products/productList/product/Product'
 import Observer from '@/components/_common/observer/Observer'
 import SkeletonProductList from '@/components/products/skeletonProductList/SkeletonProductList'
 import styles from './ProductList.module.scss'
 
-const PAGE_SIZE = 6
-
-const ProductList = ({ topId, subId }: { topId: string; subId: string }) => {
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['products'],
-    initialPageParam: 1,
-    queryFn: ({ pageParam }: { pageParam: number }) =>
-      fetchProducts({ page: pageParam, size: PAGE_SIZE, topId, subId }),
-    select: (data) => {
-      return {
-        pageParams: data.pageParams,
-        pages: data.pages,
-        currentPage: data.pageParams.length,
-      }
-    },
-    getNextPageParam: (lastPage) => {
-      if (lastPage) {
-        const { page, size, total } = lastPage
-        return page * size < total ? page + 1 : undefined
-      }
-    },
-  })
+const ProductList = () => {
+  const { data, fetchNextPage, isLoading, hasNextPage } = useQueryProductList()
 
   const loadMore = async () => {
     await fetchNextPage()
