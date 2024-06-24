@@ -14,9 +14,7 @@ const ColorContent = ({ filterData, onAdd, onDelete }: IColorContentProps) => {
             checked={color.isActive}
             isShowIcon={false}
             onChange={(e) => {
-              e.target.checked
-                ? onAdd(FILTER_CODE.color, color)
-                : onDelete(FILTER_CODE.color, color.code)
+              e.target.checked ? onAdd(color.type, color) : onDelete(color.type, color.code)
             }}
           >
             <div className={styles.colorWrap}>

@@ -20,7 +20,7 @@ const Checkbox = ({
     <label className={styles.checkbox}>
       <input
         type="checkbox"
-        defaultChecked={checked}
+        checked={checked}
         disabled={disabled}
         onChange={onChange}
         className={styles.checkboxInput}

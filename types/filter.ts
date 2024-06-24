@@ -58,9 +58,9 @@ export interface IModalProductFilterProps {
   tab: TFilterKey
 }
 
-export interface IDiscountBenefitContentProps {
-  discount: IFilterItem[]
-  benefit: IFilterItem[]
+export interface IDiscountBenefitContentProps extends IFilterContentProps {
+  discount: IFilterDataItem[]
+  benefit: IFilterDataItem[]
 }
 
 export type TBrandTabs = 'all' | 'top' | 'new'
@@ -82,10 +82,12 @@ export interface IFetchFilterCountRes {
 }
 
 export interface IFilterDataItem extends IFilterItem {
+  type: TSelectedFilterItemKey
   isActive: boolean
 }
 
 export interface IFilterDataBrandItem extends IFilterBrandItem {
+  type: TSelectedFilterItemKey
   isActive: boolean
 }
 
@@ -135,6 +137,11 @@ export interface IColorContentProps extends IFilterContentProps {
   filterData: IFilterDataItem[]
 }
 
+export interface IDiscountBenefitContentListProps extends IFilterContentProps {
+  title: string
+  filterData: IFilterDataItem[]
+}
+
 export interface ISelectedFilterListProps {
   list: ISelectedFilterItem[]
   onDelete: (item: ISelectedFilterItem) => void
@@ -147,3 +154,8 @@ export interface IFilterBarListItem {
 }
 
 export type TFilterBarTypeToMapping = Record<TFilterKey, ISelectedFilterItem[]>
+
+export type TAddPropertiesToListItem<T> = (T & {
+  isActive: boolean
+  type: TSelectedFilterItemKey
+})[]

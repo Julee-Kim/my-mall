@@ -8,6 +8,7 @@ import {
   IFilterItem,
   IModalProductFilterProps,
   ISelectedFilterItem,
+  TAddPropertiesToListItem,
   TArgFilterDataItem,
   TFilterItemCode,
   TFilterKey,
@@ -45,13 +46,19 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
       try {
         const { data, total } = await fetchFilters()
 
-        const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
+        const color = addPropertiesToListItem<IFilterItem>(FILTER_CODE.color, data.color)
         const price = { ...filterData.price, ...data.price }
-        const discount = addPropertiesToListItem(FILTER_CODE.discount, data.discount)
-        const benefit = addPropertiesToListItem(FILTER_CODE.benefit, data.benefit)
-        const brand = addPropertiesToListItem(FILTER_CODE.brand, data.brand)
-        const topBrand = addPropertiesToListItem(FILTER_CODE.topBrand, data.topBrand)
-        const newBrand = addPropertiesToListItem(FILTER_CODE.newBrand, data.newBrand)
+        const discount = addPropertiesToListItem<IFilterItem>(FILTER_CODE.discount, data.discount)
+        const benefit = addPropertiesToListItem<IFilterItem>(FILTER_CODE.benefit, data.benefit)
+        const brand = addPropertiesToListItem<IFilterBrandItem>(FILTER_CODE.brand, data.brand)
+        const topBrand = addPropertiesToListItem<IFilterBrandItem>(
+          FILTER_CODE.topBrand,
+          data.topBrand,
+        )
+        const newBrand = addPropertiesToListItem<IFilterBrandItem>(
+          FILTER_CODE.newBrand,
+          data.newBrand,
+        )
 
         setFilterData({
           color,
@@ -87,8 +94,8 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
   const addPropertiesToListItem = <T extends IFilterItem | IFilterBrandItem>(
     type: TSelectedFilterItemKey,
     list: T[],
-  ): (T & { isActive: boolean })[] => {
-    const newList: (T & { isActive: boolean; type: TSelectedFilterItemKey })[] = []
+  ): TAddPropertiesToListItem<T> => {
+    const newList: TAddPropertiesToListItem<T> = []
 
     for (const item of list) {
       newList.push({ ...item, isActive: false, type })
@@ -119,16 +126,20 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
   }
 
   const handleDeleteFilter = (type: TSelectedFilterItemKey, targetCode: TFilterItemCode) => {
+    // 필터 데이터에서 해당 아이템 삭제
     const newFilterList = filterData[type].map((filterItem) => {
-      if (filterItem.code === targetCode) filterItem.isActive = false
-      return filterItem
+      if (filterItem.code === targetCode) {
+        return { ...filterItem, isActive: false }
+      } else {
+        return filterItem
+      }
     })
-
     setFilterData({
       ...filterData,
       [type]: newFilterList,
     })
 
+    // 선택한 필터 목록에서 해당 아이템 삭제
     const newSelectedList = selectedFilterList.filter(
       (filterItem: ISelectedFilterItem) => filterItem.code !== targetCode,
     )
@@ -216,7 +227,12 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
         return <PriceContent filterData={filterData.price} onChange={handlePriceFilter} />
       case FILTER_CODE.discountBenefit:
         return (
-          <DiscountBenefitContent discount={filterData.discount} benefit={filterData.benefit} />
+          <DiscountBenefitContent
+            discount={filterData.discount}
+            benefit={filterData.benefit}
+            onAdd={handleAddFilter}
+            onDelete={handleDeleteFilter}
+          />
         )
       case FILTER_CODE.brand:
         return (
