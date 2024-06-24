@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { IMenuBarList, ISubCategoryListItem, ITopCategoryListItem } from '@/types/category'
+import {
+  ICategoriesData,
+  IMenuBarList,
+  ISubCategoryListItem,
+  ITopCategoryListItem,
+} from '@/types/category'
 import { divideToTobSub, fetchCategories } from '@/services/header'
 import Header from '@/components/header/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
@@ -10,14 +15,14 @@ import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
 import ButtonCart from '@/components/header/ButtonCart'
 import Lnb from '@/components/header/lnb/Lnb'
 import MenuBar from '@/components/header/menuBar/MenuBar'
-import SkeletonMenuBar from '@/components/header/SkeletonMenuBar/SkeletonMenuBar'
+import SkeletonMenuBar from '@/components/header/skeletonMenuBar/SkeletonMenuBar'
 
 const HeaderContainer = ({
   activeTopId,
   activeSubId,
 }: {
   activeTopId: string
-  activeSubId: string
+  activeSubId?: string
 }) => {
   const router = useRouter()
   const [categoryName, setCategoryName] = useState<string>('')
@@ -47,20 +52,26 @@ const HeaderContainer = ({
     toggleLnb()
   }
 
+  const setFetchData = (data: ICategoriesData[]) => {
+    const { name, topId, subId, topList, subList } = divideToTobSub(
+      activeTopId,
+      activeSubId ? activeSubId : '',
+      data,
+    )
+    setCategoryName(name)
+    setSelectedTopId(topId)
+    setSelectedSubId(subId)
+    setTopList(topList)
+    setSubList(subList)
+  }
+
   useEffect(() => {
-    ;(async () => {
+    const fetchCategoriesData = async () => {
       const { data } = await fetchCategories()
-      const { name, topId, subId, topList, subList } = divideToTobSub(
-        activeTopId,
-        activeSubId,
-        data,
-      )
-      setCategoryName(name)
-      setSelectedTopId(topId)
-      setSelectedSubId(subId)
-      setTopList(topList)
-      setSubList(subList)
-    })()
+      setFetchData(data)
+    }
+
+    fetchCategoriesData()
   }, [activeTopId, activeSubId])
 
   return (
@@ -82,7 +93,6 @@ const HeaderContainer = ({
         )}
       </Header>
 
-      {/* TODO. tabs 상품 목록 페이지로 이동..? */}
       {subList[selectedTopId] ? (
         <MenuBar
           selectedId={selectedSubId}

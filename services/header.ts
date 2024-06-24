@@ -27,7 +27,7 @@ export const divideToTobSub = (
 
     let subArr = []
     for (const subItem of topItem.category) {
-      if (activeSubId === subItem.id) {
+      if (activeSubId && activeSubId === subItem.id) {
         topId = topItem.id
         subId = subItem.id
         name = subItem.name
