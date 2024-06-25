@@ -13,8 +13,6 @@ export interface IFilterItem {
 }
 
 export interface IFilterPrice {
-  min: number
-  max: number
   limitMin: number
   limitMax: number
   count: number
@@ -53,7 +51,7 @@ export interface IFiltersRes {
 
 export interface IModalProductFilterProps {
   isOpen: boolean
-  onOk: (selectedFilterList: ISelectedFilterItem[]) => void
+  onOk: (selectedFilterList: ISelectedFilterItem[], limitPrice: ILimitPrice) => void
   onCancel: () => void
   tab: TFilterKey
 }
@@ -91,9 +89,14 @@ export interface IFilterDataBrandItem extends IFilterBrandItem {
   isActive: boolean
 }
 
+interface IFilterPriceItem extends IFilterPrice {
+  min: number
+  max: number
+}
+
 export interface IFilterData {
   [FILTER_CODE.color]: IFilterDataItem[]
-  [FILTER_CODE.price]: IFilterPrice
+  [FILTER_CODE.price]: IFilterPriceItem
   [FILTER_CODE.discount]: IFilterDataItem[]
   [FILTER_CODE.benefit]: IFilterDataItem[]
   [FILTER_CODE.brand]: IFilterDataBrandItem[]
@@ -159,3 +162,8 @@ export type TAddPropertiesToListItem<T> = (T & {
   isActive: boolean
   type: TSelectedFilterItemKey
 })[]
+
+export interface ILimitPrice {
+  limitMin: number
+  limitMax: number
+}

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import { IFilterPrice } from '@/types/filter'
 import { initialFilterPrice } from '@/constants/filter'
@@ -21,7 +21,7 @@ const PriceContent = ({
   const [maxRangePercent, setMaxRangePercent] = useState(0)
 
   useEffect(() => {
-    setMinMaxValue(filterData.min, filterData.max)
+    setMinMaxValue(filterData.limitMin, filterData.limitMax)
   }, [])
 
   const setMinMaxValue = (min: number, max: number) => {

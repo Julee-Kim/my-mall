@@ -254,7 +254,11 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
   }
 
   const handleSearchBtn = () => {
-    onOk(selectedFilterList)
+    const limitPrice = {
+      limitMin: filterData.price.limitMin,
+      limitMax: filterData.price.limitMax,
+    }
+    onOk(selectedFilterList, limitPrice)
   }
 
   return (

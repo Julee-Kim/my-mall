@@ -1,27 +1,34 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import {
   IFilterBar,
   IFilterBarValue,
+  IFilterBrandItem,
+  IFilterItem,
+  IFiltersRes,
+  ILimitPrice,
   ISelectedFilterItem,
   TFilterBarTypeToMapping,
   TFilterKey,
+  TSelectedFilterKey,
 } from '@/types/filter'
+import { IProductListParams } from '@/types/product'
 import {
   FILTER_CODE,
+  FILTER_KEYS,
   filterBarTypeToMapping,
   initialFilterBar,
   initialFilterTempForOrder,
 } from '@/constants/filter'
+import { fetchFilters } from '@/services/filters'
+import { paramsToObject, paramsToString } from '@/utils/queryParams'
+import useQueryProductList from '@/hooks/queries/useProductList'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
 import FilterBar from '@/components/products/filter/FilterBar'
 import ModalFilter from '@/components/products/filter/modalFilter/ModalFilter'
 import styles from './Filter.module.scss'
-import useQueryProductList from '@/hooks/queries/useProductList'
-import { paramsToString } from '@/utils/queryParams'
-import { IProductListParams } from '@/types/product'
 
 const Filter = () => {
   const router = useRouter()
@@ -40,21 +47,25 @@ const Filter = () => {
     setIsOpen(true)
   }
 
-  const groupFiltersByType = (list: ISelectedFilterItem[]): Record<string, string> => {
+  const groupFiltersByType = (
+    list: ISelectedFilterItem[],
+    limitPrice: ILimitPrice,
+  ): Record<string, string> => {
     return list.reduce((filterQueryParams: Record<string, string>, item: ISelectedFilterItem) => {
       if (!filterQueryParams[item.type]) {
         filterQueryParams[item.type] = ''
       }
 
       if (item.type === FILTER_CODE.price) {
+        // 가격
         const [min, max] = item.name.split('~')
-        const temp = []
 
-        if (min) temp.push(min)
-        if (max) temp.push(max)
+        const minValue = min ? min : limitPrice.limitMin
+        const maxValue = max ? max : limitPrice.limitMax
 
-        filterQueryParams[item.type] = temp.join(',')
+        filterQueryParams[item.type] = `${minValue},${maxValue}`
       } else {
+        // 컬러, 할인/혜택, 브랜드
         filterQueryParams[item.type] = filterQueryParams[item.type]
           ? `${filterQueryParams[item.type]},${item.code}`
           : String(item.code)
@@ -64,7 +75,7 @@ const Filter = () => {
     }, {})
   }
 
-  const updateFilterBarData = (list: ISelectedFilterItem[]) => {
+  const selectedItemToFilterBarData = (list: ISelectedFilterItem[]): IFilterBar => {
     // 선택한 필터 아이템 타입별로 데이터 정리
     const filterTempForOrder = list.reduce(
       (acc, item) => {
@@ -96,22 +107,22 @@ const Filter = () => {
     return result
   }
 
-  const handleOk = async (selectedFilterList: ISelectedFilterItem[]) => {
+  const handleOk = async (selectedFilterList: ISelectedFilterItem[], limitPrice: ILimitPrice) => {
     setIsOpen(false)
 
     /**
-     * 1. store/filter > selectedFilters 값을 상품 검색의 파라미터로 분리
-     * 2. 상품 목록 refetch
+     *  선택한 필터 목록을 type 별로 분류 후 상품 목록 refetch
      *    성공 후
-     *     2-1. url query 변경
-     *     2-2. FilterBar 컴포넌트에서 사용하는 filterBar data 변경
+     *     1. url query 변경
+     *     2. 선택한 필터 목록을 활용하여 FilterBar 컴포넌트에서 사용하는 filterBar data 변경
      * */
+
     // 현재 카테고리 추출
     const categoryTop = searchParams.get('categoryTop') || ''
     const categorySub = searchParams.get('categorySub') || ''
 
     // 선택한 필터 목록을 type 별로 분류
-    const groupFilters = groupFiltersByType(selectedFilterList)
+    const groupFilters = groupFiltersByType(selectedFilterList, limitPrice)
 
     // 현재 카테고리와 선택한 필터로 query params 생성
     const queryParams = {
@@ -120,6 +131,7 @@ const Filter = () => {
       ...groupFilters,
     } as IProductListParams
 
+    // 상품 목록 refetch
     const isSuccess = await updateQueryParams(queryParams)
     if (isSuccess) {
       // url 변경
@@ -128,7 +140,7 @@ const Filter = () => {
       router.replace(newUrl)
 
       // filterBar 데이터 변경
-      const newFilterBarData = updateFilterBarData(selectedFilterList)
+      const newFilterBarData = selectedItemToFilterBarData(selectedFilterList)
       setFilterBar(newFilterBarData)
     }
   }
@@ -137,6 +149,74 @@ const Filter = () => {
     console.log('handleCancel')
     setIsOpen(false)
   }
+
+  const hasFilterKey = (params: Record<string, string>): boolean => {
+    return Object.keys(params).some((key) => FILTER_KEYS.includes(key as TSelectedFilterKey))
+  }
+
+  const paramsToSelectedItemsData = (
+    data: IFiltersRes,
+    params: Record<string, string>,
+  ): ISelectedFilterItem[] => {
+    let arr: ISelectedFilterItem[] = []
+
+    for (const key in data) {
+      const filterKey = key as TSelectedFilterKey
+      if (filterKey in params) {
+        if (filterKey === FILTER_CODE.price) {
+          const [min, max] = params[filterKey].split(',')
+
+          const minValue = Number(min) !== data.price.limitMin ? min : ''
+          const maxValue = Number(max) !== data.price.limitMax ? max : ''
+          arr.push({
+            type: filterKey as TSelectedFilterKey,
+            code: filterKey as TSelectedFilterKey,
+            name: `${minValue}~${maxValue}`,
+          })
+        } else {
+          const list = data[filterKey] as (IFilterItem | IFilterBrandItem)[]
+          const paramCodes = params[filterKey as TFilterKey]
+
+          list.forEach((item: IFilterItem | IFilterBrandItem) => {
+            if (paramCodes.includes(String(item.code))) {
+              arr.push({
+                type: filterKey as TSelectedFilterKey,
+                code: item.code,
+                name: item.name,
+              })
+            }
+          })
+        }
+      }
+    }
+
+    return arr
+  }
+
+  useEffect(() => {
+    const params = paramsToObject(searchParams)
+
+    const fetchFilterData = async () => {
+      try {
+        const { data } = await fetchFilters()
+
+        // params를 selectedItem 형태로 변경
+        const selectedItems = paramsToSelectedItemsData(data, params)
+        // filterBar 데이터 변경
+        const newFilterBarData = selectedItemToFilterBarData(selectedItems)
+        setFilterBar(newFilterBarData)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    // query params 체크
+    const isHasFilterKey = hasFilterKey(params)
+
+    if (isHasFilterKey) {
+      fetchFilterData()
+    }
+  }, [])
 
   return (
     <>

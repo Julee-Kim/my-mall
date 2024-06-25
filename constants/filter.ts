@@ -107,3 +107,13 @@ export const initialFilterTempForOrder: TFilterBarTypeToMapping = {
   [FILTER_CODE.discountBenefit]: [],
   [FILTER_CODE.brand]: [],
 }
+
+export const FILTER_KEYS: TSelectedFilterKey[] = [
+  FILTER_CODE.color,
+  FILTER_CODE.price,
+  FILTER_CODE.discount,
+  FILTER_CODE.benefit,
+  FILTER_CODE.brand,
+  FILTER_CODE.topBrand,
+  FILTER_CODE.newBrand,
+] as const
