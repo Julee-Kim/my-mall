@@ -15,8 +15,8 @@ import {
   TSelectedFilterItemKey,
 } from '@/types/filter'
 import {
-  FILTER_BAR_LIST,
   FILTER_CODE,
+  initialFilterBar,
   initialFilterData,
   tabTypesToCheck,
 } from '@/constants/filter'
@@ -206,11 +206,19 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
     })
   }
 
-  const setTabs = () => {
-    return FILTER_BAR_LIST.map((item) => {
-      item.isActive = checkActiveTabItem(item.code)
-      return item
-    })
+  const tabList = () => {
+    return Object.entries(initialFilterBar).reduce((acc, [curKey, curValue]) => {
+      const key = curKey as TFilterKey
+      const isActive = checkActiveTabItem(key)
+
+      acc.push({
+        code: curKey as TFilterKey,
+        name: curValue.name,
+        isActive: isActive,
+      })
+
+      return acc
+    }, [] as IFilterBarListItem[])
   }
 
   const CurrentContent = (tab: TFilterKey) => {
@@ -265,7 +273,7 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
     <div>
       <Modal isOpen={isOpen} onCancel={onCancel}>
         <Modal.Content>
-          <Tabs activeId={activeTab} tabList={setTabs()} onClickTab={handleClickTab} />
+          <Tabs activeId={activeTab} tabList={tabList()} onClickTab={handleClickTab} />
           <div className={styles.filterContent}>{CurrentContent(activeTab)}</div>
           <SelectedFilterList list={selectedFilterList} onDelete={handleDeleteSelectedItem} />
           <FilterBottomBtns total={totalCount} onSearch={handleSearchBtn} />

@@ -89,7 +89,7 @@ export interface IFilterDataBrandItem extends IFilterBrandItem {
   isActive: boolean
 }
 
-interface IFilterPriceItem extends IFilterPrice {
+export interface IFilterPriceItem extends IFilterPrice {
   min: number
   max: number
 }

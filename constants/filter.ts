@@ -1,10 +1,9 @@
 import {
   IBrandTab,
   IFilterBar,
-  IFilterBarListItem,
   IFilterBrand,
   IFilterData,
-  IFilterPrice,
+  IFilterPriceItem,
   TFilterBarTypeToMapping,
   TFilterKey,
   TSelectedFilterKey,
@@ -34,13 +33,6 @@ export const BRAND_TAB_LIST: IBrandTab[] = [
   { type: 'new', label: '신규' },
 ] as const
 
-export const FILTER_BAR_LIST: IFilterBarListItem[] = [
-  { code: FILTER_CODE.color, name: FILTER_NAME.color, isActive: false },
-  { code: FILTER_CODE.price, name: FILTER_NAME.price, isActive: false },
-  { code: FILTER_CODE.discountBenefit, name: FILTER_NAME.discountBenefit, isActive: false },
-  { code: FILTER_CODE.brand, name: FILTER_NAME.brand, isActive: false },
-] as const
-
 export const initialFilterBar: IFilterBar = {
   color: {
     name: FILTER_NAME.color,
@@ -60,7 +52,7 @@ export const initialFilterBar: IFilterBar = {
   },
 }
 
-export const initialFilterPrice: IFilterPrice = {
+export const initialFilterPrice: IFilterPriceItem = {
   min: 0,
   max: 0,
   limitMin: 0,

@@ -91,8 +91,8 @@ const Filter = () => {
         const [curKey, curValue]: [string, ISelectedFilterItem[]] = cur
 
         if (curValue && curValue.length > 0) {
-          // TODO. ts 에러 해결
-          const accItem = acc[curKey] as IFilterBarValue
+          const key = curKey as TFilterKey
+          const accItem = acc[key] as IFilterBarValue
           accItem.isActive = true
           accItem.name = curValue[0].name
           if (curValue.length > 1) {
@@ -150,7 +150,7 @@ const Filter = () => {
     setIsOpen(false)
   }
 
-  const hasFilterKey = (params: Record<string, string>): boolean => {
+  const checkHasFilterKey = (params: Record<string, string>): boolean => {
     return Object.keys(params).some((key) => FILTER_KEYS.includes(key as TSelectedFilterKey))
   }
 
@@ -162,8 +162,10 @@ const Filter = () => {
 
     for (const key in data) {
       const filterKey = key as TSelectedFilterKey
+
       if (filterKey in params) {
         if (filterKey === FILTER_CODE.price) {
+          // 가격
           const [min, max] = params[filterKey].split(',')
 
           const minValue = Number(min) !== data.price.limitMin ? min : ''
@@ -174,6 +176,7 @@ const Filter = () => {
             name: `${minValue}~${maxValue}`,
           })
         } else {
+          // 컬러, 할인/혜택, 브랜드
           const list = data[filterKey] as (IFilterItem | IFilterBrandItem)[]
           const paramCodes = params[filterKey as TFilterKey]
 
@@ -210,8 +213,8 @@ const Filter = () => {
       }
     }
 
-    // query params 체크
-    const isHasFilterKey = hasFilterKey(params)
+    // 쿼리 파라미터에 필터(컬러,가격,할인/혜택,브랜드)가 있는지 확인
+    const isHasFilterKey = checkHasFilterKey(params)
 
     if (isHasFilterKey) {
       fetchFilterData()
