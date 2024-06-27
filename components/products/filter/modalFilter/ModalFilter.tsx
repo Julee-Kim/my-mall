@@ -270,6 +270,8 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
               top: filterData.topBrand,
               new: filterData.newBrand,
             }}
+            onAdd={handleAddFilter}
+            onDelete={handleDeleteFilter}
           />
         )
       default:

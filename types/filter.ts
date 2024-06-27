@@ -27,9 +27,9 @@ export interface IFilterBrandItem {
 }
 
 export interface IFilterBrand {
-  all: IFilterBrandItem[]
-  top: IFilterBrandItem[]
-  new: IFilterBrandItem[]
+  all: IFilterDataBrandItem[]
+  top: IFilterDataBrandItem[]
+  new: IFilterDataBrandItem[]
 }
 
 export interface IFilterBarValue {
@@ -143,6 +143,10 @@ export interface IColorContentProps extends IFilterContentProps {
 export interface IDiscountBenefitContentListProps extends IFilterContentProps {
   title: string
   filterData: IFilterDataItem[]
+}
+
+export interface IBrandContentProps extends IFilterContentProps {
+  filterData: IFilterBrand
 }
 
 export interface ISelectedFilterListProps {

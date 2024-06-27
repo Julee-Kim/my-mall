@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { initialFilterBrand, TAB_LIST } from '@/constants/filter'
-import { IFilterBrand, TBrandTabs, IFilterBrandItem } from '@/types/filter'
+import { BRAND_TAB_LIST, initialFilterBrand } from '@/constants/filter'
+import { TBrandTabs, IBrandContentProps, IFilterDataBrandItem } from '@/types/filter'
 import { comma } from '@/utils'
 import SearchBrand from '@/components/products/filter/modalFilter/filterContents/SearchBrand'
 import Checkbox from '@/components/_common/checkbox/Checkbox'
 import styles from '@/components/products/filter/modalFilter/filterContents/BrandContent.module.scss'
 
-const BrandContent = ({ filterData = initialFilterBrand }: { filterData: IFilterBrand }) => {
+const BrandContent = ({ filterData = initialFilterBrand, onAdd, onDelete }: IBrandContentProps) => {
   const [activeTab, setActiveTab] = useState<TBrandTabs>('top')
 
   const handleTab = (tab: TBrandTabs) => {
@@ -16,7 +16,7 @@ const BrandContent = ({ filterData = initialFilterBrand }: { filterData: IFilter
   return (
     <div>
       <div className={styles.tabs}>
-        {TAB_LIST.map((tab) => (
+        {BRAND_TAB_LIST.map((tab) => (
           <button
             key={tab.type}
             className={[styles.tab, tab.type === activeTab ? styles.activeTab : ''].join(' ')}
@@ -29,9 +29,14 @@ const BrandContent = ({ filterData = initialFilterBrand }: { filterData: IFilter
       <div>
         {activeTab === 'all' && <SearchBrand />}
         <ul className={styles.brandList}>
-          {filterData[activeTab].map((item: IFilterBrandItem) => (
+          {filterData[activeTab].map((item: IFilterDataBrandItem) => (
             <li key={item.code} className={styles.brand}>
-              <Checkbox>
+              <Checkbox
+                checked={item.isActive}
+                onChange={(e) => {
+                  e.target.checked ? onAdd(item.type, item) : onDelete(item.type, item.code)
+                }}
+              >
                 <span className={styles.textWrap}>
                   <span className={styles.engName}>{item.eng_name}</span>
                   <span className={styles.name}>{item.name}</span>
