@@ -191,8 +191,28 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
     }
   }
 
+  const handleDeletePriceFilter = () => {
+    // 필터 데이터의 price min,max 금액 limit 금액으로 초기화
+    setFilterData({
+      ...filterData,
+      [FILTER_CODE.price]: {
+        ...filterData[FILTER_CODE.price],
+        min: filterData[FILTER_CODE.price].limitMin,
+        max: filterData[FILTER_CODE.price].limitMax,
+      },
+    })
+
+    // 선택한 필터 목록에서 price 아이템 삭제
+    const newSelectedList = selectedFilterList.filter(
+      (filterItem: ISelectedFilterItem) => filterItem.code !== FILTER_CODE.price,
+    )
+    setSelectedFilterList(newSelectedList)
+  }
+
   const handleDeleteSelectedItem = (item: ISelectedFilterItem) => {
-    if (item.type !== FILTER_CODE.price) {
+    if (item.type === FILTER_CODE.price) {
+      handleDeletePriceFilter()
+    } else {
       handleDeleteFilter(item.type, item.code)
     }
   }
