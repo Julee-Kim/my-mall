@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { clone } from 'remeda'
 import {
   IFilterBarListItem,
   IFilterBrandItem,
@@ -31,7 +32,13 @@ import SelectedFilterList from '@/components/products/filter/modalFilter/Selecte
 import FilterBottomBtns from '@/components/products/filter/modalFilter/FilterBottomBtns'
 import styles from './ModalFilter.module.scss'
 
-const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) => {
+const ModalFilter = ({
+  isOpen,
+  onOk,
+  onCancel,
+  tab,
+  selectedFilters,
+}: IModalProductFilterProps) => {
   const [activeTab, setActiveTab] = useState<TFilterKey>(FILTER_CODE.color)
   const [filterData, setFilterData] = useState<IFilterData>(initialFilterData)
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
@@ -39,7 +46,9 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
 
   useEffect(() => {
     setActiveTab(tab)
-  }, [tab])
+    const selectedItems = clone(selectedFilters)
+    setSelectedFilterList(selectedItems)
+  }, [tab, selectedFilters])
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -227,7 +236,9 @@ const ModalFilter = ({ isOpen, onOk, onCancel, tab }: IModalProductFilterProps) 
   }
 
   const tabList = () => {
-    return Object.entries(initialFilterBar).reduce((acc, [curKey, curValue]) => {
+    const copyFilterBarData = clone(initialFilterBar)
+
+    return Object.entries(copyFilterBarData).reduce((acc, [curKey, curValue]) => {
       const key = curKey as TFilterKey
       const isActive = checkActiveTabItem(key)
 

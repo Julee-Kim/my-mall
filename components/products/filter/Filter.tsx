@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { clone } from 'remeda'
 import {
   IFilterBar,
   IFilterBarValue,
@@ -35,7 +36,8 @@ const Filter = () => {
   const searchParams = useSearchParams()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTab, setSelectedTap] = useState<TFilterKey>(FILTER_CODE.color)
-  const [filterBar, setFilterBar] = useState<IFilterBar>({ ...initialFilterBar })
+  const [filterBar, setFilterBar] = useState<IFilterBar>(initialFilterBar)
+  const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
   const { updateQueryParams } = useQueryProductList()
 
   const handleRefresh = () => {
@@ -76,33 +78,32 @@ const Filter = () => {
   }
 
   const selectedItemToFilterBarData = (list: ISelectedFilterItem[]): IFilterBar => {
-    // 선택한 필터 아이템 타입별로 데이터 정리
-    const filterTempForOrder = list.reduce(
-      (acc, item) => {
-        const key = filterBarTypeToMapping[item.type]
-        if (key) acc[key].push(item)
-        return acc
-      },
-      { ...initialFilterTempForOrder } as TFilterBarTypeToMapping,
-    )
+    // 선택한 필터 아이템 타입별로 분류
+    const copyFilterTempForOrder = clone(initialFilterTempForOrder)
+    const filterTempForOrder = list.reduce((acc, item) => {
+      const key = filterBarTypeToMapping[item.type]
+      if (key) acc[key].push(item)
+      return acc
+    }, copyFilterTempForOrder as TFilterBarTypeToMapping)
 
-    const result = Object.entries(filterTempForOrder).reduce(
-      (acc, cur) => {
-        const [curKey, curValue]: [string, ISelectedFilterItem[]] = cur
+    // 타입별로 정리한 데이터를 filterBarData 형태로 가공
+    const copyFilterBarData = clone(initialFilterBar)
+    const result = Object.entries(filterTempForOrder).reduce((acc, cur) => {
+      const [curKey, curValue]: [string, ISelectedFilterItem[]] = cur
 
-        if (curValue && curValue.length > 0) {
-          const key = curKey as TFilterKey
-          const accItem = acc[key] as IFilterBarValue
-          accItem.isActive = true
-          accItem.name = curValue[0].name
-          if (curValue.length > 1) {
-            accItem.name += ` 외${curValue.length - 1}`
-          }
+      if (curValue && curValue.length > 0) {
+        const key = curKey as TFilterKey
+        const accItem = acc[key] as IFilterBarValue
+        accItem.isActive = true
+        accItem.name = curValue[0].name
+
+        // 선택한 필터가 1개 이상인 경우 '외 n(개)'로 표기
+        if (curValue.length > 1) {
+          accItem.name += ` 외${curValue.length - 1}`
         }
-        return acc
-      },
-      { ...initialFilterBar } as IFilterBar,
-    )
+      }
+      return acc
+    }, copyFilterBarData as IFilterBar)
 
     return result
   }
@@ -142,6 +143,9 @@ const Filter = () => {
       // filterBar 데이터 변경
       const newFilterBarData = selectedItemToFilterBarData(selectedFilterList)
       setFilterBar(newFilterBarData)
+
+      // selectedFilterList 변경
+      setSelectedFilterList(selectedFilterList)
     }
   }
 
@@ -205,6 +209,8 @@ const Filter = () => {
 
         // params를 selectedItem 형태로 변경
         const selectedItems = paramsToSelectedItemsData(data, params)
+        setSelectedFilterList(selectedItems)
+
         // filterBar 데이터 변경
         const newFilterBarData = selectedItemToFilterBarData(selectedItems)
         setFilterBar(newFilterBarData)
@@ -229,7 +235,13 @@ const Filter = () => {
         </div>
         <FilterBar data={filterBar} onClickBtn={openModalFilter} />
       </div>
-      <ModalFilter isOpen={isOpen} onOk={handleOk} onCancel={handleCancel} tab={selectedTab} />
+      <ModalFilter
+        isOpen={isOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        tab={selectedTab}
+        selectedFilters={selectedFilterList}
+      />
     </>
   )
 }

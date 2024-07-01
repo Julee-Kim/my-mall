@@ -54,6 +54,7 @@ export interface IModalProductFilterProps {
   onOk: (selectedFilterList: ISelectedFilterItem[], limitPrice: ILimitPrice) => void
   onCancel: () => void
   tab: TFilterKey
+  selectedFilters: ISelectedFilterItem[]
 }
 
 export interface IDiscountBenefitContentProps extends IFilterContentProps {
