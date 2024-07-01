@@ -100,6 +100,10 @@ const ModalFilter = ({
     if (isOpen) fetchFilterCountData()
   }, [selectedFilterList])
 
+  const checkActiveItem = (targetCode: number | string) => {
+    return selectedFilterList.some((item) => targetCode === item.code)
+  }
+
   const addPropertiesToListItem = <T extends IFilterItem | IFilterBrandItem>(
     type: TSelectedFilterItemKey,
     list: T[],
@@ -107,7 +111,7 @@ const ModalFilter = ({
     const newList: TAddPropertiesToListItem<T> = []
 
     for (const item of list) {
-      newList.push({ ...item, isActive: false, type })
+      newList.push({ ...item, isActive: checkActiveItem(item.code), type })
     }
 
     return newList
