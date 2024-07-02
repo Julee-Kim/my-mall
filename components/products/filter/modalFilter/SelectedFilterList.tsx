@@ -16,7 +16,7 @@ const SelectedFilterList = ({ list, onDelete }: ISelectedFilterListProps) => {
         <div className={styles.btnRefreshWrap}>
           <ButtonRefresh onClick={handleRefresh} />
         </div>
-        <ul>
+        <ul className={styles.filter}>
           {list.map((filter: ISelectedFilterItem) => (
             <li key={filter.code} className={styles.filterItem}>
               <ModalFilterBtn btnText={filter.name} handleBtn={() => onDelete(filter)} />

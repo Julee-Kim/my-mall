@@ -311,7 +311,14 @@ const ModalFilter = ({
       <Modal isOpen={isOpen} onCancel={onCancel}>
         <Modal.Content>
           <Tabs activeId={activeTab} tabList={tabList()} onClickTab={handleClickTab} />
-          <div className={styles.filterContent}>{CurrentContent(activeTab)}</div>
+          <div
+            className={[
+              styles.filterContent,
+              selectedFilterList.length > 0 ? styles.pb20 : '',
+            ].join(' ')}
+          >
+            {CurrentContent(activeTab)}
+          </div>
           <SelectedFilterList list={selectedFilterList} onDelete={handleDeleteSelectedItem} />
           <FilterBottomBtns total={totalCount} onSearch={handleSearchBtn} />
         </Modal.Content>

@@ -1,9 +1,18 @@
 .filterContent {
   padding: 8vw 5vw;
   height: 102vw;
+  overflow-y: auto;
+
+  &.pb20 {
+    padding-bottom: 20vw;
+  }
 }
 
 .filterSelectedList {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
   background-color: rgb(245, 245, 245);
 }
 

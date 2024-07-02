@@ -5,6 +5,7 @@ interface ICheckboxProps {
   checked?: boolean
   disabled?: boolean
   isShowIcon?: boolean
+  className?: string
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   children?: ReactNode
 }
@@ -13,11 +14,12 @@ const Checkbox = ({
   checked = false,
   disabled = false,
   isShowIcon = true,
+  className = '',
   onChange,
   children,
 }: ICheckboxProps) => {
   return (
-    <label className={styles.checkbox}>
+    <label className={[styles.checkbox, className].join(' ')}>
       <input
         type="checkbox"
         checked={checked}

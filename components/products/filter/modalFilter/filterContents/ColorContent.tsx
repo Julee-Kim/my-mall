@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { IColorContentProps, IFilterDataItem } from '@/types/filter'
-import { FILTER_CODE } from '@/constants/filter'
 import { comma } from '@/utils'
 import Checkbox from '@/components/_common/checkbox/Checkbox'
 import styles from './ColorContent.module.scss'
@@ -13,6 +12,7 @@ const ColorContent = ({ filterData, onAdd, onDelete }: IColorContentProps) => {
           <Checkbox
             checked={color.isActive}
             isShowIcon={false}
+            className={styles.colorCheckbox}
             onChange={(e) => {
               e.target.checked ? onAdd(color.type, color) : onDelete(color.type, color.code)
             }}

@@ -1,13 +1,21 @@
 .colorList {
   display: grid;
-  grid-template-columns: repeat(5, minmax(calc(20% - 8vw), 1fr));
-  gap: 5vw 8vw;
+  grid-template-columns: repeat(5, minmax(calc(20% - 7vw), 1fr));
+  gap: 6vw 7vw;
   padding: 0 3vw;
 
   .btnColor {
     display: block;
     width: 100%;
-    font-size: 12px;
+
+    .colorCheckbox {
+      display: block;
+      text-align: center;
+
+      span {
+        margin: 0;
+      }
+    }
 
     .colorWrap {
       position: relative;
@@ -30,12 +38,14 @@
 
     .name {
       padding-top: 7px;
+      font-size: 12px;
       line-height: 1;
     }
 
     .count {
       display: block;
       padding-top: 3px;
+      font-size: 11px;
       color: rgb(196, 196, 196);
     }
   }
