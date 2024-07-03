@@ -6,6 +6,7 @@ import {
   IFilterBarListItem,
   IFilterBrandItem,
   IFilterItem,
+  IFiltersRes,
   IModalProductFilterProps,
   ISelectedFilterItem,
   TAddPropertiesToListItem,
@@ -62,30 +63,7 @@ const ModalFilter = ({
       try {
         const { data, total } = await fetchFilters()
 
-        const color = addPropertiesToListItem<IFilterItem>(FILTER_CODE.color, data.color)
-        const price = { ...filterData.price, ...data.price }
-        const discount = addPropertiesToListItem<IFilterItem>(FILTER_CODE.discount, data.discount)
-        const benefit = addPropertiesToListItem<IFilterItem>(FILTER_CODE.benefit, data.benefit)
-        const brand = addPropertiesToListItem<IFilterBrandItem>(FILTER_CODE.brand, data.brand)
-        const topBrand = addPropertiesToListItem<IFilterBrandItem>(
-          FILTER_CODE.topBrand,
-          data.topBrand,
-        )
-        const newBrand = addPropertiesToListItem<IFilterBrandItem>(
-          FILTER_CODE.newBrand,
-          data.newBrand,
-        )
-
-        setFilterData({
-          color,
-          price,
-          discount,
-          benefit,
-          brand,
-          topBrand,
-          newBrand,
-        })
-        setTotalCount(total)
+        setFilterDataAndTotal(data, total)
       } catch (e) {
         console.log(e)
       }
@@ -115,13 +93,28 @@ const ModalFilter = ({
     type: TSelectedFilterItemKey,
     list: T[],
   ): TAddPropertiesToListItem<T> => {
-    const newList: TAddPropertiesToListItem<T> = []
+    return list.map((item) => ({ ...item, isActive: checkActiveItem(item.code), type }))
+  }
 
-    for (const item of list) {
-      newList.push({ ...item, isActive: checkActiveItem(item.code), type })
-    }
+  const setFilterDataAndTotal = (data: IFiltersRes, total: number) => {
+    const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
+    const price = { ...filterData.price, ...data.price }
+    const discount = addPropertiesToListItem(FILTER_CODE.discount, data.discount)
+    const benefit = addPropertiesToListItem(FILTER_CODE.benefit, data.benefit)
+    const brand = addPropertiesToListItem(FILTER_CODE.brand, data.brand)
+    const topBrand = addPropertiesToListItem(FILTER_CODE.topBrand, data.topBrand)
+    const newBrand = addPropertiesToListItem(FILTER_CODE.newBrand, data.newBrand)
 
-    return newList
+    setFilterData({
+      color,
+      price,
+      discount,
+      benefit,
+      brand,
+      topBrand,
+      newBrand,
+    })
+    setTotalCount(total)
   }
 
   const handleAddFilter = (type: TSelectedFilterItemKey, item: TArgFilterDataItem) => {
