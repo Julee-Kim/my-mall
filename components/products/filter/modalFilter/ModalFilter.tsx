@@ -5,7 +5,6 @@ import { clone } from 'remeda'
 import {
   IFilterBarListItem,
   IFilterBrandItem,
-  IFilterData,
   IFilterItem,
   IModalProductFilterProps,
   ISelectedFilterItem,
@@ -15,13 +14,10 @@ import {
   TFilterKey,
   TSelectedFilterItemKey,
 } from '@/types/filter'
-import {
-  FILTER_CODE,
-  initialFilterBar,
-  initialFilterData,
-  tabTypesToCheck,
-} from '@/constants/filter'
+import { FILTER_CODE, initialFilterBar, tabTypesToCheck } from '@/constants/filter'
 import { fetchFilterCount, fetchFilters } from '@/services/filters'
+import { useFilterData } from '@/hooks/useFilterData'
+import { useSelectedFilterList } from '@/hooks/useSelectedFilterList'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/products/filter/modalFilter/tabs/Tabs'
 import ColorContent from '@/components/products/filter/modalFilter/filterContents/ColorContent'
@@ -40,15 +36,26 @@ const ModalFilter = ({
   selectedFilters,
 }: IModalProductFilterProps) => {
   const [activeTab, setActiveTab] = useState<TFilterKey>(FILTER_CODE.color)
-  const [filterData, setFilterData] = useState<IFilterData>(initialFilterData)
-  const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
   const [totalCount, setTotalCount] = useState(0)
+  const {
+    filterData,
+    setFilterData,
+    activeFilter,
+    deactivateFilter,
+    updatePriceFilter,
+    resetPriceFilter,
+  } = useFilterData()
+  const {
+    selectedFilterList,
+    addSelectedItem,
+    removeSelectedItem,
+    updateSelectedPrice,
+    resetSelectedPrice,
+  } = useSelectedFilterList(selectedFilters)
 
   useEffect(() => {
     setActiveTab(tab)
-    const selectedItems = clone(selectedFilters)
-    setSelectedFilterList(selectedItems)
-  }, [tab, selectedFilters])
+  }, [tab])
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -118,108 +125,32 @@ const ModalFilter = ({
   }
 
   const handleAddFilter = (type: TSelectedFilterItemKey, item: TArgFilterDataItem) => {
-    const newFilterList = filterData[type].map((filterItem) => {
-      if (filterItem.code === item.code) filterItem.isActive = true
-      return filterItem
+    activeFilter(type, item)
+    addSelectedItem({
+      type,
+      code: item.code,
+      name: item.name,
     })
-
-    setFilterData({
-      ...filterData,
-      [type]: newFilterList,
-    })
-
-    setSelectedFilterList([
-      ...selectedFilterList,
-      {
-        type,
-        code: item.code,
-        name: item.name,
-      },
-    ])
   }
 
   const handleDeleteFilter = (type: TSelectedFilterItemKey, targetCode: TFilterItemCode) => {
-    // 필터 데이터에서 해당 아이템 삭제
-    const newFilterList = filterData[type].map((filterItem) => {
-      if (filterItem.code === targetCode) {
-        return { ...filterItem, isActive: false }
-      } else {
-        return filterItem
-      }
-    })
-    setFilterData({
-      ...filterData,
-      [type]: newFilterList,
-    })
-
-    // 선택한 필터 목록에서 해당 아이템 삭제
-    const newSelectedList = selectedFilterList.filter(
-      (filterItem: ISelectedFilterItem) => filterItem.code !== targetCode,
-    )
-    setSelectedFilterList(newSelectedList)
+    deactivateFilter(type, targetCode)
+    removeSelectedItem(targetCode)
   }
 
   const handlePriceFilter = (minValue: number, maxValue: number) => {
-    setFilterData({
-      ...filterData,
-      [FILTER_CODE.price]: {
-        ...filterData[FILTER_CODE.price],
-        min: minValue,
-        max: maxValue,
-      },
-    })
+    updatePriceFilter(minValue, maxValue)
 
     // 입력한 min, max 를 limit 금액과 비교
-    const min = minValue > filterData.price.limitMin ? minValue : ''
-    const max = maxValue < filterData.price.limitMax ? maxValue : ''
+    const min = minValue > filterData.price.limitMin ? minValue : 0
+    const max = maxValue < filterData.price.limitMax ? maxValue : 0
 
-    // selectedFilterList 에 'type: price' 인 아이템이 있는지 확인
-    const priceItemIndex = selectedFilterList.findIndex((item) => item.type === FILTER_CODE.price)
-
-    if (priceItemIndex !== -1) {
-      // 있는 경우
-      // min, max 금액이 모두 없으면 selectedFilterList에서 price 아이템 삭제
-      if (!min && !max) {
-        const newSelectedList = selectedFilterList.filter(
-          (filterItem: ISelectedFilterItem) => filterItem.type !== FILTER_CODE.price,
-        )
-        setSelectedFilterList(newSelectedList)
-        return
-      }
-
-      // min, max 있으면 price 아이템의 name 변경
-      const newList = [...selectedFilterList]
-      newList[priceItemIndex].name = `${min}~${max}`
-      setSelectedFilterList(newList)
-    } else {
-      // 없으면 아이템 추가
-      setSelectedFilterList([
-        ...selectedFilterList,
-        {
-          type: FILTER_CODE.price,
-          code: FILTER_CODE.price,
-          name: `${min}~${max}`,
-        },
-      ])
-    }
+    updateSelectedPrice(min, max)
   }
 
   const handleDeletePriceFilter = () => {
-    // 필터 데이터의 price min,max 금액 limit 금액으로 초기화
-    setFilterData({
-      ...filterData,
-      [FILTER_CODE.price]: {
-        ...filterData[FILTER_CODE.price],
-        min: filterData[FILTER_CODE.price].limitMin,
-        max: filterData[FILTER_CODE.price].limitMax,
-      },
-    })
-
-    // 선택한 필터 목록에서 price 아이템 삭제
-    const newSelectedList = selectedFilterList.filter(
-      (filterItem: ISelectedFilterItem) => filterItem.code !== FILTER_CODE.price,
-    )
-    setSelectedFilterList(newSelectedList)
+    resetPriceFilter()
+    resetSelectedPrice()
   }
 
   const handleDeleteSelectedItem = (item: ISelectedFilterItem) => {
