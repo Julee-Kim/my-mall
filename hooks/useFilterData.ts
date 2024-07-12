@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { IFilterData, IFilterItem, IFilterBrandItem, TSelectedFilterItemKey } from '@/types/filter'
+import {
+  IFilterData,
+  IFilterItem,
+  IFilterBrandItem,
+  TSelectedFilterItemKey,
+  TSelectedFilterKey,
+} from '@/types/filter'
 import { FILTER_CODE, initialFilterData } from '@/constants/filter'
 
 export const useFilterData = () => {
@@ -61,6 +67,32 @@ export const useFilterData = () => {
     }))
   }
 
+  const resetFilter = (type: TSelectedFilterItemKey) => {
+    setFilterDataState((prevData) => {
+      const newFilterList = prevData[type].map((filterItem) => {
+        if (filterItem.isActive) {
+          return { ...filterItem, isActive: false }
+        }
+        return filterItem
+      })
+
+      return {
+        ...prevData,
+        [type]: newFilterList,
+      }
+    })
+  }
+
+  const resetFilterData = (targetTypes: TSelectedFilterKey[]) => {
+    for (const targetType of targetTypes) {
+      if (targetType === FILTER_CODE.price) {
+        resetPriceFilter()
+      } else {
+        resetFilter(targetType)
+      }
+    }
+  }
+
   return {
     filterData,
     setFilterData,
@@ -68,5 +100,6 @@ export const useFilterData = () => {
     deactivateFilter,
     updatePriceFilter,
     resetPriceFilter,
+    resetFilterData,
   }
 }

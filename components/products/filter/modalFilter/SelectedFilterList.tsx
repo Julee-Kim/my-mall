@@ -5,16 +5,12 @@ import ModalFilterBtn from '@/components/products/filter/modalFilter/ModalFilter
 import styles from '@/components/products/filter/Filter.module.scss'
 import modalStyles from '@/components/products/filter/modalFilter/ModalFilter.module.scss'
 
-const SelectedFilterList = ({ list, onDelete }: ISelectedFilterListProps) => {
-  const handleRefresh = () => {
-    console.log('handleRefresh')
-  }
-
+const SelectedFilterList = ({ list, onDelete, onReset }: ISelectedFilterListProps) => {
   return (
     list.length > 0 && (
       <div className={[styles.filterWrap, modalStyles.filterSelectedList].join(' ')}>
         <div className={styles.btnRefreshWrap}>
-          <ButtonRefresh onClick={handleRefresh} />
+          <ButtonRefresh onClick={onReset} />
         </div>
         <ul className={styles.filter}>
           {list.map((filter: ISelectedFilterItem) => (

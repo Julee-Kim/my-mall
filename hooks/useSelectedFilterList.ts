@@ -50,12 +50,17 @@ export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
     setSelectedFilterList((prevList) => prevList.filter((item) => item.type !== FILTER_CODE.price))
   }
 
+  const resetSelectedFilterList = () => {
+    setSelectedFilterList([])
+  }
+
   return {
     selectedFilterList,
     addSelectedItem,
     removeSelectedItem,
     updateSelectedPrice,
     resetSelectedPrice,
+    resetSelectedFilterList,
   }
 }
 

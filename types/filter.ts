@@ -153,6 +153,7 @@ export interface IBrandContentProps extends IFilterContentProps {
 export interface ISelectedFilterListProps {
   list: ISelectedFilterItem[]
   onDelete: (item: ISelectedFilterItem) => void
+  onReset: () => void
 }
 
 export interface IFilterBarListItem {

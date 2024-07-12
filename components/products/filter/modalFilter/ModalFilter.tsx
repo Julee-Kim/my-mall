@@ -45,6 +45,7 @@ const ModalFilter = ({
     deactivateFilter,
     updatePriceFilter,
     resetPriceFilter,
+    resetFilterData,
   } = useFilterData()
   const {
     selectedFilterList,
@@ -52,6 +53,7 @@ const ModalFilter = ({
     removeSelectedItem,
     updateSelectedPrice,
     resetSelectedPrice,
+    resetSelectedFilterList,
   } = useSelectedFilterList(selectedFilters)
 
   useEffect(() => {
@@ -230,6 +232,16 @@ const ModalFilter = ({
     onOk(selectedFilterList, limitPrice)
   }
 
+  const handleReset = () => {
+    // 선택한 목록 초기화
+    resetSelectedFilterList()
+
+    // 초기화 'type' 중복 없이 추출
+    const types = Array.from(new Set(selectedFilterList.map((item) => item.type)))
+    // 필터 데이터 초기화
+    resetFilterData(types)
+  }
+
   return (
     <div>
       <Modal isOpen={isOpen} onCancel={onCancel}>
@@ -243,7 +255,11 @@ const ModalFilter = ({
           >
             {CurrentContent(activeTab)}
           </div>
-          <SelectedFilterList list={selectedFilterList} onDelete={handleDeleteSelectedItem} />
+          <SelectedFilterList
+            list={selectedFilterList}
+            onDelete={handleDeleteSelectedItem}
+            onReset={handleReset}
+          />
           <FilterBottomBtns total={totalCount} onSearch={handleSearchBtn} />
         </Modal.Content>
       </Modal>
