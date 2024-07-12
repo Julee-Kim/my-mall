@@ -100,7 +100,11 @@ const ModalFilter = ({
 
   const setFilterDataAndTotal = (data: IFiltersRes, total: number) => {
     const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
-    const price = { ...filterData.price, ...data.price }
+    const price = {
+      ...data.price,
+      min: data.price.limitMin,
+      max: data.price.limitMax,
+    }
     const discount = addPropertiesToListItem(FILTER_CODE.discount, data.discount)
     const benefit = addPropertiesToListItem(FILTER_CODE.benefit, data.benefit)
     const brand = addPropertiesToListItem(FILTER_CODE.brand, data.brand)
@@ -192,6 +196,14 @@ const ModalFilter = ({
             onDelete={handleDeleteFilter}
           />
         )
+      // case FILTER_CODE.price:
+      //   return (
+      //     <PriceContent
+      //       limitMin={filterData.price.limitMin}
+      //       limitMax={filterData.price.limitMax}
+      //       onChange={handlePriceFilter}
+      //     />
+      //   )
       case FILTER_CODE.price:
         return <PriceContent filterData={filterData.price} onChange={handlePriceFilter} />
       case FILTER_CODE.discountBenefit:

@@ -38,6 +38,11 @@ export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
         return newList
       }
 
+      // min, max 금액이 모두 없으면 이전 목록 리턴
+      if (!min && !max) {
+        return [...prevList]
+      }
+
       // 없으면 아이템 추가
       return [
         ...prevList,

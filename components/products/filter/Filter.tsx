@@ -36,13 +36,9 @@ const Filter = () => {
   const searchParams = useSearchParams()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTab, setSelectedTap] = useState<TFilterKey>(FILTER_CODE.color)
-  const [filterBar, setFilterBar] = useState<IFilterBar>(initialFilterBar)
+  const [filterBar, setFilterBar] = useState<IFilterBar>(clone(initialFilterBar))
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
   const { updateQueryParams } = useQueryProductList()
-
-  const handleRefresh = () => {
-    console.log('handleRefresh')
-  }
 
   const openModalFilter = (tabCode: TFilterKey) => {
     setSelectedTap(tabCode)
@@ -108,22 +104,30 @@ const Filter = () => {
     return result
   }
 
-  const handleOk = async (selectedFilterList: ISelectedFilterItem[], limitPrice: ILimitPrice) => {
-    setIsOpen(false)
-
+  const fetchProducts = async (
+    selectedFilterList?: ISelectedFilterItem[],
+    limitPrice?: ILimitPrice,
+  ) => {
     /**
-     *  선택한 필터 목록을 type 별로 분류 후 상품 목록 refetch
+     *  선택한 필터 목록(selectedFilterList)을 type 별로 분류 후 상품 목록 refetch
      *    성공 후
      *     1. url query 변경
      *     2. 선택한 필터 목록을 활용하여 FilterBar 컴포넌트에서 사용하는 filterBar data 변경
+     *     3. 선택한 목록 selectedFilterList data 변경
      * */
+
+    const selectedList = selectedFilterList ? selectedFilterList : []
+
+    let groupFilters = {}
+
+    if (selectedList.length > 0 && limitPrice) {
+      // 선택한 필터 목록을 type 별로 분류
+      groupFilters = groupFiltersByType(selectedList, limitPrice)
+    }
 
     // 현재 카테고리 추출
     const categoryTop = searchParams.get('categoryTop') || ''
     const categorySub = searchParams.get('categorySub') || ''
-
-    // 선택한 필터 목록을 type 별로 분류
-    const groupFilters = groupFiltersByType(selectedFilterList, limitPrice)
 
     // 현재 카테고리와 선택한 필터로 query params 생성
     const queryParams = {
@@ -141,17 +145,25 @@ const Filter = () => {
       router.replace(newUrl)
 
       // filterBar 데이터 변경
-      const newFilterBarData = selectedItemToFilterBarData(selectedFilterList)
+      const newFilterBarData = selectedItemToFilterBarData(selectedList)
       setFilterBar(newFilterBarData)
 
       // selectedFilterList 변경
-      setSelectedFilterList(selectedFilterList)
+      setSelectedFilterList(selectedList)
     }
   }
 
-  const handleCancel = () => {
-    console.log('handleCancel')
+  const handleOk = (selectedFilterList: ISelectedFilterItem[], limitPrice: ILimitPrice) => {
     setIsOpen(false)
+    fetchProducts(selectedFilterList, limitPrice)
+  }
+
+  const handleCancel = () => {
+    setIsOpen(false)
+  }
+
+  const handleReset = () => {
+    fetchProducts()
   }
 
   const checkHasFilterKey = (params: Record<string, string>): boolean => {
@@ -230,9 +242,11 @@ const Filter = () => {
   return (
     <>
       <div className={styles.filterWrap}>
-        <div className={styles.btnRefreshWrap}>
-          <ButtonRefresh onClick={handleRefresh} />
-        </div>
+        {selectedFilterList.length > 0 && (
+          <div className={styles.btnRefreshWrap}>
+            <ButtonRefresh onClick={handleReset} />
+          </div>
+        )}
         <FilterBar data={filterBar} onClickBtn={openModalFilter} />
       </div>
       <ModalFilter

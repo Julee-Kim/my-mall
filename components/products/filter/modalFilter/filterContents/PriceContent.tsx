@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { GoPlus } from 'react-icons/go'
-import { IFilterPrice } from '@/types/filter'
+import { IFilterPriceItem } from '@/types/filter'
 import { initialFilterPrice } from '@/constants/filter'
 import styles from '@/components/products/filter/modalFilter/filterContents/PriceContent.module.scss'
 
@@ -10,7 +10,7 @@ const PriceContent = ({
   filterData = initialFilterPrice,
   onChange,
 }: {
-  filterData: IFilterPrice
+  filterData: IFilterPriceItem
   onChange: (min: number, max: number) => void
 }) => {
   const [minValue, setMinValue] = useState(0)
@@ -21,41 +21,60 @@ const PriceContent = ({
   const [maxRangePercent, setMaxRangePercent] = useState(0)
 
   useEffect(() => {
-    setMinMaxValue(filterData.limitMin, filterData.limitMax)
-  }, [])
+    setInitialValue(filterData.min, filterData.max)
+  }, [filterData.limitMin])
 
-  const setMinMaxValue = (min: number, max: number) => {
+  const setInitialValue = (min: number, max: number) => {
     setMinValue(min)
     setMaxValue(max)
     setMinRange(min)
     setMaxRange(max)
+    setMinRangePercent((min / filterData.limitMax) * 100)
+    setMaxRangePercent(100 - (max / filterData.limitMax) * 100)
   }
 
-  const changeRange = (isMin: boolean, isRange: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value)
+  const changeRange = (isMin: boolean, targetValue: string | number) => {
+    let value = typeof targetValue === 'number' ? targetValue : parseInt(targetValue)
+
     if (isMin) {
-      if (isRange) setMinValue(value)
+      setMinValue(value)
       setMinRange(value)
-    } else {
-      if (isRange) setMaxValue(value)
-      setMaxRange(value)
-    }
-    checkMinMax()
-  }
+      setMinRangePercent((value / filterData.limitMax) * 100)
 
-  const checkMinMax = () => {
-    if (maxRange - minRange < GAP_PRICE) {
-      setMaxRange(minRange + GAP_PRICE)
-      setMinRange(maxRange - GAP_PRICE)
+      // minRange가 maxRange 보다 크지 않도록 설정
+      if (value > maxRange) {
+        setMaxValue(value)
+        setMaxRange(value)
+        setMaxRangePercent(100 - (maxRange / filterData.limitMax) * 100)
+      }
     } else {
-      setMinRangePercent((minRange / filterData.limitMax) * 100)
-      setMaxRangePercent(100 - (maxRange / filterData.limitMax) * 100)
+      setMaxValue(value)
+      setMaxRange(value)
+      setMaxRangePercent(100 - (value / filterData.limitMax) * 100)
+
+      // maxRange가 minRange 보다 작지 않도록 설정
+      if (minRange > value) {
+        setMinValue(value)
+        setMinRange(value)
+        setMinRangePercent((minRange / filterData.limitMax) * 100)
+      }
     }
   }
 
   const blurInput = (e: ChangeEvent<HTMLInputElement>, isMin: boolean) => {
-    changeRange(isMin, false)(e)
-    onChange(minValue, maxValue)
+    const { limitMin, limitMax } = filterData
+    let value = parseInt(e.target.value)
+
+    // limitMin limitMax 범위의 값 할당
+    value = Math.max(limitMin, Math.min(limitMax, value))
+
+    if (isMin) {
+      onChange(value, maxValue)
+    } else {
+      onChange(minValue, value)
+    }
+
+    changeRange(isMin, value)
   }
 
   const handleMouseUp = () => {
@@ -102,9 +121,9 @@ const PriceContent = ({
             className={styles.input}
             value={minRange}
             min={filterData.limitMin}
-            max={filterData.limitMax - GAP_PRICE}
+            max={filterData.limitMax}
             step={GAP_PRICE}
-            onChange={(e) => changeRange(true, true)(e)}
+            onChange={(e) => changeRange(true, e.target.value)}
             onMouseUp={handleMouseUp}
             onTouchEnd={handleMouseUp}
           />
@@ -112,10 +131,10 @@ const PriceContent = ({
             type="range"
             className={styles.input}
             value={maxRange}
-            min={filterData.limitMin + GAP_PRICE}
+            min={filterData.limitMin}
             max={filterData.limitMax}
             step={GAP_PRICE}
-            onChange={(e) => changeRange(false, true)(e)}
+            onChange={(e) => changeRange(false, e.target.value)}
             onMouseUp={handleMouseUp}
             onTouchEnd={handleMouseUp}
           />
