@@ -13,6 +13,7 @@ import {
   ISelectedFilterItem,
   TFilterBarTypeToMapping,
   TFilterKey,
+  TFilterParams,
   TSelectedFilterKey,
 } from '@/types/filter'
 import { IProductListParams } from '@/types/product'
@@ -48,12 +49,8 @@ const Filter = () => {
   const groupFiltersByType = (
     list: ISelectedFilterItem[],
     limitPrice: ILimitPrice,
-  ): Record<string, string> => {
-    return list.reduce((filterQueryParams: Record<string, string>, item: ISelectedFilterItem) => {
-      if (!filterQueryParams[item.type]) {
-        filterQueryParams[item.type] = ''
-      }
-
+  ): TFilterParams => {
+    return list.reduce((acc, item) => {
       if (item.type === FILTER_CODE.price) {
         // 가격
         const [min, max] = item.name.split('~')
@@ -61,16 +58,14 @@ const Filter = () => {
         const minValue = min ? min : limitPrice.limitMin
         const maxValue = max ? max : limitPrice.limitMax
 
-        filterQueryParams[item.type] = `${minValue},${maxValue}`
+        acc[item.type] = `${minValue},${maxValue}`
       } else {
         // 컬러, 할인/혜택, 브랜드
-        filterQueryParams[item.type] = filterQueryParams[item.type]
-          ? `${filterQueryParams[item.type]},${item.code}`
-          : String(item.code)
+        acc[item.type] = acc[item.type] ? `${acc[item.type]},${item.code}` : String(item.code)
       }
 
-      return filterQueryParams
-    }, {})
+      return acc
+    }, {} as TFilterParams)
   }
 
   const selectedItemToFilterBarData = (list: ISelectedFilterItem[]): IFilterBar => {

@@ -174,6 +174,10 @@ export interface ILimitPrice {
   limitMax: number
 }
 
+export type TFilterParams = {
+  [key in TSelectedFilterKey]: string
+}
+
 export interface IFilterCountPayload {
   [FILTER_CODE.color]?: string[]
   [FILTER_CODE.price]?: { min: number; max: number }
