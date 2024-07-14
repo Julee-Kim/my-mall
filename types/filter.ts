@@ -173,3 +173,11 @@ export interface ILimitPrice {
   limitMin: number
   limitMax: number
 }
+
+export interface IFilterCountPayload {
+  [FILTER_CODE.color]?: string[]
+  [FILTER_CODE.price]?: { min: number; max: number }
+  [FILTER_CODE.discount]?: string[]
+  [FILTER_CODE.benefit]?: string[]
+  [FILTER_CODE.brand]?: number[]
+}

@@ -5,8 +5,10 @@ import { clone } from 'remeda'
 import {
   IFilterBarListItem,
   IFilterBrandItem,
+  IFilterCountPayload,
   IFilterItem,
   IFiltersRes,
+  ILimitPrice,
   IModalProductFilterProps,
   ISelectedFilterItem,
   TAddPropertiesToListItem,
@@ -77,7 +79,11 @@ const ModalFilter = ({
   useEffect(() => {
     const fetchFilterCountData = async () => {
       try {
-        const { total } = await fetchFilterCount({ test: 1 })
+        const { limitMin, limitMax } = filterData[FILTER_CODE.price]
+
+        const payload = groupFiltersByType(selectedFilterList, { limitMin, limitMax })
+
+        const { total } = await fetchFilterCount(payload)
         setTotalCount(total)
       } catch (e) {
         console.log(e)
@@ -86,6 +92,40 @@ const ModalFilter = ({
 
     if (isOpen) fetchFilterCountData()
   }, [selectedFilterList])
+
+  const groupFiltersByType = (
+    list: ISelectedFilterItem[],
+    limitPrice: ILimitPrice,
+  ): IFilterCountPayload => {
+    return list.reduce((acc, item) => {
+      const { type, name, code } = item
+
+      switch (type) {
+        case FILTER_CODE.price:
+          const [min, max] = name.split('~')
+          const minValue = min ? Number(min) : limitPrice.limitMin
+          const maxValue = max ? Number(max) : limitPrice.limitMax
+          acc[FILTER_CODE.price] = { min: minValue, max: maxValue }
+          break
+
+        case FILTER_CODE.brand:
+        case FILTER_CODE.topBrand:
+        case FILTER_CODE.newBrand:
+          if (!acc[FILTER_CODE.brand]) acc[FILTER_CODE.brand] = []
+          acc[FILTER_CODE.brand].push(Number(code))
+          break
+
+        case FILTER_CODE.color:
+        case FILTER_CODE.discount:
+        case FILTER_CODE.benefit:
+          if (!acc[type]) acc[type] = []
+          ;(acc[type] as string[]).push(String(code))
+          break
+      }
+
+      return acc
+    }, {} as IFilterCountPayload)
+  }
 
   const checkActiveItem = (targetCode: number | string) => {
     return selectedFilterList.some((item) => targetCode === item.code)
@@ -196,14 +236,6 @@ const ModalFilter = ({
             onDelete={handleDeleteFilter}
           />
         )
-      // case FILTER_CODE.price:
-      //   return (
-      //     <PriceContent
-      //       limitMin={filterData.price.limitMin}
-      //       limitMax={filterData.price.limitMax}
-      //       onChange={handlePriceFilter}
-      //     />
-      //   )
       case FILTER_CODE.price:
         return <PriceContent filterData={filterData.price} onChange={handlePriceFilter} />
       case FILTER_CODE.discountBenefit:
