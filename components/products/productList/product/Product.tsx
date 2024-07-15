@@ -37,7 +37,7 @@ const Product = ({ product }: { product: IProduct }) => {
             {product.is_coupon && <span className={styles.coupon}>쿠폰</span>}
             {product.is_exclusive && <span className={styles.exclusive}>단독</span>}
           </div>
-          <Button icon={<BsBag size={16} />} className={styles.iconCart} />
+          {/*<Button icon={<BsBag size={16} />} className={styles.iconCart} />*/}
         </div>
       </Link>
     </li>

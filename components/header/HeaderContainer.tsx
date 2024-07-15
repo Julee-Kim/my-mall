@@ -79,7 +79,7 @@ const HeaderContainer = ({
       <Header>
         <ButtonBack />
         <ButtonCategoryTitle name={categoryName} showSub={toggleLnb} />
-        <ButtonCart />
+        {/*<ButtonCart />*/}
 
         {isShowLnb && (
           <Lnb
