@@ -185,3 +185,8 @@ export interface IFilterCountPayload {
   [FILTER_CODE.benefit]?: string[]
   [FILTER_CODE.brand]?: number[]
 }
+
+export interface ISearchBrand {
+  searchKeyword: string
+  onSorting: (value: string) => void
+}
