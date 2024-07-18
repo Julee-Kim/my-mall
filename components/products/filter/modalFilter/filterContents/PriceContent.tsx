@@ -3,6 +3,7 @@ import { GoPlus } from 'react-icons/go'
 import { IFilterPriceItem } from '@/types/filter'
 import { initialFilterPrice } from '@/constants/filter'
 import styles from '@/components/products/filter/modalFilter/filterContents/PriceContent.module.scss'
+import InputNumber from '@/components/_common/inputNumber/InputNumber'
 
 const GAP_PRICE = 1000
 
@@ -33,6 +34,37 @@ const PriceContent = ({
     setMaxRangePercent(100 - (max / filterData.limitMax) * 100)
   }
 
+  const onChangePrice = (isMin: boolean, e: ChangeEvent<HTMLInputElement>) => {
+    // let price = e.target.value
+    // price = Number(price.replaceAll(',', ''))
+    // if (isNaN(price)) {
+    //   if (isMin) {
+    //     setMinValue('0')
+    //   } else {
+    //     setMaxValue('0')
+    //   }
+    // } else {
+    //   if (isMin) {
+    //     setMinValue(comma(price))
+    //   } else {
+    //     setMaxValue(comma(price))
+    //   }
+    // }
+    // const value = e.target.value.replaceAll(',', '')
+    // let num = value.replace(/[^0-9]/g, '')
+    //
+    // if (num.length > 1 && num[0] === '0') {
+    //   num = num.replace('0', '')
+    // }
+    //
+    // const numberValue = Number(value)
+    // if (num) {
+    //   if (isMin) {
+    //     setMinValue(numberValue)
+    //   }
+    // }
+  }
+
   const changeRange = (isMin: boolean, targetValue: string | number) => {
     let value = typeof targetValue === 'number' ? targetValue : parseInt(targetValue)
 
@@ -61,12 +93,11 @@ const PriceContent = ({
     }
   }
 
-  const blurInput = (e: ChangeEvent<HTMLInputElement>, isMin: boolean) => {
+  const blurInput = (inputValue: number, isMin: boolean) => {
     const { limitMin, limitMax } = filterData
-    let value = parseInt(e.target.value)
 
     // limitMin limitMax 범위의 값 할당
-    value = Math.max(limitMin, Math.min(limitMax, value))
+    const value = Math.max(limitMin, Math.min(limitMax, inputValue))
 
     if (isMin) {
       onChange(value, maxValue)
@@ -86,20 +117,18 @@ const PriceContent = ({
       <h4 className={styles.title}>가격 범위 설정</h4>
       <p className={styles.desc}>가격은 천원단위로 입력해주세요.</p>
       <div className={styles.inputWrap}>
-        <input
-          type="text"
+        <InputNumber
           className={styles.input}
           value={minValue}
-          onChange={(e) => setMinValue(parseInt(e.target.value))}
-          onBlur={(e) => blurInput(e, true)}
+          onChange={(value: number) => setMinValue(value)}
+          onBlur={(value: number) => blurInput(value, true)}
         />
         <span className={styles.between}>~</span>
-        <input
-          type="text"
+        <InputNumber
           className={styles.input}
           value={maxValue}
-          onChange={(e) => setMaxValue(parseInt(e.target.value))}
-          onBlur={(e) => blurInput(e, false)}
+          onChange={(value: number) => setMaxValue(value)}
+          onBlur={(value: number) => blurInput(value, false)}
         />
         <span className={styles.iconPlusWrap}>
           {maxValue === filterData.limitMax && (

@@ -180,10 +180,9 @@ const ModalFilter = ({
   const handlePriceFilter = (minValue: number, maxValue: number) => {
     updatePriceFilter(minValue, maxValue)
 
-    // 입력한 min, max 를 limit 금액과 비교
+    // 입력한 min, max 를 limit 금액과 비교, limit 와 같을 경우에는 0 할당
     const min = minValue > filterData.price.limitMin ? minValue : 0
     const max = maxValue < filterData.price.limitMax ? maxValue : 0
-
     updateSelectedPrice(min, max)
   }
 
