@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ISelectedFilterItem, TFilterItemCode } from '@/types/filter'
 import { FILTER_CODE } from '@/constants/filter'
+import { formatToKorean } from '@/utils'
 
 export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
@@ -34,7 +35,9 @@ export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
 
         // min, max 있으면 price 아이템의 name 변경
         const newList = [...prevList]
-        newList[priceItemIndex].name = `${min}~${max}`
+        const minName = min ? formatToKorean(min) : min
+        const maxName = max ? formatToKorean(max) : max
+        newList[priceItemIndex].name = `${minName}~${maxName}`
         return newList
       }
 
@@ -43,10 +46,17 @@ export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
         return [...prevList]
       }
 
+      const minName = min ? formatToKorean(min) : min
+      const maxName = max ? formatToKorean(max) : max
+
       // 없으면 아이템 추가
       return [
         ...prevList,
-        { type: FILTER_CODE.price, code: FILTER_CODE.price, name: `${min}~${max}` },
+        {
+          type: FILTER_CODE.price,
+          code: FILTER_CODE.price,
+          name: `${minName}~${maxName}`,
+        },
       ]
     })
   }
