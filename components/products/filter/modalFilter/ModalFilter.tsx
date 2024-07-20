@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { clone } from 'remeda'
 import {
   IFilterBarListItem,
@@ -39,6 +40,7 @@ const ModalFilter = ({
   tab,
   selectedFilters,
 }: IModalProductFilterProps) => {
+  const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState<TFilterKey>(FILTER_CODE.color)
   const [totalCount, setTotalCount] = useState(0)
   const {
@@ -66,7 +68,12 @@ const ModalFilter = ({
   useEffect(() => {
     const fetchFilterData = async () => {
       try {
-        const { data, total } = await fetchFilters()
+        // 현재 카테고리 추출
+        const categoryTop = searchParams.get('categoryTop') || ''
+        const categorySub = searchParams.get('categorySub') || ''
+
+        const params = { categoryTop, categorySub }
+        const { data, total } = await fetchFilters(params)
 
         setFilterDataAndTotal(data, total)
       } catch (e) {

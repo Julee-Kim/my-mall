@@ -213,7 +213,12 @@ const Filter = () => {
 
     const fetchFilterData = async () => {
       try {
-        const { data } = await fetchFilters()
+        // 현재 카테고리 추출
+        const categoryTop = searchParams.get('categoryTop') || ''
+        const categorySub = searchParams.get('categorySub') || ''
+
+        const params = { categoryTop, categorySub }
+        const { data } = await fetchFilters(params)
 
         // params를 selectedItem 형태로 변경
         const selectedItems = paramsToSelectedItemsData(data, params)

@@ -1,7 +1,10 @@
 import { IFetchFiltersRes, IFetchFilterCountRes } from '@/types/filter'
+import { paramsToString } from '@/utils/queryParams'
 
-export const fetchFilters = async (): Promise<IFetchFiltersRes> => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/filters`
+// TODO: params 타입 정의
+export const fetchFilters = async (params: any): Promise<IFetchFiltersRes> => {
+  const queryString = paramsToString({ ...params })
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/filters?${queryString}`
   const res = await fetch(url)
   if (!res.ok) {
     throw new Error('Failed to fetch data')
