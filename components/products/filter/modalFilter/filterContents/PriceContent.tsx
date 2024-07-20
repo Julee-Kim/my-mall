@@ -96,8 +96,11 @@ const PriceContent = ({
   const blurInput = (inputValue: number, isMin: boolean) => {
     const { limitMin, limitMax } = filterData
 
+    // 500원 단위 반올림
+    let roundedAmount = Math.round(inputValue / 1000) * 1000
+
     // limitMin limitMax 범위의 값 할당
-    const value = Math.max(limitMin, Math.min(limitMax, inputValue))
+    const value = Math.max(limitMin, Math.min(limitMax, roundedAmount))
 
     if (isMin) {
       onChange(value, maxValue)
