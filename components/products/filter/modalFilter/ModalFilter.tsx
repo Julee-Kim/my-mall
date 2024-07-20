@@ -317,7 +317,7 @@ const ModalFilter = ({
             onDelete={handleDeleteSelectedItem}
             onReset={handleReset}
           />
-          <FilterBottomBtns total={totalCount} onSearch={handleSearchBtn} />
+          <FilterBottomBtns total={totalCount} onSearch={handleSearchBtn} onCancel={onCancel} />
         </Modal.Content>
       </Modal>
     </div>
