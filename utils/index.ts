@@ -31,7 +31,7 @@ const chunkAtEnd = (value = ''): string[] => {
  * 123000 -> 12만3천원
  * 1234000 -> 123만4천원
  * */
-export const formatToKorean = (amount: number) => {
+export const formatToKorean = (amount: number): string => {
   const thousandUnits = ['천', '만']
 
   // 500원 단위 반올림
@@ -53,4 +53,35 @@ export const formatToKorean = (amount: number) => {
   }, '')
 
   return result + '원'
+}
+
+export const formatToNumber = (korean: string): number => {
+  const unitValues: { [key: string]: number } = {
+    천: 1000,
+    만: 10000,
+  }
+
+  korean = korean.replace('원', '')
+
+  let result = 0
+  let currentNumber = ''
+
+  for (let i = 0; i < korean.length; i++) {
+    const char = korean[i]
+
+    if (char >= '0' && char <= '9') {
+      currentNumber += char
+    } else {
+      if (currentNumber) {
+        result += parseInt(currentNumber) * (unitValues[char] || 1)
+        currentNumber = ''
+      }
+    }
+  }
+
+  if (currentNumber) {
+    result += parseInt(currentNumber)
+  }
+
+  return result
 }

@@ -21,6 +21,7 @@ import { FILTER_CODE, initialFilterBar, tabTypesToCheck } from '@/constants/filt
 import { fetchFilterCount, fetchFilters } from '@/services/filters'
 import { useFilterData } from '@/hooks/useFilterData'
 import { useSelectedFilterList } from '@/hooks/useSelectedFilterList'
+import { formatToNumber } from '@/utils'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/products/filter/modalFilter/tabs/Tabs'
 import ColorContent from '@/components/products/filter/modalFilter/filterContents/ColorContent'
@@ -138,13 +139,26 @@ const ModalFilter = ({
     return list.map((item) => ({ ...item, isActive: checkActiveItem(item.code), type }))
   }
 
-  const setFilterDataAndTotal = (data: IFiltersRes, total: number) => {
-    const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
-    const price = {
-      ...data.price,
-      min: data.price.limitMin,
-      max: data.price.limitMax,
+  const checkPrice = () => {
+    const priceItem = selectedFilterList.find((item) => item.type === 'price')
+
+    if (priceItem) {
+      const [min, max] = priceItem.name.split('~')
+      return { min: formatToNumber(min), max: formatToNumber(max) }
     }
+
+    return null
+  }
+
+  const setFilterDataAndTotal = (data: IFiltersRes, total: number) => {
+    const { limitMin, limitMax } = data.price
+
+    const selectedPrice = checkPrice()
+    const minPrice = selectedPrice?.min && selectedPrice?.min !== 0 ? selectedPrice.min : limitMin
+    const maxPrice = selectedPrice?.max && selectedPrice?.max !== 0 ? selectedPrice.max : limitMax
+
+    const price = { ...data.price, min: minPrice, max: maxPrice }
+    const color = addPropertiesToListItem(FILTER_CODE.color, data.color)
     const discount = addPropertiesToListItem(FILTER_CODE.discount, data.discount)
     const benefit = addPropertiesToListItem(FILTER_CODE.benefit, data.benefit)
     const brand = addPropertiesToListItem(FILTER_CODE.brand, data.brand)

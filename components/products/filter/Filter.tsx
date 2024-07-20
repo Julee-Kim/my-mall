@@ -26,6 +26,7 @@ import {
 } from '@/constants/filter'
 import { fetchFilters } from '@/services/filters'
 import { paramsToObject, paramsToString } from '@/utils/queryParams'
+import { formatToKorean, formatToNumber } from '@/utils'
 import useQueryProductList from '@/hooks/queries/useProductList'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
 import FilterBar from '@/components/products/filter/FilterBar'
@@ -55,8 +56,8 @@ const Filter = () => {
         // 가격
         const [min, max] = item.name.split('~')
 
-        const minValue = min ? min : limitPrice.limitMin
-        const maxValue = max ? max : limitPrice.limitMax
+        const minValue = min ? formatToNumber(min) : limitPrice.limitMin
+        const maxValue = max ? formatToNumber(max) : limitPrice.limitMax
 
         acc[item.type] = `${minValue},${maxValue}`
       } else {
@@ -179,8 +180,8 @@ const Filter = () => {
           // 가격
           const [min, max] = params[filterKey].split(',')
 
-          const minValue = Number(min) !== data.price.limitMin ? min : ''
-          const maxValue = Number(max) !== data.price.limitMax ? max : ''
+          const minValue = Number(min) !== data.price.limitMin ? formatToKorean(Number(min)) : ''
+          const maxValue = Number(max) !== data.price.limitMax ? formatToKorean(Number(max)) : ''
           arr.push({
             type: filterKey as TSelectedFilterKey,
             code: filterKey as TSelectedFilterKey,
