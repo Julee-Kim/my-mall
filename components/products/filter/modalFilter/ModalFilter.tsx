@@ -89,7 +89,16 @@ const ModalFilter = ({
       try {
         const { limitMin, limitMax } = filterData[FILTER_CODE.price]
 
-        const payload = groupFiltersByType(selectedFilterList, { limitMin, limitMax })
+        const groupFilters = groupFiltersByType(selectedFilterList, { limitMin, limitMax })
+
+        const categoryTop = searchParams.get('categoryTop') || ''
+        const categorySub = searchParams.get('categorySub') || ''
+
+        const payload = {
+          ...groupFilters,
+          categoryTop,
+          categorySub,
+        }
 
         const { total } = await fetchFilterCount(payload)
         setTotalCount(total)
@@ -111,8 +120,8 @@ const ModalFilter = ({
       switch (type) {
         case FILTER_CODE.price:
           const [min, max] = name.split('~')
-          const minValue = min ? Number(min) : limitPrice.limitMin
-          const maxValue = max ? Number(max) : limitPrice.limitMax
+          const minValue = min ? formatToNumber(min) : limitPrice.limitMin
+          const maxValue = max ? formatToNumber(max) : limitPrice.limitMax
           acc[FILTER_CODE.price] = { min: minValue, max: maxValue }
           break
 
