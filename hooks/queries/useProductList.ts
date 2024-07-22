@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { IProductListParams } from '@/types/product'
 import { fetchProducts } from '@/services/products'
-import { paramsToObject } from '@/utils/queryParams'
+import { paramsToObject, paramsToString } from '@/utils/queryParams'
 
 const PAGE_SIZE = 6
 
 const useQueryProductList = () => {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const queryParamsRef = useRef<IProductListParams>({} as IProductListParams)
 
@@ -45,6 +46,12 @@ const useQueryProductList = () => {
 
     try {
       const { isSuccess } = await refetch()
+
+      // url 변경
+      const queryString = paramsToString(newParams)
+      const newUrl = `${window.location.pathname}?${queryString}`
+      router.replace(newUrl)
+
       return isSuccess
     } catch (e) {
       console.log(e)

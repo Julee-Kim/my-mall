@@ -107,9 +107,8 @@ const Filter = () => {
     /**
      *  선택한 필터 목록(selectedFilterList)을 type 별로 분류 후 상품 목록 refetch
      *    성공 후
-     *     1. url query 변경
-     *     2. 선택한 필터 목록을 활용하여 FilterBar 컴포넌트에서 사용하는 filterBar data 변경
-     *     3. 선택한 목록 selectedFilterList data 변경
+     *     1. 선택한 필터 목록을 활용하여 FilterBar 컴포넌트에서 사용하는 filterBar data 변경
+     *     2. 선택한 목록 selectedFilterList data 변경
      * */
 
     const selectedList = selectedFilterList ? selectedFilterList : []
@@ -135,11 +134,6 @@ const Filter = () => {
     // 상품 목록 refetch
     const isSuccess = await updateQueryParams(queryParams)
     if (isSuccess) {
-      // url 변경
-      const queryString = paramsToString(queryParams)
-      const newUrl = `${window.location.pathname}?${queryString}`
-      router.replace(newUrl)
-
       // filterBar 데이터 변경
       const newFilterBarData = selectedItemToFilterBarData(selectedList)
       setFilterBar(newFilterBarData)
@@ -242,7 +236,7 @@ const Filter = () => {
 
   return (
     <>
-      <div className={styles.filterWrap}>
+      <div className={[styles.filterWrap, styles.FilterBarWrap].join(' ')}>
         {selectedFilterList.length > 0 && (
           <div className={styles.btnRefreshWrap}>
             <ButtonRefresh onClick={handleReset} />
