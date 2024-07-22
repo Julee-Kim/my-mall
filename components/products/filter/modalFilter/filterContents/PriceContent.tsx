@@ -20,6 +20,7 @@ const PriceContent = ({
   const [maxRange, setMaxRange] = useState(0)
   const [minRangePercent, setMinRangePercent] = useState(0)
   const [maxRangePercent, setMaxRangePercent] = useState(0)
+  const { limitMin, limitMax } = filterData
 
   useEffect(() => {
     setInitialValue(filterData.min, filterData.max)
@@ -30,39 +31,16 @@ const PriceContent = ({
     setMaxValue(max)
     setMinRange(min)
     setMaxRange(max)
-    setMinRangePercent((min / filterData.limitMax) * 100)
-    setMaxRangePercent(100 - (max / filterData.limitMax) * 100)
+    changeMinRangePercent(min)
+    changeMaxRangePercent(max)
   }
 
-  const onChangePrice = (isMin: boolean, e: ChangeEvent<HTMLInputElement>) => {
-    // let price = e.target.value
-    // price = Number(price.replaceAll(',', ''))
-    // if (isNaN(price)) {
-    //   if (isMin) {
-    //     setMinValue('0')
-    //   } else {
-    //     setMaxValue('0')
-    //   }
-    // } else {
-    //   if (isMin) {
-    //     setMinValue(comma(price))
-    //   } else {
-    //     setMaxValue(comma(price))
-    //   }
-    // }
-    // const value = e.target.value.replaceAll(',', '')
-    // let num = value.replace(/[^0-9]/g, '')
-    //
-    // if (num.length > 1 && num[0] === '0') {
-    //   num = num.replace('0', '')
-    // }
-    //
-    // const numberValue = Number(value)
-    // if (num) {
-    //   if (isMin) {
-    //     setMinValue(numberValue)
-    //   }
-    // }
+  const changeMinRangePercent = (min: number) => {
+    setMinRangePercent(((min - limitMin) / (limitMax - limitMin)) * 100)
+  }
+
+  const changeMaxRangePercent = (max: number) => {
+    setMaxRangePercent(100 - ((max - limitMin) / (limitMax - limitMin)) * 100)
   }
 
   const changeRange = (isMin: boolean, targetValue: string | number) => {
@@ -71,24 +49,24 @@ const PriceContent = ({
     if (isMin) {
       setMinValue(value)
       setMinRange(value)
-      setMinRangePercent((value / filterData.limitMax) * 100)
+      changeMinRangePercent(value)
 
       // minRange가 maxRange 보다 크지 않도록 설정
       if (value > maxRange) {
         setMaxValue(value)
         setMaxRange(value)
-        setMaxRangePercent(100 - (maxRange / filterData.limitMax) * 100)
+        changeMaxRangePercent(maxRange)
       }
     } else {
       setMaxValue(value)
       setMaxRange(value)
-      setMaxRangePercent(100 - (value / filterData.limitMax) * 100)
+      changeMaxRangePercent(maxRange)
 
       // maxRange가 minRange 보다 작지 않도록 설정
       if (minRange > value) {
         setMinValue(value)
         setMinRange(value)
-        setMinRangePercent((minRange / filterData.limitMax) * 100)
+        changeMinRangePercent(minRange)
       }
     }
   }
