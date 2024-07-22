@@ -1,6 +1,13 @@
+$filterWrapHeight: calc(var(--HeaderHeight) + var(--CategoryTabHeight));
+
 .filterWrap {
+  position: fixed;
+  top: $filterWrapHeight;
+  left: 0;
+  z-index: 5;
   display: flex;
   padding: 12px 0 12px 20px;
+  background-color: #fff;
 
   .btnRefreshWrap {
     display: inline-block;

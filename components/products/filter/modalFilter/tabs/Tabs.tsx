@@ -11,7 +11,7 @@ const Tabs = ({
   onClickTab: (tab: IFilterBarListItem) => void
 }) => {
   return (
-    <div className={styles.TabsWrap}>
+    <div className={styles.tabsWrap}>
       <ul>
         {tabList.map((tab: IFilterBarListItem) => (
           <li key={tab.code} className={styles.tab}>
