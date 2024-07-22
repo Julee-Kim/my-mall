@@ -3,7 +3,7 @@ import styles from '@/components/header/SkeletonMenuBar/SkeletonMenuBar.module.s
 
 const SkeletonMenuBar = () => {
   return (
-    <div className={menuBarStyles.tabsWrap}>
+    <div className={menuBarStyles.TabsWrap}>
       <ul>
         {Array(4).map((item: number) => (
           <li key={item} className={menuBarStyles.tab}>

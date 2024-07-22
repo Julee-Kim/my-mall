@@ -15,7 +15,7 @@ const ProductList = () => {
   }
 
   return (
-    <div className={styles.listWrap}>
+    <div>
       <ul className={[styles.list, data?.pages.length && styles.bottomGap].join(' ')}>
         {data?.pages.map((page) =>
           page.list.map((product: IProduct, index: number) => (

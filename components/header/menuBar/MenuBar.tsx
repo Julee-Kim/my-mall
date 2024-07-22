@@ -11,7 +11,7 @@ const MenuBar = ({
   handleClick: (tab: ISubCategoryListItem) => void
 }) => {
   return (
-    <div className={[styles.tabsWrap, styles.fixedTab].join(' ')}>
+    <div className={styles.TabsWrap}>
       <ul>
         {menuList.map((menu: ISubCategoryListItem) => (
           <li key={menu.id} className={styles.tab}>
