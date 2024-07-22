@@ -1,14 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import {
   ICategoriesData,
   IMenuBarList,
   ISubCategoryListItem,
   ITopCategoryListItem,
 } from '@/types/category'
+import { IProductListParams } from '@/types/product'
 import { divideToTobSub, fetchCategories } from '@/services/header'
+import useQueryProductList from '@/hooks/queries/useProductList'
 import Header from '@/components/header/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
@@ -16,6 +17,7 @@ import ButtonCart from '@/components/header/ButtonCart'
 import Lnb from '@/components/header/lnb/Lnb'
 import MenuBar from '@/components/header/menuBar/MenuBar'
 import SkeletonMenuBar from '@/components/header/skeletonMenuBar/SkeletonMenuBar'
+import styles from '@/components/header/HeaderContainer.module.scss'
 
 const HeaderContainer = ({
   activeTopId,
@@ -24,7 +26,7 @@ const HeaderContainer = ({
   activeTopId: string
   activeSubId?: string
 }) => {
-  const router = useRouter()
+  const { updateQueryParams } = useQueryProductList()
   const [categoryName, setCategoryName] = useState<string>('')
   const [isShowLnb, setIsShowLnb] = useState<boolean>(false)
   const [selectedTopId, setSelectedTopId] = useState<string>('')
@@ -38,13 +40,13 @@ const HeaderContainer = ({
     setSelectedTopId(category.topId)
     setSelectedSubId(category.id)
 
-    let url = `/products?categoryTop=${category.topId}`
+    let params = { categoryTop: category.topId } as IProductListParams
 
     if (category.topId !== category.id) {
-      url += `&categorySub=${category.id}`
+      params.categorySub = category.id
     }
 
-    router.push(url)
+    updateQueryParams(params)
   }
 
   const handleClickSub = (category: ISubCategoryListItem) => {
@@ -76,31 +78,33 @@ const HeaderContainer = ({
 
   return (
     <>
-      <Header>
-        <ButtonBack />
-        <ButtonCategoryTitle name={categoryName} showSub={toggleLnb} />
-        {/*<ButtonCart />*/}
+      <div className={styles.headerContainer}>
+        <Header>
+          <ButtonBack />
+          <ButtonCategoryTitle name={categoryName} showSub={toggleLnb} />
+          {/*<ButtonCart />*/}
+        </Header>
 
-        {isShowLnb && (
-          <Lnb
-            selectedTopId={selectedTopId}
-            selectedSubId={selectedSubId}
-            topList={topList}
-            subList={subList[selectedTopId]}
-            handleClickTop={(category: ITopCategoryListItem) => setSelectedTopId(category.id)}
-            handleClickSub={handleClickSub}
+        {subList[selectedTopId] ? (
+          <MenuBar
+            selectedId={selectedSubId}
+            menuList={subList[selectedTopId]}
+            handleClick={setTopSubCategories}
           />
+        ) : (
+          <SkeletonMenuBar />
         )}
-      </Header>
+      </div>
 
-      {subList[selectedTopId] ? (
-        <MenuBar
-          selectedId={selectedSubId}
-          menuList={subList[selectedTopId]}
-          handleClick={setTopSubCategories}
+      {isShowLnb && (
+        <Lnb
+          selectedTopId={selectedTopId}
+          selectedSubId={selectedSubId}
+          topList={topList}
+          subList={subList[selectedTopId]}
+          handleClickTop={(category: ITopCategoryListItem) => setSelectedTopId(category.id)}
+          handleClickSub={handleClickSub}
         />
-      ) : (
-        <SkeletonMenuBar />
       )}
     </>
   )
