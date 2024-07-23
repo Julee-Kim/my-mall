@@ -13,6 +13,7 @@ const useQueryProductList = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetched } = useInfiniteQuery({
     queryKey,
     initialPageParam: 1,
+    staleTime: 1000 * 60 * 5, // 5분
     queryFn: ({ pageParam = 1 }: { pageParam: number }) => {
       const searchParamsObj = paramsToObject(searchParams)
       const params = {
