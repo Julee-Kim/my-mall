@@ -36,11 +36,11 @@ import styles from './Filter.module.scss'
 const Filter = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { isFetched } = useQueryProductList()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTab, setSelectedTap] = useState<TFilterKey>(FILTER_CODE.color)
   const [filterBar, setFilterBar] = useState<IFilterBar>(clone(initialFilterBar))
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
-  const { updateQueryParams } = useQueryProductList()
 
   const openModalFilter = (tabCode: TFilterKey) => {
     setSelectedTap(tabCode)
@@ -101,23 +101,21 @@ const Filter = () => {
   }
 
   const fetchProducts = async (
-    selectedFilterList?: ISelectedFilterItem[],
+    selectedFilterList: ISelectedFilterItem[] = [],
     limitPrice?: ILimitPrice,
   ) => {
     /**
-     *  선택한 필터 목록(selectedFilterList)을 type 별로 분류 후 상품 목록 refetch
+     *  선택한 필터 목록(selectedFilterList)을 type 별로 분류 후 상품 목록 fetch
      *    성공 후
      *     1. 선택한 필터 목록을 활용하여 FilterBar 컴포넌트에서 사용하는 filterBar data 변경
      *     2. 선택한 목록 selectedFilterList data 변경
      * */
 
-    const selectedList = selectedFilterList ? selectedFilterList : []
+    let groupFilters = {} // 선택 필터 타입별로 분류하여 할당할 값
 
-    let groupFilters = {}
-
-    if (selectedList.length > 0 && limitPrice) {
-      // 선택한 필터 목록을 type 별로 분류
-      groupFilters = groupFiltersByType(selectedList, limitPrice)
+    if (selectedFilterList.length > 0 && limitPrice) {
+      // 선택한 필터가 있을 경우 type 별로 분류
+      groupFilters = groupFiltersByType(selectedFilterList, limitPrice)
     }
 
     // 현재 카테고리 추출
@@ -131,15 +129,19 @@ const Filter = () => {
       ...groupFilters,
     } as IProductListParams
 
-    // 상품 목록 refetch
-    const isSuccess = await updateQueryParams(queryParams)
-    if (isSuccess) {
+    // url 변경
+    const queryString = paramsToString(queryParams)
+    const newUrl = `${window.location.pathname}?${queryString}`
+    router.push(newUrl)
+
+    // 상품 목록 fetch 성공 후
+    if (isFetched) {
       // filterBar 데이터 변경
-      const newFilterBarData = selectedItemToFilterBarData(selectedList)
+      const newFilterBarData = selectedItemToFilterBarData(selectedFilterList)
       setFilterBar(newFilterBarData)
 
       // selectedFilterList 변경
-      setSelectedFilterList(selectedList)
+      setSelectedFilterList(selectedFilterList)
     }
   }
 

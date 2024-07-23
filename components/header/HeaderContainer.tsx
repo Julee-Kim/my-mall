@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   ICategoriesData,
   IMenuBarList,
@@ -9,7 +10,7 @@ import {
 } from '@/types/category'
 import { IProductListParams } from '@/types/product'
 import { divideToTobSub, fetchCategories } from '@/services/header'
-import useQueryProductList from '@/hooks/queries/useProductList'
+import { paramsToString } from '@/utils/queryParams'
 import Header from '@/components/header/header/Header'
 import ButtonBack from '@/components/header/ButtonBack'
 import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
@@ -26,7 +27,7 @@ const HeaderContainer = ({
   activeTopId: string
   activeSubId?: string
 }) => {
-  const { updateQueryParams } = useQueryProductList()
+  const router = useRouter()
   const [categoryName, setCategoryName] = useState<string>('')
   const [isShowLnb, setIsShowLnb] = useState<boolean>(false)
   const [selectedTopId, setSelectedTopId] = useState<string>('')
@@ -46,7 +47,10 @@ const HeaderContainer = ({
       params.categorySub = category.id
     }
 
-    updateQueryParams(params)
+    // url 변경
+    const queryString = paramsToString(params)
+    const newUrl = `${window.location.pathname}?${queryString}`
+    router.push(newUrl)
   }
 
   const handleClickSub = (category: ISubCategoryListItem) => {

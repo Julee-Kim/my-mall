@@ -10,6 +10,14 @@ import styles from './ProductList.module.scss'
 const ProductList = () => {
   const { data, fetchNextPage, isLoading, hasNextPage } = useQueryProductList()
 
+  if (isLoading) {
+    return (
+      <div className={styles.listWrap}>
+        <SkeletonProductList />
+      </div>
+    )
+  }
+
   const loadMore = async () => {
     await fetchNextPage()
   }
@@ -23,7 +31,7 @@ const ProductList = () => {
           )),
         )}
       </ul>
-      {(isLoading || hasNextPage) && (
+      {hasNextPage && (
         <Observer onEnter={loadMore} options={{ threshold: 0.25 }}>
           <SkeletonProductList />
         </Observer>
