@@ -27,7 +27,6 @@ import {
 import { fetchFilters } from '@/services/filters'
 import { paramsToObject, paramsToString } from '@/utils/queryParams'
 import { formatToKorean, formatToNumber } from '@/utils'
-import useQueryProductList from '@/hooks/queries/useProductList'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
 import FilterBar from '@/components/products/filter/FilterBar'
 import ModalFilter from '@/components/products/filter/modalFilter/ModalFilter'
@@ -36,7 +35,6 @@ import styles from './Filter.module.scss'
 const Filter = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { isFetched } = useQueryProductList()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTab, setSelectedTap] = useState<TFilterKey>(FILTER_CODE.color)
   const [filterBar, setFilterBar] = useState<IFilterBar>(clone(initialFilterBar))
@@ -61,13 +59,8 @@ const Filter = () => {
       }
     }
 
-    // 쿼리 파라미터에 필터(컬러,가격,할인/혜택,브랜드)가 있는지 확인
-    const isHasFilterKey = checkHasFilterKey(params)
-
-    if (isHasFilterKey) {
-      fetchFilterData()
-    }
-  }, [])
+    fetchFilterData()
+  }, [searchParams])
 
   const openModalFilter = (tabCode: TFilterKey) => {
     setSelectedTap(tabCode)
@@ -131,13 +124,6 @@ const Filter = () => {
     selectedFilterList: ISelectedFilterItem[] = [],
     limitPrice?: ILimitPrice,
   ) => {
-    /**
-     *  선택한 필터 목록(selectedFilterList)을 type 별로 분류 후 상품 목록 fetch
-     *    성공 후
-     *     1. 선택한 필터 목록을 활용하여 FilterBar 컴포넌트에서 사용하는 filterBar data 변경
-     *     2. 선택한 목록 selectedFilterList data 변경
-     * */
-
     let groupFilters = {} // 선택 필터 타입별로 분류하여 할당할 값
 
     if (selectedFilterList.length > 0 && limitPrice) {
@@ -160,16 +146,6 @@ const Filter = () => {
     const queryString = paramsToString(queryParams)
     const newUrl = `${window.location.pathname}?${queryString}`
     router.push(newUrl)
-
-    // 상품 목록 fetch 성공 후
-    if (isFetched) {
-      // filterBar 데이터 변경
-      const newFilterBarData = selectedItemToFilterBarData(selectedFilterList)
-      setFilterBar(newFilterBarData)
-
-      // selectedFilterList 변경
-      setSelectedFilterList(selectedFilterList)
-    }
   }
 
   const handleOk = (selectedFilterList: ISelectedFilterItem[], limitPrice: ILimitPrice) => {
@@ -183,10 +159,6 @@ const Filter = () => {
 
   const handleReset = () => {
     fetchProducts()
-  }
-
-  const checkHasFilterKey = (params: Record<string, string>): boolean => {
-    return Object.keys(params).some((key) => FILTER_KEYS.includes(key as TSelectedFilterKey))
   }
 
   const paramsToSelectedItemsData = (

@@ -10,7 +10,7 @@ const useQueryProductList = () => {
   const searchParams = useSearchParams()
 
   const queryKey = ['products', paramsToObject(searchParams)]
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetched } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey,
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5, // 5분
@@ -38,7 +38,7 @@ const useQueryProductList = () => {
     },
   })
 
-  return { data, fetchNextPage, hasNextPage, isLoading, isFetched }
+  return { data, fetchNextPage, hasNextPage, isLoading }
 }
 
 export default useQueryProductList
