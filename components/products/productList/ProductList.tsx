@@ -1,7 +1,7 @@
 'use client'
 
 import { IProduct } from '@/types/product'
-import useQueryProductList from '@/hooks/queries/useProductList'
+import useQueryProductList from '@/hooks/_queries/useProductList'
 import Product from '@/components/products/productList/product/Product'
 import Observer from '@/components/_common/observer/Observer'
 import SkeletonProductList from '@/components/products/skeletonProductList/SkeletonProductList'

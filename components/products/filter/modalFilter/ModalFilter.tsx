@@ -20,8 +20,9 @@ import {
 } from '@/types/filter'
 import { FILTER_CODE, initialFilterBar, tabTypesToCheck } from '@/constants/filter'
 import { fetchFilterCount, fetchFilters } from '@/services/filters'
-import { useFilterData } from '@/hooks/useFilterData'
-import { useSelectedFilterList } from '@/hooks/useSelectedFilterList'
+import { useFilterData } from '@/hooks/products/useFilterData'
+import useFiltersQuery from '@/hooks/_queries/useFiltersQuery'
+import { useSelectedFilterListData } from '@/hooks/products/useSelectedFilterListData'
 import { formatToNumber } from '@/utils'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/products/filter/modalFilter/tabs/Tabs'
@@ -41,6 +42,7 @@ const ModalFilter = ({
   selectedFilters,
 }: IModalProductFilterProps) => {
   const searchParams = useSearchParams()
+  const { filters } = useFiltersQuery()
   const [activeTab, setActiveTab] = useState<TFilterKey>(FILTER_CODE.color)
   const [totalCount, setTotalCount] = useState(0)
   const {
@@ -59,29 +61,16 @@ const ModalFilter = ({
     updateSelectedPrice,
     resetSelectedPrice,
     resetSelectedFilterList,
-  } = useSelectedFilterList(selectedFilters)
+  } = useSelectedFilterListData(selectedFilters)
 
   useEffect(() => {
     setActiveTab(tab)
   }, [tab])
 
   useEffect(() => {
-    const fetchFilterData = async () => {
-      try {
-        // 현재 카테고리 추출
-        const categoryTop = searchParams.get('categoryTop') || ''
-        const categorySub = searchParams.get('categorySub') || ''
-
-        const params = { categoryTop, categorySub }
-        const { data, total } = await fetchFilters(params)
-
-        setFilterDataAndTotal(data, total)
-      } catch (e) {
-        console.log(e)
-      }
+    if (isOpen && filters) {
+      setFilterDataAndTotal(filters.data, filters.total)
     }
-
-    if (isOpen) fetchFilterData()
   }, [isOpen])
 
   useEffect(() => {

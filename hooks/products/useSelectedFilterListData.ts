@@ -3,7 +3,7 @@ import { ISelectedFilterItem, TFilterItemCode } from '@/types/filter'
 import { FILTER_CODE } from '@/constants/filter'
 import { formatToKorean } from '@/utils'
 
-export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
+export const useSelectedFilterListData = (initialState: ISelectedFilterItem[]) => {
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
 
   useEffect(() => {
@@ -79,4 +79,4 @@ export const useSelectedFilterList = (initialState: ISelectedFilterItem[]) => {
   }
 }
 
-export default useSelectedFilterList
+export default useSelectedFilterListData
