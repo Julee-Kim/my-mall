@@ -117,17 +117,30 @@ const useFilter = () => {
     limitPrice: ILimitPrice,
   ): TFilterParams => {
     return list.reduce((acc, item) => {
-      if (item.type === FILTER_CODE.price) {
-        // 가격
-        const [min, max] = item.name.split('~')
+      const { type, name, code } = item
 
-        const minValue = min ? formatToNumber(min) : limitPrice.limitMin
-        const maxValue = max ? formatToNumber(max) : limitPrice.limitMax
+      switch (type) {
+        case FILTER_CODE.price:
+          // 가격
+          const [min, max] = name.split('~')
+          const minValue = min ? formatToNumber(min) : limitPrice.limitMin
+          const maxValue = max ? formatToNumber(max) : limitPrice.limitMax
+          acc[FILTER_CODE.price] = `${minValue},${maxValue}`
+          break
 
-        acc[item.type] = `${minValue},${maxValue}`
-      } else {
-        // 컬러, 할인/혜택, 브랜드
-        acc[item.type] = acc[item.type] ? `${acc[item.type]},${item.code}` : String(item.code)
+        case FILTER_CODE.brand:
+        case FILTER_CODE.topBrand:
+        case FILTER_CODE.newBrand:
+          // 브랜드
+          acc[FILTER_CODE.brand] = acc[FILTER_CODE.brand] ? `${acc[type]},${code}` : String(code)
+          break
+
+        case FILTER_CODE.color:
+        case FILTER_CODE.discount:
+        case FILTER_CODE.benefit:
+          // 컬러, 할인, 혜택
+          acc[type] = acc[type] ? `${acc[type]},${code}` : String(code)
+          break
       }
 
       return acc
