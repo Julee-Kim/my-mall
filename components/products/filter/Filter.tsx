@@ -42,6 +42,33 @@ const Filter = () => {
   const [filterBar, setFilterBar] = useState<IFilterBar>(clone(initialFilterBar))
   const [selectedFilterList, setSelectedFilterList] = useState<ISelectedFilterItem[]>([])
 
+  useEffect(() => {
+    const params = paramsToObject(searchParams)
+
+    const fetchFilterData = async () => {
+      try {
+        const { data } = await fetchFilters(params)
+
+        // params를 selectedItem 형태로 변경
+        const selectedItems = paramsToSelectedItemsData(data, params)
+        setSelectedFilterList(selectedItems)
+
+        // filterBar 데이터 변경
+        const newFilterBarData = selectedItemToFilterBarData(selectedItems)
+        setFilterBar(newFilterBarData)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    // 쿼리 파라미터에 필터(컬러,가격,할인/혜택,브랜드)가 있는지 확인
+    const isHasFilterKey = checkHasFilterKey(params)
+
+    if (isHasFilterKey) {
+      fetchFilterData()
+    }
+  }, [])
+
   const openModalFilter = (tabCode: TFilterKey) => {
     setSelectedTap(tabCode)
     setIsOpen(true)
@@ -203,33 +230,6 @@ const Filter = () => {
 
     return arr
   }
-
-  useEffect(() => {
-    const params = paramsToObject(searchParams)
-
-    const fetchFilterData = async () => {
-      try {
-        const { data } = await fetchFilters(params)
-
-        // params를 selectedItem 형태로 변경
-        const selectedItems = paramsToSelectedItemsData(data, params)
-        setSelectedFilterList(selectedItems)
-
-        // filterBar 데이터 변경
-        const newFilterBarData = selectedItemToFilterBarData(selectedItems)
-        setFilterBar(newFilterBarData)
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    // 쿼리 파라미터에 필터(컬러,가격,할인/혜택,브랜드)가 있는지 확인
-    const isHasFilterKey = checkHasFilterKey(params)
-
-    if (isHasFilterKey) {
-      fetchFilterData()
-    }
-  }, [])
 
   return (
     <>

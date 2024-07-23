@@ -35,6 +35,15 @@ const HeaderContainer = ({
   const [topList, setTopList] = useState<ITopCategoryListItem[]>([])
   const [subList, setSubList] = useState<IMenuBarList>({})
 
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      const { data } = await fetchCategories()
+      setFetchData(data)
+    }
+
+    fetchCategoriesData()
+  }, [activeTopId, activeSubId])
+
   const toggleLnb = () => setIsShowLnb(!isShowLnb)
 
   const setTopSubCategories = (category: ISubCategoryListItem) => {
@@ -70,15 +79,6 @@ const HeaderContainer = ({
     setTopList(topList)
     setSubList(subList)
   }
-
-  useEffect(() => {
-    const fetchCategoriesData = async () => {
-      const { data } = await fetchCategories()
-      setFetchData(data)
-    }
-
-    fetchCategoriesData()
-  }, [activeTopId, activeSubId])
 
   return (
     <>
