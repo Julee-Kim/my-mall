@@ -4,7 +4,7 @@ import { IProductListParams } from '@/types/product'
 import { fetchProducts } from '@/services/products'
 import { paramsToObject } from '@/utils/queryParams'
 
-const PAGE_SIZE = 6
+const PAGE_SIZE = 4
 
 const useProductListQuery = () => {
   const searchParams = useSearchParams()
