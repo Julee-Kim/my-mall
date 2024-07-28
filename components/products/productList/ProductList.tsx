@@ -1,14 +1,14 @@
 'use client'
 
 import { IProduct } from '@/types/product'
-import useQueryProductList from '@/hooks/_queries/useProductList'
+import useProductListQuery from '@/hooks/_queries/useProductListQuery'
 import Product from '@/components/products/productList/product/Product'
 import Observer from '@/components/_common/observer/Observer'
 import SkeletonProductList from '@/components/products/skeletonProductList/SkeletonProductList'
 import styles from './ProductList.module.scss'
 
 const ProductList = () => {
-  const { data, fetchNextPage, isLoading, hasNextPage } = useQueryProductList()
+  const { data, fetchNextPage, isLoading, hasNextPage } = useProductListQuery()
 
   if (isLoading) {
     return (

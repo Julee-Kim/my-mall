@@ -6,7 +6,7 @@ import { paramsToObject } from '@/utils/queryParams'
 
 const PAGE_SIZE = 6
 
-const useQueryProductList = () => {
+const useProductListQuery = () => {
   const searchParams = useSearchParams()
 
   const queryKey = ['products', paramsToObject(searchParams)]
@@ -41,4 +41,4 @@ const useQueryProductList = () => {
   return { data, fetchNextPage, hasNextPage, isLoading }
 }
 
-export default useQueryProductList
+export default useProductListQuery
