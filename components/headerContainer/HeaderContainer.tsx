@@ -11,14 +11,14 @@ import {
 import { IProductListParams } from '@/types/product'
 import { divideToTobSub, fetchCategories } from '@/services/header'
 import { paramsToString } from '@/utils/queryParams'
-import Header from '@/components/header/header/Header'
-import ButtonBack from '@/components/header/ButtonBack'
-import ButtonCategoryTitle from '@/components/header/ButtonCategoryTitle'
-import ButtonCart from '@/components/header/ButtonCart'
-import Lnb from '@/components/header/lnb/Lnb'
-import MenuBar from '@/components/header/menuBar/MenuBar'
-import SkeletonMenuBar from '@/components/header/skeletonMenuBar/SkeletonMenuBar'
-import styles from '@/components/header/HeaderContainer.module.scss'
+import Header from '@/components/headerContainer/header/Header'
+import ButtonBack from '@/components/headerContainer/btns/ButtonBack'
+import ButtonCategoryTitle from '@/components/headerContainer/btns/ButtonCategoryTitle'
+import ButtonCart from '@/components/headerContainer/btns/ButtonCart'
+import Lnb from '@/components/headerContainer/lnb/Lnb'
+import MenuBar from '@/components/headerContainer/menuBar/MenuBar'
+import SkeletonMenuBar from '@/components/headerContainer/skeletonMenuBar/SkeletonMenuBar'
+import styles from '@/components/headerContainer/HeaderContainer.module.scss'
 
 const HeaderContainer = ({
   activeTopId,

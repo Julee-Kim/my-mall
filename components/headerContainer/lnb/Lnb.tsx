@@ -1,5 +1,5 @@
 import { ISubCategoryListItem, ITopCategoryListItem } from '@/types/category'
-import CategoryList from '@/components/header/lnb/categoryList/CategoryList'
+import CategoryList from '@/components/headerContainer/lnb/categoryList/CategoryList'
 import styles from './Lnb.module.scss'
 
 const Lnb = ({

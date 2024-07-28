@@ -1,5 +1,5 @@
 import { ICategoryListProps, ISubCategoryListItem, ITopCategoryListItem } from '@/types/category'
-import styles from '@/components/header/lnb/categoryList/CategoryList.module.scss'
+import styles from '@/components/headerContainer/lnb/categoryList/CategoryList.module.scss'
 
 const CategoryList = ({ categories, activeId, isTop, handleClick }: ICategoryListProps) => {
   return (

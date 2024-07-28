@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import HeaderContainer from '@/components/header/HeaderContainer'
+import HeaderContainer from '@/components/headerContainer/HeaderContainer'
 import ProductList from '@/components/products/productList/ProductList'
 import Filter from '@/components/products/filter/Filter'
 import { IProductListParams } from '@/types/product'

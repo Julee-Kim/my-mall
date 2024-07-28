@@ -1,5 +1,5 @@
 import menuBarStyles from '@/components/products/filter/modalFilter/tabs/Tabs.module.scss'
-import styles from '@/components/header/SkeletonMenuBar/SkeletonMenuBar.module.scss'
+import styles from '@/components/headerContainer/skeletonMenuBar/SkeletonMenuBar.module.scss'
 
 const SkeletonMenuBar = () => {
   return (
