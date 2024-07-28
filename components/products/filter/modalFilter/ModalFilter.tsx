@@ -19,20 +19,16 @@ import {
   TSelectedFilterItemKey,
 } from '@/types/filter'
 import { FILTER_CODE, initialFilterBar, tabTypesToCheck } from '@/constants/filter'
-import { fetchFilterCount, fetchFilters } from '@/services/filters'
+import { formatToNumber } from '@/utils'
+import { fetchFilterCount } from '@/services/filters'
 import { useFilterData } from '@/hooks/products/useFilterData'
 import useFiltersQuery from '@/hooks/_queries/useFiltersQuery'
 import { useSelectedFilterListData } from '@/hooks/products/useSelectedFilterListData'
-import { formatToNumber } from '@/utils'
 import { Modal } from '@/components/_common/modal/Modal'
 import Tabs from '@/components/products/filter/modalFilter/tabs/Tabs'
-import ColorContent from '@/components/products/filter/modalFilter/filterContents/ColorContent'
-import PriceContent from '@/components/products/filter/modalFilter/filterContents/PriceContent'
-import DiscountBenefitContent from '@/components/products/filter/modalFilter/filterContents/DiscountBenefitContent'
-import BrandContent from '@/components/products/filter/modalFilter/filterContents/BrandContent'
+import FilterContentContainer from '@/components/products/filter/modalFilter/filterContents/FilterContentContainer'
 import SelectedFilterList from '@/components/products/filter/modalFilter/SelectedFilterList'
 import FilterBottomBtns from '@/components/products/filter/modalFilter/FilterBottomBtns'
-import styles from './ModalFilter.module.scss'
 
 const ModalFilter = ({
   isOpen,
@@ -244,44 +240,6 @@ const ModalFilter = ({
     }, [] as IFilterBarListItem[])
   }
 
-  const CurrentContent = (tab: TFilterKey) => {
-    switch (tab) {
-      case FILTER_CODE.color:
-        return (
-          <ColorContent
-            filterData={filterData.color}
-            onAdd={handleAddFilter}
-            onDelete={handleDeleteFilter}
-          />
-        )
-      case FILTER_CODE.price:
-        return <PriceContent filterData={filterData.price} onChange={handlePriceFilter} />
-      case FILTER_CODE.discountBenefit:
-        return (
-          <DiscountBenefitContent
-            discount={filterData.discount}
-            benefit={filterData.benefit}
-            onAdd={handleAddFilter}
-            onDelete={handleDeleteFilter}
-          />
-        )
-      case FILTER_CODE.brand:
-        return (
-          <BrandContent
-            filterData={{
-              all: filterData.brand,
-              top: filterData.topBrand,
-              new: filterData.newBrand,
-            }}
-            onAdd={handleAddFilter}
-            onDelete={handleDeleteFilter}
-          />
-        )
-      default:
-        return null
-    }
-  }
-
   const handleClickTab = (tab: IFilterBarListItem) => {
     setActiveTab(tab.code)
   }
@@ -309,14 +267,14 @@ const ModalFilter = ({
       <Modal isOpen={isOpen} onCancel={onCancel}>
         <Modal.Content>
           <Tabs activeId={activeTab} tabList={tabList()} onClickTab={handleClickTab} />
-          <div
-            className={[
-              styles.filterContent,
-              selectedFilterList.length > 0 ? styles.pb20 : '',
-            ].join(' ')}
-          >
-            {CurrentContent(activeTab)}
-          </div>
+          <FilterContentContainer
+            activeTab={activeTab}
+            filterData={filterData}
+            onAddFilter={handleAddFilter}
+            onDeleteFilter={handleDeleteFilter}
+            onPriceFilter={handlePriceFilter}
+            isSelectedFilters={Boolean(selectedFilterList.length > 0)}
+          />
           <SelectedFilterList
             list={selectedFilterList}
             onDelete={handleDeleteSelectedItem}

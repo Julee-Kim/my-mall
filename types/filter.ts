@@ -190,3 +190,12 @@ export interface ISearchBrand {
   searchKeyword: string
   onSorting: (value: string) => void
 }
+
+export interface IFilterContentContainerProps {
+  activeTab: TFilterKey
+  filterData: IFilterData
+  onAddFilter: (type: TSelectedFilterItemKey, item: TArgFilterDataItem) => void
+  onDeleteFilter: (type: TSelectedFilterItemKey, targetCode: TFilterItemCode) => void
+  onPriceFilter: (minValue: number, maxValue: number) => void
+  isSelectedFilters: boolean
+}
