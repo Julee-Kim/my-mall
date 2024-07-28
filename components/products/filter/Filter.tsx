@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import useFilter from '@/hooks/products/useFilter'
+import useFilter from '@/hooks/filter/useFilter'
 import ButtonRefresh from '@/components/products/ButtonRefresh'
 import FilterBar from '@/components/products/filter/FilterBar'
 import ModalFilter from '@/components/products/filter/modalFilter/ModalFilter'
