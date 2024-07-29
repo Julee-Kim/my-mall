@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 🌼 Summary
+``` C
+React.js 학습을 목적으로 프로젝트를 시작하였으며, 더블유컨셉 쇼핑몰을 참고하여 일부 페이지를 제작하였습니다.
+더블유컨셉 상품 목록 페이지의 기능을 파악하며 기획서 작성부터 Firebase를 이용한 DB 세팅 및 백엔드와 프론트엔드 작업을 하였습니다.  
+     
+✅ 주요기능
+- 카테고리 및 상품 목록 무한 스크롤 기능
+- 컬러, 가격, 할인/혜택, 브랜드 필터 기능
+```  
+<br>
+<br>
+      
+## 사용 기술
+- React.js, Typescript, Next.js
+- Libraries: react-query, react-icons, remeda
+- DadaBase: Firebase
+<br>
+<br>
+     
+## 기능
+**1. 상품 목록**     
+* 카테고리 및 상품 목록 무한 스크롤 기능
+* 기획서 [list.pdf](https://github.com/user-attachments/files/16408471/list.pdf)
+    
+   [![list](https://i9.ytimg.com/vi/jE74sjwLw58/mqdefault.jpg?sqp=COTmnLUG-oaymwEoCMACELQB8quKqQMcGADwAQH4AboFgAKQBooCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLCOggJAT4kB21BVbJcdLG1pcw72Lg)](https://www.youtube.com/shorts/jE74sjwLw58)  
+⬆️ 시연 영상       
+<br>
 
-## Getting Started
+**2. 필터**         
+* 컬러, 가격, 할인/혜택, 브랜드 필터 기능
+* 기획서 [filter.pdf](https://github.com/user-attachments/files/16408743/filter.pdf)       
 
-First, run the development server:
+   
+    [![filter](https://i9.ytimg.com/vi/MF1lHf860ig/mqdefault.jpg?sqp=COTmnLUG-oaymwEoCMACELQB8quKqQMcGADwAQH4AboFgAKQBooCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLBBSPSTCCjWHI_L1MCFSkt4hK1jMA)]([https://www.youtube.com/shorts/jE74sjwLw58](https://www.youtube.com/shorts/MF1lHf860ig))  
+⬆️ 시연 영상       
+<br>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 커밋 컨벤션
 ```
+Feat: 새로운 기능 추가     
+Fix: 버그 수정     
+Refactor: 코드를 리펙토링     
+Style: (코드의 수정 없이) css style만 변경     
+Design: 사용자 UI 디자인 변경 (CSS 등)     
+Chore: : (코드의 수정 없이) 설정을 변경, 빌드 업데이트     
+Rename: 파일 혹은 폴더명을 수정만 한 경우     
+Remove: 파일을 삭제만 한 경우     
+Docs: 문서 수정
+```     
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
