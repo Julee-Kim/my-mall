@@ -1,0 +1,43 @@
+$filterWrapHeight: calc(var(--HeaderHeight) + var(--CategoryTabHeight));
+
+.filterWrap {
+  display: flex;
+  padding: 12px 0 12px 20px;
+
+  &.FilterBarWrap {
+    position: fixed;
+    top: $filterWrapHeight;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    background-color: #fff;
+  }
+
+  .btnRefreshWrap {
+    display: inline-block;
+    padding-right: 10px;
+
+    button {
+      background-color: #fff;
+    }
+  }
+
+  .filter {
+    padding-right: 20px;
+    white-space: nowrap;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filterItem {
+      display: inline-flex;
+      align-items: center;
+
+      + .filterItem {
+        margin-left: 6px;
+      }
+    }
+  }
+}

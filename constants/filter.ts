@@ -1,220 +1,111 @@
-import { IBrandTab, IFilters } from '@/types/filter'
+import {
+  IBrandTab,
+  IFilterBar,
+  IFilterBrand,
+  IFilterData,
+  IFilterPriceItem,
+  TFilterBarTypeToMapping,
+  TFilterKey,
+  TSelectedFilterKey,
+} from '@/types/filter'
 
-export const initialFilterColor = {
-  code: 'color',
-  name: '컬러',
-  isActive: false,
-  list: [],
-  selectedList: [],
-}
-export const initialFilterPrice = {
-  code: 'price',
-  name: '가격',
-  isActive: false,
-  priceRange: {
-    min: 0,
-    max: 0,
-  },
-  selectedRange: {
-    min: 0,
-    max: 0,
-  },
-}
-export const initialFilterDiscountBenefit = {
-  code: 'discountBenefit',
-  name: '할인/혜택',
-  isActive: false,
-  discountList: [],
-  benefitList: [],
-  selectedList: [],
-}
-export const initialFilterBrand = {
-  code: 'brand',
-  name: '브랜드',
-  isActive: false,
-  all: [],
-  top: [],
-  new: [],
-  selectedList: [],
+export enum FILTER_NAME {
+  color = '컬러',
+  price = '가격',
+  discountBenefit = '할인/혜택',
+  brand = '브랜드',
 }
 
-export const initialFilters = {
-  color: initialFilterColor,
-  price: initialFilterPrice,
-  discountBenefit: initialFilterDiscountBenefit,
-  brand: initialFilterBrand,
+export enum FILTER_CODE {
+  color = 'color',
+  price = 'price',
+  discount = 'discount',
+  benefit = 'benefit',
+  discountBenefit = 'discountBenefit',
+  brand = 'brand',
+  topBrand = 'topBrand',
+  newBrand = 'newBrand',
 }
 
-export const filters: IFilters = {
-  color: {
-    code: 'color',
-    name: '컬러',
-    isActive: false,
-    list: [
-      {
-        code: 'white',
-        name: '화이트',
-        count: 2348,
-      },
-      {
-        code: 'grey',
-        name: '그레이',
-        count: 384,
-      },
-      {
-        code: 'black',
-        name: '블랙',
-        count: 874,
-      },
-      {
-        code: 'yellow',
-        name: '옐로우',
-        count: 1234,
-      },
-      {
-        code: 'pink',
-        name: '핑크',
-        count: 10,
-      },
-      {
-        code: 'green',
-        name: '그린',
-        count: 765,
-      },
-      {
-        code: 'blue',
-        name: '블루',
-        count: 234,
-      },
-      {
-        code: 'brown',
-        name: '브라운',
-        count: 567,
-      },
-      {
-        code: 'pastel',
-        name: '파스텔',
-        count: 222,
-      },
-      {
-        code: 'pattern',
-        name: '패턴',
-        count: 456,
-      },
-    ],
-    selectedList: [
-      { code: 'white', name: '화이트', count: 2348 },
-      { code: 'grey', name: '그레이', count: 384 },
-    ],
-  },
-  price: {
-    code: 'price',
-    name: '가격',
-    isActive: false,
-    priceRange: {
-      min: 10000,
-      max: 150000,
-    },
-    selectedRange: {
-      min: 25000,
-      max: 0,
-    },
-  },
-  discountBenefit: {
-    code: 'discountBenefit',
-    name: '할인/혜택',
-    isActive: false,
-    discountList: [
-      {
-        code: 'sale',
-        name: '세일중',
-        count: 8125,
-      },
-      {
-        code: 'coupon',
-        name: '상품 쿠폰',
-        count: 6214,
-      },
-    ],
-    benefitList: [
-      {
-        code: 'freeDelivery',
-        name: '무료배송',
-        count: 16415,
-      },
-      {
-        code: 'exclusive',
-        name: '단독상품',
-        count: 1075,
-      },
-    ],
-    selectedList: [],
-  },
-  brand: {
-    code: 'brand',
-    name: '브랜드',
-    isActive: false,
-    all: [
-      {
-        code: 105001,
-        name: '320쇼룸',
-        eng_name: '320SHOWROOM',
-        count: 29,
-        tags: [],
-      },
-      {
-        code: 100474,
-        name: '삼팔컴온커먼',
-        eng_name: '38comeoncommon',
-        count: 1,
-        tags: [],
-      },
-      {
-        code: 106188,
-        name: '어오트',
-        eng_name: 'A HAUTE',
-        count: 1,
-        tags: [],
-      },
-    ],
-    top: [
-      {
-        code: 106463,
-        name: '아무르 무아르',
-        eng_name: 'Amour moier',
-        count: 86,
-        tags: ['단독'],
-      },
-      {
-        code: 108666,
-        name: '이바나헬싱키',
-        eng_name: 'IvanaHelsinki',
-        count: 83,
-        tags: ['단독'],
-      },
-    ],
-    new: [
-      {
-        code: 113480,
-        name: '제이제이지고트',
-        eng_name: 'JJ JIGOTT',
-        count: 39,
-        tags: [],
-      },
-      {
-        code: 113432,
-        name: '러브엠',
-        eng_name: 'LUV.M by MOJO.S.PHINE',
-        count: 9,
-        tags: [],
-      },
-    ],
-    selectedList: [],
-  },
-}
-
-export const tabList: IBrandTab[] = [
+export const BRAND_TAB_LIST: IBrandTab[] = [
   { type: 'all', label: '전체' },
   { type: 'top', label: '인기' },
   { type: 'new', label: '신규' },
-]
+] as const
+
+export const initialFilterBar: IFilterBar = {
+  color: {
+    name: FILTER_NAME.color,
+    isActive: false,
+  },
+  price: {
+    name: FILTER_NAME.price,
+    isActive: false,
+  },
+  discountBenefit: {
+    name: FILTER_NAME.discountBenefit,
+    isActive: false,
+  },
+  brand: {
+    name: FILTER_NAME.brand,
+    isActive: false,
+  },
+}
+
+export const initialFilterPrice: IFilterPriceItem = {
+  min: 0,
+  max: 0,
+  limitMin: 0,
+  limitMax: 0,
+  count: 0,
+}
+
+export const initialFilterBrand: IFilterBrand = {
+  all: [],
+  top: [],
+  new: [],
+}
+
+export const initialFilterData: IFilterData = {
+  [FILTER_CODE.color]: [],
+  [FILTER_CODE.price]: { ...initialFilterPrice },
+  [FILTER_CODE.discount]: [],
+  [FILTER_CODE.benefit]: [],
+  [FILTER_CODE.brand]: [],
+  [FILTER_CODE.topBrand]: [],
+  [FILTER_CODE.newBrand]: [],
+}
+
+export const tabTypesToCheck = {
+  [FILTER_CODE.color]: [FILTER_CODE.color],
+  [FILTER_CODE.price]: [FILTER_CODE.price],
+  [FILTER_CODE.discountBenefit]: [FILTER_CODE.discount, FILTER_CODE.benefit],
+  [FILTER_CODE.brand]: [FILTER_CODE.brand, FILTER_CODE.topBrand, FILTER_CODE.newBrand],
+}
+
+export const filterBarTypeToMapping: Record<TSelectedFilterKey, TFilterKey> = {
+  [FILTER_CODE.color]: FILTER_CODE.color,
+  [FILTER_CODE.price]: FILTER_CODE.price,
+  [FILTER_CODE.discount]: FILTER_CODE.discountBenefit,
+  [FILTER_CODE.benefit]: FILTER_CODE.discountBenefit,
+  [FILTER_CODE.brand]: FILTER_CODE.brand,
+  [FILTER_CODE.topBrand]: FILTER_CODE.brand,
+  [FILTER_CODE.newBrand]: FILTER_CODE.brand,
+} as const
+
+export const initialFilterTempForOrder: TFilterBarTypeToMapping = {
+  [FILTER_CODE.color]: [],
+  [FILTER_CODE.price]: [],
+  [FILTER_CODE.discountBenefit]: [],
+  [FILTER_CODE.brand]: [],
+}
+
+export const FILTER_KEYS: TSelectedFilterKey[] = [
+  FILTER_CODE.color,
+  FILTER_CODE.price,
+  FILTER_CODE.discount,
+  FILTER_CODE.benefit,
+  FILTER_CODE.brand,
+  FILTER_CODE.topBrand,
+  FILTER_CODE.newBrand,
+] as const

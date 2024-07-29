@@ -35,28 +35,6 @@ const Button = ({
   onClick,
   children,
 }: IButtonProps) => {
-  let btnContent: ReactNode = null
-
-  if (icon) {
-    if (isRightIcon) {
-      btnContent = (
-        <>
-          {children && <span>{children}</span>}
-          {icon}
-        </>
-      )
-    } else {
-      btnContent = (
-        <>
-          {icon}
-          {children && <span>{children}</span>}
-        </>
-      )
-    }
-  } else {
-    btnContent = children
-  }
-
   return (
     <button
       type={htmlType}
@@ -64,7 +42,9 @@ const Button = ({
       style={style}
       onClick={onClick}
     >
-      {btnContent}
+      {!isRightIcon && icon}
+      {children && <span>{children}</span>}
+      {isRightIcon && icon}
     </button>
   )
 }

@@ -1,5 +1,5 @@
 import listStyles from '@/components/products/productList/ProductList.module.scss'
-import productStyles from '@/components/products/product/Product.module.scss'
+import productStyles from '@/components/products/productList/product/Product.module.scss'
 import styles from '@/components/products/skeletonProductList/SkeletonProductList.module.scss'
 
 const SkeletonProductList = () => {

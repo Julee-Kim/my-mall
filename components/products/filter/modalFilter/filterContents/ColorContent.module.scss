@@ -1,0 +1,52 @@
+.colorList {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(calc(20% - 7vw), 1fr));
+  gap: 6vw 7vw;
+  padding: 0 3vw;
+
+  .btnColor {
+    display: block;
+    width: 100%;
+
+    .colorCheckbox {
+      display: block;
+      text-align: center;
+
+      span {
+        margin: 0;
+      }
+    }
+
+    .colorWrap {
+      position: relative;
+      padding-top: 100%;
+
+      .color {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 2px;
+        border-radius: 50%;
+
+        &.active {
+          border: 1px solid #000;
+        }
+      }
+    }
+
+    .name {
+      padding-top: 7px;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .count {
+      display: block;
+      padding-top: 3px;
+      font-size: 11px;
+      color: rgb(196, 196, 196);
+    }
+  }
+}

@@ -1,21 +1,15 @@
-export interface ICategory {
-  id: string
-  name: string
-  category?: ICategory[]
-}
-
-export interface ICategoryListProps {
-  categories: ICategory[]
-  activeId: string
-  isTop: boolean
-  handleClick: (category: ICategory) => void
-}
-
-export interface IGetInitDataReturnType {
-  categoryName: string
-  topId: string
-  subId: string
-  subList: ICategory[] | []
+export interface IProductListParams {
+  page: number | string
+  size: number | string
+  categoryTop: string
+  categorySub?: string
+  color?: string
+  price?: string
+  discount?: string
+  benefit?: string
+  brand?: string
+  topBrand?: string
+  newBrand?: string
 }
 
 export interface IProduct {
@@ -42,11 +36,4 @@ export interface IFetchProductsRes {
   size: number
   total: number
   list: IProduct[]
-}
-
-type TTabId<T> = T extends infer R ? R : string
-
-export interface ITab<T> {
-  id: TTabId<T>
-  name: string
 }

@@ -1,0 +1,40 @@
+.filterContent {
+  padding: 8vw 5vw;
+  height: 102vw;
+  overflow-y: auto;
+
+  &.pb20 {
+    padding-bottom: 20vw;
+  }
+}
+
+.filterSelectedList {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+}
+
+.filterFooter {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+
+  .btn {
+    padding: 0 5vw;
+    height: 50px;
+
+    &.close {
+      width: 35%;
+      border-top: 1px solid rgb(233, 233, 233);
+    }
+
+    &.submit {
+      width: 65%;
+      color: #fff;
+      background-color: #000;
+      border-top: 1px solid #000;
+    }
+  }
+}
