@@ -22,7 +22,7 @@ React.js 학습을 목적으로 프로젝트를 시작하였으며, 더블유컨
 * 카테고리 및 상품 목록 무한 스크롤 기능
 * 기획서 [list.pdf](https://github.com/user-attachments/files/16408471/list.pdf)
     
-   [![list](https://i9.ytimg.com/vi/jE74sjwLw58/mqdefault.jpg?sqp=COTmnLUG-oaymwEoCMACELQB8quKqQMcGADwAQH4AboFgAKQBooCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLCOggJAT4kB21BVbJcdLG1pcw72Lg)](https://www.youtube.com/shorts/jE74sjwLw58)  
+   [![list](https://i.ytimg.com/vi/jE74sjwLw58/oar2.jpg?sqp=-oaymwEdCIMFENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLBGy55DlUmGaZbn3KmRIqILgQ9kOg)](https://www.youtube.com/shorts/jE74sjwLw58)  
 ⬆️ 시연 영상       
 <br>
 
@@ -31,7 +31,7 @@ React.js 학습을 목적으로 프로젝트를 시작하였으며, 더블유컨
 * 기획서 [filter.pdf](https://github.com/user-attachments/files/16408743/filter.pdf)       
 
    
-    [![filter](https://i9.ytimg.com/vi/MF1lHf860ig/mqdefault.jpg?sqp=COTmnLUG-oaymwEoCMACELQB8quKqQMcGADwAQH4AboFgAKQBooCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLBBSPSTCCjWHI_L1MCFSkt4hK1jMA)]([https://www.youtube.com/shorts/jE74sjwLw58](https://www.youtube.com/shorts/MF1lHf860ig))  
+    [![filter](https://i.ytimg.com/vi/MF1lHf860ig/oar2.jpg?sqp=-oaymwEdCIMFENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLD_nJERKRSkKeFHGwBuKJOONXiAng)]([https://www.youtube.com/shorts/jE74sjwLw58](https://www.youtube.com/shorts/MF1lHf860ig))  
 ⬆️ 시연 영상       
 <br>
 
