@@ -31,7 +31,7 @@ React.js 학습을 목적으로 프로젝트를 시작하였으며, 더블유컨
 * 기획서 [filter.pdf](https://github.com/user-attachments/files/16408743/filter.pdf)       
 
    
-    [![filter](https://i.ytimg.com/vi/MF1lHf860ig/oar2.jpg?sqp=-oaymwEdCIMFENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLD_nJERKRSkKeFHGwBuKJOONXiAng)]([https://www.youtube.com/shorts/jE74sjwLw58](https://www.youtube.com/shorts/MF1lHf860ig))  
+    [![filter](https://i.ytimg.com/vi/MF1lHf860ig/oar2.jpg?sqp=-oaymwEdCIMFENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLD_nJERKRSkKeFHGwBuKJOONXiAng)](https://www.youtube.com/shorts/MF1lHf860ig)  
 ⬆️ 시연 영상       
 <br>
 
